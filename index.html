@@ -64,6 +64,47 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-rabbitMQ在python中的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-06-17T07:13:25.000Z" itemprop="datePublished">2020-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">rabbitMQ在python中的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是rabbitMQ"><a href="#什么是rabbitMQ" class="headerlink" title="什么是rabbitMQ"></a>什么是rabbitMQ</h2><p>rabbitMQ是一种消息队列，消息是应用间传递的数据，消息队列是应用间的通信方式。</p>
+<h2 id="下载erlang"><a href="#下载erlang" class="headerlink" title="下载erlang"></a>下载erlang</h2><p>RabbitMQ是用Erlang编写的，所以安装Erlang。<br>下载地址： <a href="https://www.erlang.org/downloads" target="_blank" rel="noopener">https://www.erlang.org/downloads</a><br>配置环境变量</p>
+<h2 id="下载并安装RabbitMQ"><a href="#下载并安装RabbitMQ" class="headerlink" title="下载并安装RabbitMQ"></a>下载并安装RabbitMQ</h2><p>下载地址：<a href="https://www.rabbitmq.com/download.html" target="_blank" rel="noopener">https://www.rabbitmq.com/download.html</a><br>可以选择： Downloads on Bintray 然后下载对应的版本<br>安装完成后到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin 目录下打开cmder输入rabbitmq-plugins enable rabbitmq_management命令进行安装，完毕后点击sbin目录下的rabbitmq-server.bat运行rabbit。server成功开启后访问<a href="http://localhost:15672，登录账号和密码都是guest。">http://localhost:15672，登录账号和密码都是guest。</a></p>
+<h2 id="python使用pika对接rabbitMQ"><a href="#python使用pika对接rabbitMQ" class="headerlink" title="python使用pika对接rabbitMQ"></a>python使用pika对接rabbitMQ</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">import pika</span><br><span class="line"></span><br><span class="line"># 生产者</span><br><span class="line"></span><br><span class="line">auth_producer &#x3D; pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)  # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;127.0.0.1&#39;))    # 同步连接模式</span><br><span class="line">channel &#x3D; connection.channel()      # 创建频道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)    # 通过这个频道来创建队列，如果MQ中队列存在忽略，没有则创建 durable指定队列持久化</span><br><span class="line"></span><br><span class="line">channel.basic_publish(exchange&#x3D;&#39;&#39;,</span><br><span class="line">                      routing_key&#x3D;&#39;TEST01&#39;,     # 指定队列名称</span><br><span class="line">                      body&#x3D;&#39;Hello World!&#39;,      # 往该队列中发送一个消息</span><br><span class="line">                      properties&#x3D;pika.BasicProperties(</span><br><span class="line">                          delivery_mode&#x3D;2,          # 指定消息持久化</span><br><span class="line">                      ))</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">connection.close()</span><br><span class="line"></span><br><span class="line"># 消费者</span><br><span class="line"></span><br><span class="line">auth_consumer &#x3D; pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)     # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;127.0.0.1&#39;))    # 同步连接模式</span><br><span class="line">channel &#x3D; connection.channel()      # 创建管道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def callback(ch, method, properties, body):         # callback函数负责接收队列里的消息</span><br><span class="line">    print(&quot; [x] Received %r&quot; % body)</span><br><span class="line">    ch.basic_ack(delivery_tag&#x3D;method.delivery_tag)  # 向生成者发送消费完毕的确认信息，然后生产者将此条消息同队列里剔除</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">channel.basic_consume(&#39;TEST01&#39;,       # 指定队列名 queue&#x3D;</span><br><span class="line">                      callback,            # 从队列里取消息</span><br><span class="line">                      False)     # no_ack&#x3D; 当消费者遇到情况(its channel is closed, connection is closed, or TCP connection is lost)挂掉了，那么RabbitMQ会重新将该任务添加到队列中</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">channel.start_consuming()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="ckbj6lot30000ysujazsg9rau" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-django快速搭建后台" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/06/05/django%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%90%8E%E5%8F%B0/" class="article-date">
@@ -448,7 +489,7 @@ server.py
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li></ul>
     </div>
   </div>
 
@@ -458,7 +499,7 @@ server.py
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/celery/" style="font-size: 10px;">celery</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 15px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sqlalchemy/" style="font-size: 10px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 10px;">celery</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 15px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sqlalchemy/" style="font-size: 10px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a>
     </div>
   </div>
 
@@ -480,6 +521,10 @@ server.py
       <ul>
         
           <li>
+            <a href="/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">rabbitMQ在python中的使用</a>
+          </li>
+        
+          <li>
             <a href="/2020/06/05/django%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%90%8E%E5%8F%B0/">django快速搭建后台</a>
           </li>
         
@@ -493,10 +538,6 @@ server.py
         
           <li>
             <a href="/2020/05/29/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2020/05/29/%E6%90%AD%E5%BB%BA/">&#39;搭建&#39;</a>
           </li>
         
       </ul>
