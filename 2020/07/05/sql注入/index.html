@@ -5,14 +5,19 @@
   
 
   
-  <title>Tag: yapi | Hexo</title>
+  <title>sql注入 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/yapi/index.html">
+  <meta name="description" content="数据库查询操作中的sql注入问题下面是一个test：12345678910111213141516171819202122232425262728&quot;&quot;&quot;sql 注入 test&quot;&quot;&quot;import pymysqlfrom pymysql.cursors import DictCursorconn &#x3D; pymysql.connect(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sql注入">
+<meta property="og:url" content="http://yoursite.com/2020/07/05/sql%E6%B3%A8%E5%85%A5/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据库查询操作中的sql注入问题下面是一个test：12345678910111213141516171819202122232425262728&quot;&quot;&quot;sql 注入 test&quot;&quot;&quot;import pymysqlfrom pymysql.cursors import DictCursorconn &#x3D; pymysql.connect(">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-07-05T13:30:05.000Z">
+<meta property="article:modified_time" content="2020-07-06T08:08:49.124Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="mysql">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -62,40 +67,63 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/06/18/yapi%E5%9C%A8%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" class="archive-article-date">
-  <time datetime="2020-06-18T09:36:11.000Z" itemprop="datePublished">Jun 18</time>
+        <section id="main"><article id="post-sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/05/sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2020-07-05T13:30:05.000Z" itemprop="datePublished">2020-07-05</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/06/18/yapi%E5%9C%A8%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/">yapi在线接口文档安装和使用</a>
+    <h1 class="article-title" itemprop="name">
+      sql注入
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="数据库查询操作中的sql注入问题"><a href="#数据库查询操作中的sql注入问题" class="headerlink" title="数据库查询操作中的sql注入问题"></a>数据库查询操作中的sql注入问题</h1><h3 id="下面是一个test："><a href="#下面是一个test：" class="headerlink" title="下面是一个test："></a>下面是一个test：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;</span><br><span class="line">sql 注入 test</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">import pymysql</span><br><span class="line">from pymysql.cursors import DictCursor</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">conn &#x3D; pymysql.connect(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;3306, user&#x3D;&#39;root&#39;, password&#x3D;&#39;ps&#39;, database&#x3D;&#39;test&#39;)</span><br><span class="line">cursor &#x3D; conn.cursor(DictCursor)    # 返回字典</span><br><span class="line">username &#x3D; input(&#39;username :&#39;)  # 不切割输入的空格 test: &#39; or 1&#x3D;1 -- (--mysql注释，后面有空格)</span><br><span class="line">password &#x3D; input(&#39;password :&#39;).strip()</span><br><span class="line">sql &#x3D; &quot;select * from user where username &#x3D; &#39;&#123;&#125;&#39; and password &#x3D; &#39;&#123;&#125;&#39;&quot;.format(username, password)</span><br><span class="line">sql1 &#x3D; &quot;select * from user where username &#x3D; %s and password &#x3D; %s&quot;</span><br><span class="line">print(sql)</span><br><span class="line">print(sql1)</span><br><span class="line">try:</span><br><span class="line">    cursor.execute(sql)</span><br><span class="line">    result &#x3D; cursor.fetchall()</span><br><span class="line">    print(&#39;result&#39;, result)</span><br><span class="line">    cursor.execute(sql1, (username, password))  # 防止sql注入</span><br><span class="line">    result1 &#x3D; cursor.fetchall()</span><br><span class="line">    print(result1)</span><br><span class="line">except Exception as e:</span><br><span class="line">    conn.rollback()</span><br><span class="line">finally:</span><br><span class="line">    cursor.close()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
 
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/05/sql%E6%B3%A8%E5%85%A5/" data-id="ckca886u8000154ujd6qfbpdi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/07/05/atom%E7%9A%84%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          atom的使用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/06/19/celery%E4%B8%AD%E4%BD%BF%E7%94%A8sqlalchemy/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">celery中使用sqlalchemy</div>
+    </a>
+  
+</nav>
+
+  
+</article>
 
 </section>
         

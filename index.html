@@ -64,6 +64,85 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-atom的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/05/atom%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-07-05T13:36:41.000Z" itemprop="datePublished">2020-07-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/05/atom%E7%9A%84%E4%BD%BF%E7%94%A8/">atom的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="atom使用"><a href="#atom使用" class="headerlink" title="atom使用"></a>atom使用</h1><h2 id="什么是atom"><a href="#什么是atom" class="headerlink" title="什么是atom"></a>什么是atom</h2><p>atom 是github出品的代码编辑即与浏览工具，此外还支持markdown编写与预览。</p>
+<h2 id="atom中markdown预览"><a href="#atom中markdown预览" class="headerlink" title="atom中markdown预览"></a>atom中markdown预览</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Ctrl + Shift + m</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/05/atom%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="ckca886tj000054uj6a9h5756" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-sql注入" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/05/sql%E6%B3%A8%E5%85%A5/" class="article-date">
+  <time datetime="2020-07-05T13:30:05.000Z" itemprop="datePublished">2020-07-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/05/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="数据库查询操作中的sql注入问题"><a href="#数据库查询操作中的sql注入问题" class="headerlink" title="数据库查询操作中的sql注入问题"></a>数据库查询操作中的sql注入问题</h1><h3 id="下面是一个test："><a href="#下面是一个test：" class="headerlink" title="下面是一个test："></a>下面是一个test：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;</span><br><span class="line">sql 注入 test</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">import pymysql</span><br><span class="line">from pymysql.cursors import DictCursor</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">conn &#x3D; pymysql.connect(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;3306, user&#x3D;&#39;root&#39;, password&#x3D;&#39;ps&#39;, database&#x3D;&#39;test&#39;)</span><br><span class="line">cursor &#x3D; conn.cursor(DictCursor)    # 返回字典</span><br><span class="line">username &#x3D; input(&#39;username :&#39;)  # 不切割输入的空格 test: &#39; or 1&#x3D;1 -- (--mysql注释，后面有空格)</span><br><span class="line">password &#x3D; input(&#39;password :&#39;).strip()</span><br><span class="line">sql &#x3D; &quot;select * from user where username &#x3D; &#39;&#123;&#125;&#39; and password &#x3D; &#39;&#123;&#125;&#39;&quot;.format(username, password)</span><br><span class="line">sql1 &#x3D; &quot;select * from user where username &#x3D; %s and password &#x3D; %s&quot;</span><br><span class="line">print(sql)</span><br><span class="line">print(sql1)</span><br><span class="line">try:</span><br><span class="line">    cursor.execute(sql)</span><br><span class="line">    result &#x3D; cursor.fetchall()</span><br><span class="line">    print(&#39;result&#39;, result)</span><br><span class="line">    cursor.execute(sql1, (username, password))  # 防止sql注入</span><br><span class="line">    result1 &#x3D; cursor.fetchall()</span><br><span class="line">    print(result1)</span><br><span class="line">except Exception as e:</span><br><span class="line">    conn.rollback()</span><br><span class="line">finally:</span><br><span class="line">    cursor.close()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/05/sql%E6%B3%A8%E5%85%A5/" data-id="ckca886u8000154ujd6qfbpdi" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-celery中使用sqlalchemy" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/06/19/celery%E4%B8%AD%E4%BD%BF%E7%94%A8sqlalchemy/" class="article-date">
@@ -134,6 +213,8 @@
         <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yapi-cli --registry https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
 <h2 id="安装依赖等"><a href="#安装依赖等" class="headerlink" title="安装依赖等"></a>安装依赖等</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yapi server</span><br></pre></td></tr></table></figure>
 <h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node vendors&#x2F;server&#x2F;app.js</span><br></pre></td></tr></table></figure>
+<h2 id="默认密码"><a href="#默认密码" class="headerlink" title="默认密码"></a>默认密码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ymfe.org</span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
@@ -476,94 +557,12 @@ server.py
 
 
   
-    <article id="post-hexo-github-page-搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/29/hexo-github-page-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" class="article-date">
-  <time datetime="2020-05-29T07:30:14.000Z" itemprop="datePublished">2020-05-29</time>
-</a>
+
+
+  <nav id="page-nav">
     
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/hexo-github-page-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">hexo + github page 搭建博客</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <br>
-**什么是hexo?**
-<br>
-- Hexo 是一个快速、简洁且高效的博客框架。其使用Markdown解析文章。
-<br>
-**搭建步骤(WIN 10 为例)**
-<br>
-- 1.安装Node.js
-<br>
-    可以在：https://nodejs.org/zh-cn/download/ 这个链接中下载安装包（安装包可以自动安装依赖和配置环境），安装完成后，可以在命令行中输入 node -v 来检测是否安装成功。
-<br>
-- 2.安装Hexo
-<br>
-    通过npm(软件包管理工具)命令来安装： npm install -g hexo-cli,安装完成后输入 hexo -v 来验证是否安装成功。
-<br>
-- 3.hexo命令
-<br>
-    hexo init blog 初始化文件夹（必须是空文件夹）
-    hexo g 生成静态网页
-    hexo s 打开本地服务器
-<br>
-- 4.github设置
-<br>
-    在github上新建一个项目(New repository),然后在Respository name 中输入项目名，后缀必须是.github.io,名称和github名一样。
-<br>
-- 5.连接Github和本地
-<br>
-    git config --global user.name 'test'
-    git config --global user.email 'test@gmail.com'
-<br>
-- 6.blog配置：
-<br>
-    打开博客根目录下的 _config.yml(博客的配置文件),在最后一行加入：
-
-<pre><code>deploy:
-  type: git
-  repository: https://github.com/username/username.github.io
-  branch: master</code></pre><br>
-- 7.输入命令
-<br>
-    hexo clean
-<br>
-    hexo g
-<br>
-    hexo d
-<br>
-- 8.发布文章
-<br>
-    输入 hexo n 'blogname'会发现在/source/_posts目录下多出来个 blogname.md 文件 然后再markdown中编辑即可。可以使用 hexo s --debug 在本地浏览效果(localhost:4000),也可在markdoown中浏览效果，然后通过hexo g hexo d 生成和部署
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/29/hexo-github-page-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" data-id="ckas1suud000118uje97v88lr" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+  </nav>
 
 </section>
         
@@ -583,7 +582,7 @@ server.py
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li></ul>
     </div>
   </div>
 
@@ -593,7 +592,7 @@ server.py
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 15px;">celery</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 20px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 15px;">celery</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 20px;">flask</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a>
     </div>
   </div>
 
@@ -602,7 +601,7 @@ server.py
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -615,6 +614,14 @@ server.py
       <ul>
         
           <li>
+            <a href="/2020/07/05/atom%E7%9A%84%E4%BD%BF%E7%94%A8/">atom的使用</a>
+          </li>
+        
+          <li>
+            <a href="/2020/07/05/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
+          </li>
+        
+          <li>
             <a href="/2020/06/19/celery%E4%B8%AD%E4%BD%BF%E7%94%A8sqlalchemy/">celery中使用sqlalchemy</a>
           </li>
         
@@ -624,14 +631,6 @@ server.py
         
           <li>
             <a href="/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">rabbitMQ在python中的使用</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/05/django%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%90%8E%E5%8F%B0/">django快速搭建后台</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/03/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97celery/">&#39;任务队列celery&#39;</a>
           </li>
         
       </ul>
