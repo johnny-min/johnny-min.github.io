@@ -163,6 +163,42 @@
 
 
   
+    <article id="post-redis的简单使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/06/redis%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-07-06T08:08:49.336Z" itemprop="datePublished">2020-07-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/06/redis%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">redis的简单使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/06/redis%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/" data-id="ckcmpv6l70000xouj5lbj7wjb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-atom的使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/05/atom%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
@@ -225,7 +261,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="数据库查询操作中的sql注入问题"><a href="#数据库查询操作中的sql注入问题" class="headerlink" title="数据库查询操作中的sql注入问题"></a>数据库查询操作中的sql注入问题</h1><h3 id="下面是一个test："><a href="#下面是一个test：" class="headerlink" title="下面是一个test："></a>下面是一个test：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;</span><br><span class="line">sql 注入 test</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">import pymysql</span><br><span class="line">from pymysql.cursors import DictCursor</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">conn &#x3D; pymysql.connect(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;3306, user&#x3D;&#39;root&#39;, password&#x3D;&#39;ps&#39;, database&#x3D;&#39;test&#39;)</span><br><span class="line">cursor &#x3D; conn.cursor(DictCursor)    # 返回字典</span><br><span class="line">username &#x3D; input(&#39;username :&#39;)  # 不切割输入的空格 test: &#39; or 1&#x3D;1 -- (--mysql注释，后面有空格)</span><br><span class="line">password &#x3D; input(&#39;password :&#39;).strip()</span><br><span class="line">sql &#x3D; &quot;select * from user where username &#x3D; &#39;&#123;&#125;&#39; and password &#x3D; &#39;&#123;&#125;&#39;&quot;.format(username, password)</span><br><span class="line">sql1 &#x3D; &quot;select * from user where username &#x3D; %s and password &#x3D; %s&quot;</span><br><span class="line">print(sql)</span><br><span class="line">print(sql1)</span><br><span class="line">try:</span><br><span class="line">    cursor.execute(sql)</span><br><span class="line">    result &#x3D; cursor.fetchall()</span><br><span class="line">    print(&#39;result&#39;, result)</span><br><span class="line">    cursor.execute(sql1, (username, password))  # 防止sql注入</span><br><span class="line">    result1 &#x3D; cursor.fetchall()</span><br><span class="line">    print(result1)</span><br><span class="line">except Exception as e:</span><br><span class="line">    conn.rollback()</span><br><span class="line">finally:</span><br><span class="line">    cursor.close()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+        <h1 id="数据库查询操作中的sql注入问题"><a href="#数据库查询操作中的sql注入问题" class="headerlink" title="数据库查询操作中的sql注入问题"></a>数据库查询操作中的sql注入问题</h1><h3 id="下面是一个防止sql注入的test："><a href="#下面是一个防止sql注入的test：" class="headerlink" title="下面是一个防止sql注入的test："></a>下面是一个防止sql注入的test：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&quot;&quot;&quot;</span><br><span class="line">sql 注入 test</span><br><span class="line">当查询参数被滥用时（如：&#39; or 1&#x3D;1 -- ），会泄漏数据库用户信息，这样造成的影响是非常大的</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">import pymysql</span><br><span class="line">from pymysql.cursors import DictCursor</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">conn &#x3D; pymysql.connect(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;3306, user&#x3D;&#39;root&#39;, password&#x3D;&#39;ps&#39;, database&#x3D;&#39;test&#39;)</span><br><span class="line">cursor &#x3D; conn.cursor(DictCursor)    # 返回字典</span><br><span class="line">username &#x3D; input(&#39;username :&#39;)  # 不切割输入的空格 test: &#39; or 1&#x3D;1 -- (--mysql注释，后面有空格)</span><br><span class="line">password &#x3D; input(&#39;password :&#39;).strip()</span><br><span class="line">sql &#x3D; &quot;select * from user where username &#x3D; &#39;&#123;&#125;&#39; and password &#x3D; &#39;&#123;&#125;&#39;&quot;.format(username, password)</span><br><span class="line">sql1 &#x3D; &quot;select * from user where username &#x3D; %s and password &#x3D; %s&quot;</span><br><span class="line">print(sql)</span><br><span class="line">print(sql1)</span><br><span class="line">try:</span><br><span class="line">    cursor.execute(sql)</span><br><span class="line">    result &#x3D; cursor.fetchall()</span><br><span class="line">    print(&#39;result&#39;, result)</span><br><span class="line">    cursor.execute(sql1, (username, password))  # 防止sql注入</span><br><span class="line">    result1 &#x3D; cursor.fetchall()</span><br><span class="line">    print(result1)</span><br><span class="line">except Exception as e:</span><br><span class="line">    conn.rollback()</span><br><span class="line">finally:</span><br><span class="line">    cursor.close()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -352,9 +388,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="什么是rabbitMQ"><a href="#什么是rabbitMQ" class="headerlink" title="什么是rabbitMQ"></a>什么是rabbitMQ</h2><p>rabbitMQ是一种消息队列，消息是应用间传递的数据，消息队列是应用间的通信方式。</p>
-<h2 id="下载erlang"><a href="#下载erlang" class="headerlink" title="下载erlang"></a>下载erlang</h2><p>RabbitMQ是用Erlang编写的，所以安装Erlang。<br>下载地址： <a href="https://www.erlang.org/downloads" target="_blank" rel="noopener">https://www.erlang.org/downloads</a><br>配置环境变量</p>
-<h2 id="下载并安装RabbitMQ"><a href="#下载并安装RabbitMQ" class="headerlink" title="下载并安装RabbitMQ"></a>下载并安装RabbitMQ</h2><p>下载地址：<a href="https://www.rabbitmq.com/download.html" target="_blank" rel="noopener">https://www.rabbitmq.com/download.html</a><br>可以选择： Downloads on Bintray 然后下载对应的版本<br>安装完成后到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin 目录下打开cmder输入rabbitmq-plugins enable rabbitmq_management命令进行安装，完毕后点击sbin目录下的rabbitmq-server.bat运行rabbit。server成功开启后访问<a href="http://localhost:15672，登录账号和密码都是guest。">http://localhost:15672，登录账号和密码都是guest。</a></p>
-<h2 id="配置用户"><a href="#配置用户" class="headerlink" title="配置用户"></a>配置用户</h2><p>cmder进入到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin目录下运行以下命令创建用户:rabbitmqctl add_user user password</p>
+<h2 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h2><h3 id="win10"><a href="#win10" class="headerlink" title="win10"></a>win10</h3><h4 id="下载erlang"><a href="#下载erlang" class="headerlink" title="下载erlang"></a>下载erlang</h4><p>RabbitMQ是用Erlang编写的，所以安装Erlang。<br>下载地址： <a href="https://www.erlang.org/downloads" target="_blank" rel="noopener">https://www.erlang.org/downloads</a><br>配置环境变量</p>
+<h4 id="下载并安装RabbitMQ"><a href="#下载并安装RabbitMQ" class="headerlink" title="下载并安装RabbitMQ"></a>下载并安装RabbitMQ</h4><p>下载地址：<a href="https://www.rabbitmq.com/download.html" target="_blank" rel="noopener">https://www.rabbitmq.com/download.html</a><br>可以选择： Downloads on Bintray 然后下载对应的版本<br>安装完成后到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin 目录下打开cmder输入rabbitmq-plugins enable rabbitmq_management命令进行安装，完毕后点击sbin目录下的rabbitmq-server.bat运行rabbit。server成功开启后访问<a href="http://localhost:15672，登录账号和密码都是guest。">http://localhost:15672，登录账号和密码都是guest。</a></p>
+<h3 id="配置用户"><a href="#配置用户" class="headerlink" title="配置用户"></a>配置用户</h3><p>cmder进入到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin目录下运行以下命令创建用户:rabbitmqctl add_user user password</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user admin admin</span><br></pre></td></tr></table></figure>
 <p>给用户添加角色：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
@@ -362,8 +398,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br></pre></td></tr></table></figure>
 <p>查看vhost（/）允许哪些用户访问</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_permissions -p &#x2F;</span><br></pre></td></tr></table></figure>
+<p>日志启用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins enable rabbitmq_tracing</span><br></pre></td></tr></table></figure>
 <p>配置允许远程访问的用户:<br>vim /etc/rabbitmq/rabbitmq.config 修改为loopback_users,[]<br>重启rabbitMQ<br>win系统在rabbit.app下修改:<br>E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\ebin\rabbit.app</p>
-<h2 id="python使用pika对接rabbitMQ"><a href="#python使用pika对接rabbitMQ" class="headerlink" title="python使用pika对接rabbitMQ"></a>python使用pika对接rabbitMQ</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import pika</span><br><span class="line"></span><br><span class="line"># 生产者</span><br><span class="line"></span><br><span class="line">credentials &#x3D; pika.PlainCredentials(&#39;admin&#39;, &#39;admin&#39;)  # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;172.20.61.137&#39;, port&#x3D;5672, virtual_host&#x3D;&#39;&#x2F;&#39;, credentials&#x3D;credentials))    # 同步连接模式</span><br><span class="line">channel &#x3D; connection.channel()      # 创建频道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)    # 通过这个频道来创建队列，如果MQ中队列存在忽略，没有则创建 durable指定队列持久化</span><br><span class="line"></span><br><span class="line">channel.basic_publish(exchange&#x3D;&#39;&#39;,</span><br><span class="line">                      routing_key&#x3D;&#39;TEST01&#39;,     # 指定队列名称</span><br><span class="line">                      body&#x3D;&#39;Hello World!&#39;,      # 往该队列中发送一个消息</span><br><span class="line">                      properties&#x3D;pika.BasicProperties(</span><br><span class="line">                          delivery_mode&#x3D;2,          # 指定消息持久化</span><br><span class="line">						  expiration&#x3D;&#39;50&#39; 	# ttl设置</span><br><span class="line">                      ))</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">connection.close()</span><br><span class="line"></span><br><span class="line"># 消费者</span><br><span class="line"></span><br><span class="line">credentials &#x3D; pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)     # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;172.20.61.137&#39;, port&#x3D;5672, virtual_host&#x3D;&#39;&#x2F;&#39;, credentials&#x3D;credentials)) </span><br><span class="line">channel &#x3D; connection.channel()      # 创建管道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def callback(ch, method, properties, body):         # callback函数负责接收队列里的消息</span><br><span class="line">    print(&quot; [x] Received %r&quot; % body)</span><br><span class="line">    ch.basic_ack(delivery_tag&#x3D;method.delivery_tag)  # 向生成者发送消费完毕的确认信息，然后生产者将此条消息同队列里剔除</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">channel.basic_consume(&#39;TEST01&#39;,       # 指定队列名 queue&#x3D;</span><br><span class="line">                      callback,            # 从队列里取消息</span><br><span class="line">                      False)     # no_ack&#x3D; 当消费者遇到情况(its channel is closed, connection is closed, or TCP connection is lost)挂掉了，那么RabbitMQ会重新将该任务添加到队列中</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">channel.start_consuming()</span><br></pre></td></tr></table></figure>
+<h2 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h2><h3 id="下载erlang-rabbitmq"><a href="#下载erlang-rabbitmq" class="headerlink" title="下载erlang, rabbitmq"></a>下载erlang, rabbitmq</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install erlang-nox</span><br><span class="line">sudo apt-get update   #  更新源</span><br><span class="line">sudo apt-get install rabbitmq-server</span><br></pre></td></tr></table></figure>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmqct start_app    # 启动</span><br><span class="line">sudo rabbitmqctl stop     # 停止</span><br><span class="line">sudo rabbitmqctl restart_vhost  # 重启</span><br><span class="line">sudo rabbitmqctl status       # 状态</span><br></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">添加admin用户，密码为admin:</span><br><span class="line">sudo rabbitmqctl add_user admin admin</span><br><span class="line">赋权:</span><br><span class="line">sudo rabbitmqctl set_user_tags admin administrator</span><br><span class="line">给用户赋权限, 指定允许访问的vhost以及write&#x2F;read：</span><br><span class="line">sudo rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br><span class="line">GUI:</span><br><span class="line">cd &#x2F;etc&#x2F;rabbitmq&#x2F;</span><br><span class="line">sudo rabbitmq-plugins enable rabbitmq_management</span><br><span class="line">日志：</span><br><span class="line">sudo rabbitmq-plugins enable rabbitmq_tracing</span><br></pre></td></tr></table></figure>
+
+<h2 id="python使用pika对接rabbitMQ"><a href="#python使用pika对接rabbitMQ" class="headerlink" title="python使用pika对接rabbitMQ"></a>python使用pika对接rabbitMQ</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import pika</span><br><span class="line"></span><br><span class="line"># 生产者</span><br><span class="line"></span><br><span class="line">credentials &#x3D; pika.PlainCredentials(&#39;admin&#39;, &#39;admin&#39;)  # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;172.20.61.137&#39;, port&#x3D;5672, virtual_host&#x3D;&#39;&#x2F;&#39;, credentials&#x3D;credentials))    # 同步连接模式</span><br><span class="line">channel &#x3D; connection.channel()      # 创建频道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)    # 通过这个频道来创建队列，如果MQ中队列存在忽略，没有则创建 durable指定队列持久化</span><br><span class="line"></span><br><span class="line">channel.basic_publish(exchange&#x3D;&#39;&#39;,</span><br><span class="line">                      routing_key&#x3D;&#39;TEST01&#39;,     # 指定队列名称</span><br><span class="line">                      body&#x3D;&#39;Hello World!&#39;,      # 往该队列中发送一个消息</span><br><span class="line">                      properties&#x3D;pika.BasicProperties(</span><br><span class="line">                          delivery_mode&#x3D;2,          # 指定消息持久化</span><br><span class="line">						  expiration&#x3D;&#39;50&#39; 	# ttl设置</span><br><span class="line">                      ))</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">connection.close()</span><br><span class="line"></span><br><span class="line"># 消费者</span><br><span class="line"></span><br><span class="line">credentials &#x3D; pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)     # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;172.20.61.137&#39;, port&#x3D;5672, virtual_host&#x3D;&#39;&#x2F;&#39;, credentials&#x3D;credentials))</span><br><span class="line">channel &#x3D; connection.channel()      # 创建管道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def callback(ch, method, properties, body):         # callback函数负责接收队列里的消息</span><br><span class="line">    print(&quot; [x] Received %r&quot; % body)</span><br><span class="line">    ch.basic_ack(delivery_tag&#x3D;method.delivery_tag)  # 向生成者发送消费完毕的确认信息，然后生产者将此条消息同队列里剔除</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">channel.basic_consume(&#39;TEST01&#39;,       # 指定队列名 queue&#x3D;</span><br><span class="line">                      callback,            # 从队列里取消息</span><br><span class="line">                      False)     # no_ack&#x3D; 当消费者遇到情况(its channel is closed, connection is closed, or TCP connection is lost)挂掉了，那么RabbitMQ会重新将该任务添加到队列中</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">channel.start_consuming()</span><br></pre></td></tr></table></figure>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在ubuntu中使用rabbitMQ时，出现了rabbitMQ WEB 管理界面无消息统计信息 + 消息非持久化（即拿即用即销毁？在log日志中也有消息记录，这是怎么回事呢？？？）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">怎么解决？</span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
@@ -516,50 +561,6 @@ server.py
 
 
   
-    <article id="post-获取数据库所有表名和字段" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/" class="article-date">
-  <time datetime="2020-06-01T03:25:17.000Z" itemprop="datePublished">2020-06-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/">&#39;获取数据库所有表名和字段&#39;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在sqlalchemy中的获取方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">engine &#x3D; sqlalchemy.create_engine(&#39;mysql+pymysql:&#x2F;&#x2F;root:password@ip:3306&#x2F;databasename?charset&#x3D;utf8mb4&#39;)</span><br><span class="line"></span><br><span class="line"># 获取数据库名，返回list</span><br><span class="line"></span><br><span class="line">database_name &#x3D; sqlalchemy.inspect(engine)</span><br><span class="line"></span><br><span class="line">database_list &#x3D; database_name.get_schema_names()</span><br><span class="line"></span><br><span class="line"># 获取表名，返回list</span><br><span class="line"></span><br><span class="line">table_list &#x3D; engine.table_names()</span><br><span class="line"></span><br><span class="line"># 获取表字段列表</span><br><span class="line"></span><br><span class="line">md &#x3D; sqlalchemy.MetaData()</span><br><span class="line"></span><br><span class="line">table &#x3D; sqlalchemy.Table(&#39;table_name&#39;, md, autoload&#x3D;Ture, autoload_with&#x3D;engine)</span><br><span class="line"></span><br><span class="line">columns &#x3D; table.c</span><br><span class="line"></span><br><span class="line">[c.name for c in columns]</span><br></pre></td></tr></table></figure>
-<p>在flask-sqlalchemy中的获取方式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 反射数据库中已存在的表</span><br><span class="line"></span><br><span class="line">db.reflect()</span><br><span class="line"></span><br><span class="line"># 获取所有表名及字段</span><br><span class="line"></span><br><span class="line">all_table &#x3D; &#123;table_obj.name: [i.name for i in table_obj.c] for table_obj in db.get_tables_for_bind()&#125;</span><br></pre></td></tr></table></figure>
-<p>使用：<br>既然我们获取到了表名和字段了，那么要怎么使用它呢？看下面的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">table_c &#x3D; &#123;i.name: i for i in all_table.get(&#39;card&#39;).c&#125;</span><br><span class="line">a &#x3D; table_c.get(&#39;cardName&#39;)</span><br><span class="line">b &#x3D; table_c.get(&#39;cardEName&#39;)</span><br><span class="line">data &#x3D; db.session.query(all_table.get(&#39;card&#39;)).filter(a &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data, type(data))</span><br><span class="line">print(data.id)</span><br><span class="line">data1 &#x3D; db.session.query(Cards).filter(Cards.cardName &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data1)</span><br><span class="line">data2 &#x3D; db.session.query(b).filter(a &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data2)</span><br><span class="line"></span><br><span class="line">(1, &#39;三个火枪手&#39;, &#39;https:&#x2F;&#x2F;statsroyale.com&#x2F;zh&#x2F;card&#x2F;Three+Musketeers&#39;, &#39;9&#39;, &#39;2&#39;, &#39;troop&#39;, &#39;Three Musketeers&#39;, 26000028) &lt;class &#39;sqlalchemy.util._collections.result&#39;&gt;</span><br><span class="line"></span><br><span class="line">&lt;models.Cards object at 0x0C78A550&gt;</span><br><span class="line"></span><br><span class="line">(&#39;Three Musketeers&#39;,)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/" data-id="ckavyackn0000oouj697zhuc1" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -625,15 +626,15 @@ server.py
           </li>
         
           <li>
+            <a href="/2020/07/06/redis%E7%9A%84%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">redis的简单使用</a>
+          </li>
+        
+          <li>
             <a href="/2020/07/05/atom%E7%9A%84%E4%BD%BF%E7%94%A8/">atom的使用</a>
           </li>
         
           <li>
             <a href="/2020/07/05/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
-          </li>
-        
-          <li>
-            <a href="/2020/06/19/celery%E4%B8%AD%E4%BD%BF%E7%94%A8sqlalchemy/">celery中使用sqlalchemy</a>
           </li>
         
       </ul>
