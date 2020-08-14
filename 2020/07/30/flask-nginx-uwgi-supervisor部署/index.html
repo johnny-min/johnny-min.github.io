@@ -15,7 +15,7 @@
 <meta property="og:description" content="1.安装python安装wget 1yum -y install wget 下载python包 1wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.8.2&#x2F;Python-3.8.2.tgz 解压python到project目录下 1tar zxvf Python-3.8.2.tgz -C &#x2F;pro">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-30T01:30:21.000Z">
-<meta property="article:modified_time" content="2020-07-31T09:40:47.263Z">
+<meta property="article:modified_time" content="2020-08-14T06:13:18.478Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="部署">
 <meta name="twitter:card" content="summary">
@@ -125,7 +125,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line"> .&#x2F;mysql -u root -p</span><br></pre></td></tr></table></figure>
 <p>修改密码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">CREATE USER &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON  *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-<h2 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h2><p>1.安装依赖</p>
+<h2 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h2><p>nginx是高性能的http和反向代理的web服务器<br>1.安装依赖</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
 <p>2.下载包</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.18.0.tar.gz</span><br></pre></td></tr></table></figure>
@@ -139,6 +139,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis nginx</span><br></pre></td></tr></table></figure>
 <p>7.启动，停止</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;</span><br><span class="line">.&#x2F;nginx</span><br><span class="line">.&#x2F;nginx -s stop</span><br><span class="line">.&#x2F;nginx -s quit</span><br><span class="line">.&#x2F;nginx -s reload</span><br></pre></td></tr></table></figure>
+<h2 id="导入web应用"><a href="#导入web应用" class="headerlink" title="导入web应用"></a>导入web应用</h2><p>略</p>
+<h2 id="安装WSGI"><a href="#安装WSGI" class="headerlink" title="安装WSGI"></a>安装WSGI</h2><p>全称Python Web Server Gateway Interface，指定了web服务器和Python web应用或web框架之间的标准接口，以提高web应用在一系列web服务器间的移植性。<br>1.WSGI是一套接口标准协议/规范；<br>2.通信（作用）区间是Web服务器和Python Web应用程序之间；<br>3.目的是制定标准，以保证不同Web服务器可以和不同的Python程序之间相互通信</p>
+<h2 id="web应用处理请求整体流程"><a href="#web应用处理请求整体流程" class="headerlink" title="web应用处理请求整体流程"></a>web应用处理请求整体流程</h2><p>1.用户操作浏览器发送请求<br>2.请求转发到对应的web服务器（nginx）<br>3.web服务器将请求转交给web应用程序，web应用程序处理请求<br>4.web应用将请求结果返回给web服务器，由web服务器返回用户响应结果<br>5.浏览器收到响应，向用户展示</p>
 <h2 id="安装supervisor"><a href="#安装supervisor" class="headerlink" title="安装supervisor"></a>安装supervisor</h2><p>1.下载</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install supervisor</span><br></pre></td></tr></table></figure>
 <p>2.修改配置文件(/etc/supervisord.conf)</p>
@@ -196,7 +199,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
     </div>
   </div>
 
@@ -206,7 +209,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 13.33px;">celery</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 16.67px;">flask</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16.67px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 13.33px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12.5px;">celery</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 15px;">flask</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 17.5px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 12.5px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -228,6 +231,14 @@
       <ul>
         
           <li>
+            <a href="/2020/08/14/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C/">并发和并行</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/14/mysql%E7%B4%A2%E5%BC%95/">mysql索引</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/12/%E8%A7%A3%E5%86%B3go%E4%BE%9D%E8%B5%96%E5%8C%85%E8%A2%AB%E5%A2%99/">解决go依赖包被墙</a>
           </li>
         
@@ -237,14 +248,6 @@
         
           <li>
             <a href="/2020/08/06/mysql-bin%E6%96%87%E4%BB%B6/">mysql-bin文件</a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/">flask+nginx+uwgi+supervisor部署</a>
-          </li>
-        
-          <li>
-            <a href="/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/">mysql创建用户并赋予权限</a>
           </li>
         
       </ul>
