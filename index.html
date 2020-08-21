@@ -64,6 +64,84 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-get和post" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/19/get%E5%92%8Cpost/" class="article-date">
+  <time datetime="2020-08-19T10:30:59.000Z" itemprop="datePublished">2020-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/19/get%E5%92%8Cpost/">get和post</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="get-or-post"><a href="#get-or-post" class="headerlink" title="get or post"></a>get or post</h2><p>一下仅为个人理解：<br>1.一般情况下获取数据用get,修改和更新数据用post。<br>2.get的参数是在url中的，而post参数是在body中携带的。<br>3.get获取的数据一般是在2KB以内，而post则可以超过2KB。<br>4.URL太长了不好看。<br>5.安全性来讲post可能会安全一点，但也到不了哪去。<br>6.效率上讲get高效一点。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/19/get%E5%92%8Cpost/" data-id="cke3ywnui0000l4ujbl9e3s1m" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/19/git/" class="article-date">
+  <time datetime="2020-08-19T03:53:18.000Z" itemprop="datePublished">2020-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/19/git/">git</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>去github上NEW一个Repositories，输入Repository name，其他的默认就行。然后Create repository</p>
+<h2 id="第一次提交"><a href="#第一次提交" class="headerlink" title="第一次提交"></a>第一次提交</h2><p>1、打开cmd，进入项目目录下<br>2、git init<br>3、git add .<br>4、git status<br>5、git commit -m “first commit”<br>6、git remote add origin <a href="mailto:git@github.com">git@github.com</a>:johnny-min/Flask_restful_skeleton.git<br>7、git pull –rebase origin master<br>8、git push -u origin master</p>
+<h2 id="二次提交"><a href="#二次提交" class="headerlink" title="二次提交"></a>二次提交</h2><p>1.git status 查看项目中哪些文件发生了变化，当做验证使用<br>2.git add . 将所有变更文件添加进来<br>3.git status 这个时候文件都变成了 new file<br>4.git commit -am “second commit”<br>5.git push origin master 把本地的推送到远程的分支上面即可<br>6.git status 查看</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/19/git/" data-id="cke3ywnvn0001l4uj6i5ocwan" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-并发和并行" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/08/14/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C/" class="article-date">
@@ -317,11 +395,11 @@
 <p>3.改文件名</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line">mv mysql-5.7.25-linux-glibc2.12-x86_64  mysql</span><br></pre></td></tr></table></figure>
 <p>4.添加mysql用户</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd mysql&#x2F;</span><br><span class="line">useradd -s &#x2F;bin&#x2F;false -M mysql</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd mysql&#x2F;</span><br><span class="line">useradd -s &#x2F;bin&#x2F;false -M mysql</span><br><span class="line">cd ..</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
 <p>5.创建cnf文件，mysql-bin.log文件,mysql-error.log文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">touch &#x2F;etc&#x2F;my.cnf</span><br><span class="line">mkdir &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;logs</span><br><span class="line">touch &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;logs&#x2F;mysql-bin.log</span><br><span class="line">touch &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql-error.log</span><br></pre></td></tr></table></figure>
 <p>6.修改mysql目录权限</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
 <p>7.初始化数据库,并记录最后的数据库密码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line"> .&#x2F;mysqld --initialize --user&#x3D;mysql --basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql --datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data</span><br></pre></td></tr></table></figure>
 <p>将 mysql 加入服务</p>
@@ -334,7 +412,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line"> .&#x2F;mysql -u root -p</span><br></pre></td></tr></table></figure>
 <p>修改密码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">CREATE USER &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON  *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-<h2 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h2><p>nginx是高性能的http和反向代理的web服务器<br>1.安装依赖</p>
+<h2 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h2><p>nginx是高性能的http和反向代理的web服务器，仅仅支持静态网页，对于支持动态网页就会显得无能为力，在处理并发上较强。<br>1.安装依赖</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
 <p>2.下载包</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.18.0.tar.gz</span><br></pre></td></tr></table></figure>
@@ -350,11 +428,20 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;</span><br><span class="line">.&#x2F;nginx</span><br><span class="line">.&#x2F;nginx -s stop</span><br><span class="line">.&#x2F;nginx -s quit</span><br><span class="line">.&#x2F;nginx -s reload</span><br></pre></td></tr></table></figure>
 <h2 id="导入web应用"><a href="#导入web应用" class="headerlink" title="导入web应用"></a>导入web应用</h2><p>略</p>
 <h2 id="安装WSGI"><a href="#安装WSGI" class="headerlink" title="安装WSGI"></a>安装WSGI</h2><p>全称Python Web Server Gateway Interface，指定了web服务器和Python web应用或web框架之间的标准接口，以提高web应用在一系列web服务器间的移植性。<br>1.WSGI是一套接口标准协议/规范；<br>2.通信（作用）区间是Web服务器和Python Web应用程序之间；<br>3.目的是制定标准，以保证不同Web服务器可以和不同的Python程序之间相互通信</p>
+<h2 id="Gunicorn"><a href="#Gunicorn" class="headerlink" title="Gunicorn"></a>Gunicorn</h2><p>高并发下的选择。这是一个被广泛使用的高性能的Python WSGI UNIX HTTP服务器,也有人选择uWsgi可以达到同样的效果。</p>
 <h2 id="web应用处理请求整体流程"><a href="#web应用处理请求整体流程" class="headerlink" title="web应用处理请求整体流程"></a>web应用处理请求整体流程</h2><p>1.用户操作浏览器发送请求<br>2.请求转发到对应的web服务器（nginx）<br>3.web服务器将请求转交给web应用程序，web应用程序处理请求<br>4.web应用将请求结果返回给web服务器，由web服务器返回用户响应结果<br>5.浏览器收到响应，向用户展示</p>
+<h2 id="静态网页和动态网页区别"><a href="#静态网页和动态网页区别" class="headerlink" title="静态网页和动态网页区别"></a>静态网页和动态网页区别</h2><p>静态网页是写死的，所有的内容都是不变的，除非修改静态网页代码；<br>动态网页是通过数据库动态的生成网页的。</p>
+<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>Tomcat，web应用服务器（可以看作一个WEB容器，但实际上是一个应用程序服务器）（区别于Nginx的web服务器）既能为动态网页服务，又能为静态网页提供支持。单Tomcat没有通常的Web服务器快，所以大型网站可以选择Tomcat和Nginx结合，Nginx负责接受客户端的http请求，然后将请求抓发给Tomcat来处理。</p>
 <h2 id="安装supervisor"><a href="#安装supervisor" class="headerlink" title="安装supervisor"></a>安装supervisor</h2><p>1.下载</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install supervisor</span><br></pre></td></tr></table></figure>
 <p>2.修改配置文件(/etc/supervisord.conf)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[inet_http_server]         ; inet (TCP) server disabled by default</span><br><span class="line">port&#x3D;0.0.0.0:9001        ; (ip_address:port specifier, *:port for all iface)</span><br><span class="line">username&#x3D;user              ; (default is no username (open server))</span><br><span class="line">password&#x3D;123               ; (default is no password (open server))</span><br><span class="line">...</span><br><span class="line">[include]</span><br><span class="line">files &#x3D; &#x2F;etc&#x2F;supervisord.d&#x2F;*.conf</span><br></pre></td></tr></table></figure>
+<p>3.各服务配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># directory &#x3D; &#x2F;Code&#x2F;project       ; 程序的启动目录  </span><br><span class="line"># command &#x3D; gunicorn -w 4 -worker-class gevent -bind 0.0.0.0:9600 app:app  ; 启动命令</span><br><span class="line">[program:CR_data_server]</span><br><span class="line">command&#x3D;uwsgi --ini &#x2F;code&#x2F;ClashRoyale&#x2F;conf&#x2F;uwsgi.ini</span><br><span class="line">autostart&#x3D;true</span><br><span class="line">autorestart&#x3D;true</span><br><span class="line">stdout_logfile&#x3D;&#x2F;code&#x2F;ClashRoyale&#x2F;log&#x2F;uwsgi_supervisor.log</span><br><span class="line">daemonize&#x3D;no</span><br><span class="line">user&#x3D;root</span><br></pre></td></tr></table></figure>
+<h2 id="前后端分离部署"><a href="#前后端分离部署" class="headerlink" title="前后端分离部署"></a>前后端分离部署</h2><p>nginx配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name xxxx.com www.xxxx.com;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      root &#x2F;root&#x2F;works_app&#x2F;dist; # 生成的静态文件的地址</span><br><span class="line">      index index.html index.htm;</span><br><span class="line">      try_files $uri $uri&#x2F; &#x2F;index.html;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">    location &#x2F;api &#123;</span><br><span class="line">	   	  proxy_pass http:&#x2F;&#x2F;127.0.0.1:81;     # 反向代理到后端</span><br><span class="line">	      proxy_set_header Host $host;</span><br><span class="line">	    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 81;</span><br><span class="line">    server_name xxxx.com;  # 域名，更换成自己的域名</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      include uwsgi_params;</span><br><span class="line">      uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">      uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;DataPortal;</span><br><span class="line">      uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">      uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">      uwsgi_read_timeout 300;</span><br><span class="line">      uwsgi_connect_timeout 300;</span><br><span class="line">      uwsgi_send_timeout 300;</span><br><span class="line">    	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后重启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -449,7 +536,7 @@
 <li>先找到nginx的目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;nginx</span><br></pre></td></tr></table></figure></li>
 <li>然后在其目录下创建cert文件夹<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir cert</span><br></pre></td></tr></table></figure></li>
 <li>将下载的证书文件放到cert目录下</li>
-<li>找到nginx配置文件，并修改<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 我的是在 &#x2F;code&#x2F;DataPortal&#x2F;conf&#x2F; 下</span><br><span class="line">http &#123;</span><br><span class="line">  server &#123;</span><br><span class="line">          listen       80 default_server;</span><br><span class="line">  		server_name  www.q.cmpython.com; # 你所绑定的域名</span><br><span class="line">  		rewrite ^(.*)$ https:&#x2F;&#x2F;$host$1 permanent; # 自动跳转https</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">  # HTTPS server</span><br><span class="line">  		server &#123;</span><br><span class="line">  			listen 443 ssl;</span><br><span class="line">  			server_name localhost;</span><br><span class="line">  			root html;</span><br><span class="line">  			index index.html index.htm;</span><br><span class="line">  			ssl_certificate cert&#x2F;a.pem;  # 你的证书文件</span><br><span class="line">  			ssl_certificate_key cert&#x2F;b.key;   # 你的证书文件</span><br><span class="line">  			ssl_session_timeout 5m;</span><br><span class="line">  			ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  #使用此加密套件。</span><br><span class="line">  			ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   #使用该协议进行配置。</span><br><span class="line">  			ssl_prefer_server_ciphers on;   </span><br><span class="line">  			location &#x2F; &#123;</span><br><span class="line">  				include uwsgi_params;</span><br><span class="line">  				uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">  				uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;DataPortal;</span><br><span class="line">  				uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">  				uwsgi_read_timeout 300;</span><br><span class="line">  				uwsgi_connect_timeout 300;</span><br><span class="line">  				uwsgi_send_timeout 300;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>找到nginx配置文件，并修改<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 我的是在 &#x2F;code&#x2F;DataPortal&#x2F;conf&#x2F; 下</span><br><span class="line">http &#123;</span><br><span class="line">  server &#123;</span><br><span class="line">          listen       80 default_server;</span><br><span class="line">      		server_name  www.q.cmpython.com; # 你所绑定的域名</span><br><span class="line">      		rewrite ^(.*)$ https:&#x2F;&#x2F;$host$1 permanent; # 自动跳转https</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">  # HTTPS server</span><br><span class="line">  		server &#123;</span><br><span class="line">  			listen 443 ssl;</span><br><span class="line">  			server_name localhost;</span><br><span class="line">  			root html;</span><br><span class="line">  			index index.html index.htm;</span><br><span class="line">  			ssl_certificate cert&#x2F;a.pem;  # 你的证书文件</span><br><span class="line">  			ssl_certificate_key cert&#x2F;b.key;   # 你的证书文件</span><br><span class="line">  			ssl_session_timeout 5m;</span><br><span class="line">  			ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  #使用此加密套件。</span><br><span class="line">  			ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   #使用该协议进行配置。</span><br><span class="line">  			ssl_prefer_server_ciphers on;   </span><br><span class="line">  			location &#x2F; &#123;</span><br><span class="line">  				include uwsgi_params;</span><br><span class="line">  				uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">  				uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;DataPortal;</span><br><span class="line">  				uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">  				uwsgi_read_timeout 300;</span><br><span class="line">  				uwsgi_connect_timeout 300;</span><br><span class="line">  				uwsgi_send_timeout 300;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li>保存nginx.conf文件并退出</li>
 <li>重启Nginx服务器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop</span><br><span class="line">nginx -s start</span><br></pre></td></tr></table></figure>
 </li>
@@ -462,100 +549,6 @@
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="mysql-sql-mode-only-full-group-by" class="article article-type-mysql" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/15/sql-mode-only-full-group-by/" class="article-date">
-  <time datetime="2020-07-15T09:49:35.000Z" itemprop="datePublished">2020-07-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/15/sql-mode-only-full-group-by/">sql_mode=only_full_group_by</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="mysql-gruop-by报错this-is-incompatible-with-sql-mode-only-full-group-by"><a href="#mysql-gruop-by报错this-is-incompatible-with-sql-mode-only-full-group-by" class="headerlink" title="mysql gruop by报错this is incompatible with sql_mode=only_full_group_by"></a>mysql gruop by报错this is incompatible with sql_mode=only_full_group_by</h1><p>mysql复杂查询时报出：sql_mode=only_full_group_by</p>
-<h2 id="查看sql-model参数"><a href="#查看sql-model参数" class="headerlink" title="查看sql_model参数"></a>查看sql_model参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@sql_mode;</span><br><span class="line">SELECT @@GLOBAL.sql_mode;</span><br><span class="line">发现：</span><br><span class="line">ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br><span class="line">第一项默认开启ONLY_FULL_GROUP_BY，</span><br></pre></td></tr></table></figure>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>默认关掉ONLY_FULL_GROUP_BY</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set @@GLOBAL.sql_mode&#x3D;&#39;&#39;;</span><br><span class="line">set sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;;</span><br></pre></td></tr></table></figure>
-<p>以上做法每重启一下就得重新设置一下。想要彻底解决就得修改配置文件，<br>win: my.ini, centos: /etc/my.cnf ，在[mysqld]下添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/15/sql-mode-only-full-group-by/" data-id="ckddufv2h00002sujcnhjhh4q" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python应用中使用mongoDB" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" class="article-date">
-  <time datetime="2020-07-07T09:18:07.000Z" itemprop="datePublished">2020-07-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/">python应用中使用mongoDB</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="MongoDB简介"><a href="#MongoDB简介" class="headerlink" title="MongoDB简介"></a>MongoDB简介</h2><p>MongoDB是一种面向文档的数据库管理系统，它是由C++编写的非关系性数据库，其内容存储形式类似JSON对象</p>
-<h2 id="centos安装"><a href="#centos安装" class="headerlink" title="centos安装"></a>centos安装</h2><p>先添加MongoDB源<br><a href="https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el7.x86_64.rpm" target="_blank" rel="noopener">https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el7.x86_64.rpm</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;yum.repos.d&#x2F;mongodb-org.repo</span><br><span class="line">接着修改并保存</span><br><span class="line">[mongodb-org-4.2]</span><br><span class="line">name&#x3D;MongoDB Repository</span><br><span class="line">baseurl&#x3D;https:&#x2F;&#x2F;repo.mongodb.org&#x2F;yum&#x2F;redhat&#x2F;#releasever&#x2F;mongodb-org&#x2F;4.2&#x2F;x86_64&#x2F;</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;www.mongodb.org&#x2F;static&#x2F;pgp&#x2F;server-4.2.asc</span><br><span class="line">然后yum安装</span><br><span class="line">sudo yum install mongodb-org</span><br><span class="line">验证</span><br><span class="line">rpm -qa |grep mongodb</span><br><span class="line">rpm -ql mongodb-org-server</span><br><span class="line">启动</span><br><span class="line">sudo systemctl start mongodb</span><br><span class="line">验证</span><br><span class="line">mongo</span><br><span class="line">停止</span><br><span class="line">sudo systemctl stop mongodb</span><br><span class="line">重启</span><br><span class="line">sudo systemvtl restart mongodb</span><br></pre></td></tr></table></figure>
-<h2 id="远程连接"><a href="#远程连接" class="headerlink" title="远程连接"></a>远程连接</h2><p>修改配置绑定并重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;mongod.conf</span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 0.0.0.0</span><br></pre></td></tr></table></figure>
-<p>添加权限认证(配置文件中)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
-<p>创建账号和密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">运行</span><br><span class="line">mongod --port 27017 --dbpath &#x2F;data&#x2F;db</span><br><span class="line">进入MongoDB命令行：</span><br><span class="line">mongo --port 27017</span><br><span class="line">use admin</span><br><span class="line">db.createUser(&#123;user:&#39;admin&#39;,pwd:&#39;123456&#39;,roles:[&#123;role: &#39;root&#39;, db:&#39;admin&#39;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
-<p>开放端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld  # 查看防火墙状态</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;27017&#x2F;tcp --permanent # mongodb默认端口号</span><br><span class="line">firewall-cmd --reload  # 重新加载防火墙</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone&#x3D;public --query-port&#x3D;27017&#x2F;tcp # 查看端口号是否开放成功，输出yes开放成功，no则失败</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 27017 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"># encoding: utf-8</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">@author: cm</span><br><span class="line">@software: vspn</span><br><span class="line">@file: update.py</span><br><span class="line">@time: 2020&#x2F;6&#x2F;15 14:57</span><br><span class="line">@desc:</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line"></span><br><span class="line">import pymongo</span><br><span class="line"># 连接MongoDB</span><br><span class="line">client &#x3D; pymongo.MongoClient(host&#x3D;&#39;localhost&#39;, port&#x3D;27017)</span><br><span class="line"># client &#x3D; pymongo.MongoClient(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;&#39;)</span><br><span class="line"># 指定数据库</span><br><span class="line">db &#x3D; client.test</span><br><span class="line"># db &#x3D; client[&#39;test&#39;]</span><br><span class="line"># 指定集合</span><br><span class="line">collection &#x3D; db.student</span><br><span class="line"># collection &#x3D; db[&#39;student&#39;]</span><br><span class="line"># 插入数据</span><br><span class="line">student &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;1&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;a&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">student1 &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;2&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;b&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">student2 &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;3&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;c&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">result &#x3D; collection.insert_one(student)</span><br><span class="line">result &#x3D; collection.insert_many([student1, student2])</span><br><span class="line">print(result)</span><br><span class="line"># 查询</span><br><span class="line">result &#x3D; collection.find_one(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">print(type(result))</span><br><span class="line">print(result)</span><br><span class="line"># 根据ObjectId查询</span><br><span class="line">from bson.objectid import ObjectId</span><br><span class="line">result &#x3D; collection.find_one(&#123;&#39;_id&#39;: ObjectId(&#39;593278&#39;)&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: 18&#125;)</span><br><span class="line">print(result)</span><br><span class="line">for item in result:</span><br><span class="line">    print(item)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">$lt 小于    $gt 大于  $lte 小于等于   $gte 大于等于   $ne 不等于    $in 在范围内     $nin 不在范围内      $regex 正则匹配</span><br><span class="line">$exists 属性是否存在    $type 类型判断      $mod 数字模操作      $text 文本查询      $where 高级条件查询</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$gt&#39;: 17&#125;&#125;)  # 查询大于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$lt&#39;: 17&#125;&#125;)  # 查询小于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$lte&#39;: 17&#125;&#125;)  # 查询小于等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$gte&#39;: 17&#125;&#125;)  # 查询大于等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$ne&#39;: 17&#125;&#125;)  # 查询不等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$in&#39;: [17, 18]&#125;&#125;)  # 查询在17-18范围内的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$nin&#39;: [17, 18]&#125;&#125;)  # 查询不在17-18范围内的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$regex&#39;: &#39;^A.*&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$exists&#39;: True&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$type&#39;: &#39;int&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$mod&#39;: [5, 0]&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$text&#39;: &#123;&#39;search&#39;: &#39;Mike&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$where&#39;: &#39;obj.fans_count &#x3D;&#x3D; obj.follows_count&#39;&#125;)     # 粉丝数等于关注数</span><br><span class="line"># 计数</span><br><span class="line">count &#x3D; collection.find(&#123;&#39;age&#39;: 18&#125;).count</span><br><span class="line"># 排序</span><br><span class="line">results &#x3D; collection.find().sort(&#39;age&#39;, pymongo.ASCENDING)</span><br><span class="line"># 偏移</span><br><span class="line">results &#x3D; collection.find().sort(&#39;name&#39;, pymongo.ASCENDING).skip(2)</span><br><span class="line">results &#x3D; collection.find().sort(&#39;name&#39;, pymongo.ASCENDING).skip(2).limit(2)</span><br><span class="line"># 更新</span><br><span class="line">condition &#x3D; &#123;&#39;name&#39;: &#39;b&#39;&#125;</span><br><span class="line">student_result &#x3D; collection.find_one(&#123;&#39;name&#39;: &#39;b&#39;&#125;)</span><br><span class="line">student_result[&#39;age&#39;] &#x3D; 15</span><br><span class="line">result &#x3D; collection.update_one(condition, &#123;&#39;$set&#39;: student_result&#125;)</span><br><span class="line">print(result)</span><br><span class="line">print(result.matched_count, result.modified_count)  # 匹配条数， 受影响条数</span><br><span class="line">condition &#x3D; &#123;&#39;age&#39;: &#123;&#39;$gt&#39;: 15&#125;&#125;    # 大于15</span><br><span class="line">result &#x3D; collection.update_many(condition, &#123;&#39;$inc&#39;: &#123;&#39;age&#39;: 1&#125;&#125;)</span><br><span class="line">print(result)</span><br><span class="line">print(result.matched_count, result.modified_count)  # 匹配条数， 受影响条数</span><br><span class="line"># 删除</span><br><span class="line"># result &#x3D; collection.remove(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line"># print(result)</span><br><span class="line">result &#x3D; collection.delete_one(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">print(result)</span><br><span class="line">results &#x3D; collection.delete_many(&#123;&#39;age&#39;: &#123;&#39;$lt&#39;: 1&#125;&#125;)</span><br><span class="line">print(result.deleted_count)</span><br><span class="line"># 组合</span><br><span class="line">result &#x3D; collection.find_one_and_delete(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">result &#x3D; collection.find_one_and_replace(&#123;&#39;name&#39;: &#39;a&#39;&#125;, &#123;&#39;y&#39;: &#39;d&#39;&#125;)</span><br><span class="line">result &#x3D; collection.find_one_and_update(&#123;&#39;name&#39;: &#39;a&#39;&#125;, &#123;&#39;name&#39;: &#39;e&#39;&#125;)</span><br><span class="line">result &#x3D; collection.create_index()</span><br><span class="line">result &#x3D; collection.create_indexs()</span><br><span class="line">result &#x3D; collection.drop_index()</span><br><span class="line"></span><br><span class="line"># 复杂查询</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$and&#39;: [&#123;&#39;sys_time&#39;: &#123;&#39;$in&#39;: [1, 10]&#125;&#125;, &#123;&#39;roomId&#39;: &#123;&#39;$in&#39;: [&#39;a&#39;, &#39;b&#39;]&#125;&#125;]&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$or&#39;: [&#123;&#39;sys_time&#39;: &#123;&#39;$in&#39;: [1, 10]&#125;&#125;, &#123;&#39;roomId&#39;: &#123;&#39;$in&#39;: [&#39;a&#39;, &#39;b&#39;]&#125;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" data-id="ckcbuby4k00006wuj6lftea7j" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
 
     </footer>
   </div>
@@ -589,7 +582,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
     </div>
   </div>
 
@@ -599,7 +592,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12.5px;">celery</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 15px;">flask</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 17.5px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 12.5px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12.5px;">celery</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 15px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 17.5px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 10px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 12.5px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -621,6 +614,14 @@
       <ul>
         
           <li>
+            <a href="/2020/08/19/get%E5%92%8Cpost/">get和post</a>
+          </li>
+        
+          <li>
+            <a href="/2020/08/19/git/">git</a>
+          </li>
+        
+          <li>
             <a href="/2020/08/14/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C/">并发和并行</a>
           </li>
         
@@ -630,14 +631,6 @@
         
           <li>
             <a href="/2020/08/12/%E8%A7%A3%E5%86%B3go%E4%BE%9D%E8%B5%96%E5%8C%85%E8%A2%AB%E5%A2%99/">解决go依赖包被墙</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/07/%E5%90%8E%E7%AB%AF%E8%80%97%E6%97%B6%E4%BB%BB%E5%8A%A1/">后端耗时操作</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/06/mysql-bin%E6%96%87%E4%BB%B6/">mysql-bin文件</a>
           </li>
         
       </ul>
