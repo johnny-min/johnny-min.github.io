@@ -5,14 +5,19 @@
   
 
   
-  <title>Tag: mysql | Hexo</title>
+  <title>flask请求上下文和应用上下文 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/mysql/index.html">
+  <meta name="description" content="上下文在程序中，上下文是指一个个外部变量值的集合 应用上下文在请求，CLI命令或其他活动期间，应用程序上下文跟踪应用程序级别的数据。而不是将应用程序传递给每个函数，而是访问current_app和 g代理 请求上下文flask从客户端接受请求时，视图函数如果要处理请的的话，需要访问一些对象，这些对象可能是作为参数传递过来的，也可能是外部变量（如request）。这些个外部变量有特定值才有意义，即上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flask请求上下文和应用上下文">
+<meta property="og:url" content="http://yoursite.com/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="上下文在程序中，上下文是指一个个外部变量值的集合 应用上下文在请求，CLI命令或其他活动期间，应用程序上下文跟踪应用程序级别的数据。而不是将应用程序传递给每个函数，而是访问current_app和 g代理 请求上下文flask从客户端接受请求时，视图函数如果要处理请的的话，需要访问一些对象，这些对象可能是作为参数传递过来的，也可能是外部变量（如request）。这些个外部变量有特定值才有意义，即上">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-08-26T02:15:53.000Z">
+<meta property="article:modified_time" content="2020-08-28T09:21:22.423Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="flask">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -62,116 +67,67 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/08/14/mysql%E7%B4%A2%E5%BC%95/" class="archive-article-date">
-  <time datetime="2020-08-14T02:17:32.000Z" itemprop="datePublished">Aug 14</time>
+        <section id="main"><article id="post-flask请求上下文和应用上下文" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/" class="article-date">
+  <time datetime="2020-08-26T02:15:53.000Z" itemprop="datePublished">2020-08-26</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/14/mysql%E7%B4%A2%E5%BC%95/">mysql索引</a>
+    <h1 class="article-title" itemprop="name">
+      flask请求上下文和应用上下文
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/08/06/mysql-bin%E6%96%87%E4%BB%B6/" class="archive-article-date">
-  <time datetime="2020-08-06T03:21:53.000Z" itemprop="datePublished">Aug 6</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/06/mysql-bin%E6%96%87%E4%BB%B6/">mysql-bin文件</a>
-    </h1>
-  
+        <h2 id="上下文"><a href="#上下文" class="headerlink" title="上下文"></a>上下文</h2><p>在程序中，上下文是指一个个外部变量值的集合</p>
+<h2 id="应用上下文"><a href="#应用上下文" class="headerlink" title="应用上下文"></a>应用上下文</h2><p>在请求，CLI命令或其他活动期间，应用程序上下文跟踪应用程序级别的数据。而不是将应用程序传递给每个函数，而是访问current_app和 g代理</p>
+<h2 id="请求上下文"><a href="#请求上下文" class="headerlink" title="请求上下文"></a>请求上下文</h2><p>flask从客户端接受请求时，视图函数如果要处理请的的话，需要访问一些对象，这些对象可能是作为参数传递过来的，也可能是外部变量（如request）。这些个外部变量有特定值才有意义，即上下文。<br>request就是一个请求上下文，当请求被推送后，request才有意义，才可以使用。</p>
+<h2 id="引申"><a href="#引申" class="headerlink" title="引申"></a>引申</h2><p>请求上下文：request(记录http请求的相关内容)、session(记录请求会话中的信息)。<br>应用上下文：g(在同一次请求上下文中设置临时变量属性，供请求上下文使用)、curent_app(保存当前app相关信息)。</p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>通常情况下应用上下文和请求上下文具有相同的生命周期。<br>即：当flask应用开始处理请求时，它将推送应用上下文和请求上下文。当请求结束时，将弹出请求上下文，然后弹出应用上下文。</p>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/" class="archive-article-date">
-  <time datetime="2020-07-28T06:36:31.000Z" itemprop="datePublished">Jul 28</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/">mysql创建用户并赋予权限</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-mysql">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/07/15/sql-mode-only-full-group-by/" class="archive-article-date">
-  <time datetime="2020-07-15T09:49:35.000Z" itemprop="datePublished">Jul 15</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/" data-id="ckee117jg00019suj0pvm1qwb" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/15/sql-mode-only-full-group-by/">sql_mode=only_full_group_by</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/07/05/sql%E6%B3%A8%E5%85%A5/" class="archive-article-date">
-  <time datetime="2020-07-05T13:30:05.000Z" itemprop="datePublished">Jul 5</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/05/sql%E6%B3%A8%E5%85%A5/">sql注入</a>
-    </h1>
-  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li></ul>
 
-    </header>
+    </footer>
   </div>
-</article>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/08/26/docker%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          docker安装和使用
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2020/08/19/get%E5%92%8Cpost/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">get和post</div>
+    </a>
   
+</nav>
 
+  
+</article>
 
 </section>
         
