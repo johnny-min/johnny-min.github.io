@@ -64,6 +64,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-celery中使用sqlalchemy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/06/19/celery%E4%B8%AD%E4%BD%BF%E7%94%A8sqlalchemy/" class="article-date">
+  <time datetime="2020-06-19T08:06:11.000Z" itemprop="datePublished">2020-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/19/celery%E4%B8%AD%E4%BD%BF%E7%94%A8sqlalchemy/">celery中使用sqlalchemy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="在celery中使用sqlalchemy出现了RuntimeError"><a href="#在celery中使用sqlalchemy出现了RuntimeError" class="headerlink" title="在celery中使用sqlalchemy出现了RuntimeError"></a>在celery中使用sqlalchemy出现了RuntimeError</h2><p>RuntimeError: No application found. Either work inside a view function or push an application context</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>在create_app()中加入initiliaze_extensions(app)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">from task_celery_dic.celery import task_celery</span><br><span class="line"></span><br><span class="line">def create_app(config_name):</span><br><span class="line">    app &#x3D; Flask(__name__)</span><br><span class="line">    app.config.from_object(config[config_name])</span><br><span class="line">    config[config_name].init_app()</span><br><span class="line">    # db.init_app(app)</span><br><span class="line">    login_manager.init_app(app)</span><br><span class="line">    initiliaze_extensions(app)</span><br><span class="line"></span><br><span class="line">    # register bluerprint</span><br><span class="line">    from app.user import user as user_blueprint</span><br><span class="line">    # from app.admin import admin as admin_blueprint</span><br><span class="line">    from app.spider import spider as spider_blueprint</span><br><span class="line">    from app.data import data as data_blueprint</span><br><span class="line">    app.register_blueprint(user_blueprint)</span><br><span class="line">    # app.register_blueprint(admin_blueprint)</span><br><span class="line">    app.register_blueprint(spider_blueprint)</span><br><span class="line">    app.register_blueprint(data_blueprint)</span><br><span class="line"></span><br><span class="line">    return app</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def initiliaze_extensions(app):</span><br><span class="line">    db.init_app(app)</span><br><span class="line">    task_celery.init_app(app)</span><br></pre></td></tr></table></figure>
+<p>在task_celery_dic\celery.py中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import flask</span><br><span class="line">from celery import Celery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class FlaskCelery(Celery):</span><br><span class="line"></span><br><span class="line">    def __init__(self, *args, **kwargs):</span><br><span class="line"></span><br><span class="line">        super(FlaskCelery, self).__init__(*args, **kwargs)</span><br><span class="line">        self.patch_task()</span><br><span class="line"></span><br><span class="line">        if &#39;app&#39; in kwargs:</span><br><span class="line">            self.init_app(kwargs[&#39;app&#39;])</span><br><span class="line"></span><br><span class="line">    def patch_task(self):</span><br><span class="line">        TaskBase &#x3D; self.Task</span><br><span class="line">        _celery &#x3D; self</span><br><span class="line"></span><br><span class="line">        class ContextTask(TaskBase):</span><br><span class="line">            abstract &#x3D; True</span><br><span class="line"></span><br><span class="line">            def __call__(self, *args, **kwargs):</span><br><span class="line">                if flask.has_app_context():</span><br><span class="line">                    return TaskBase.__call__(self, *args, **kwargs)</span><br><span class="line">                else:</span><br><span class="line">                    with _celery.app.app_context():</span><br><span class="line">                        return TaskBase.__call__(self, *args, **kwargs)</span><br><span class="line"></span><br><span class="line">        self.Task &#x3D; ContextTask</span><br><span class="line"></span><br><span class="line">    def init_app(self, app):</span><br><span class="line">        self.app &#x3D; app</span><br><span class="line">        self.config_from_object(app.config)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">task_celery &#x3D; FlaskCelery()</span><br><span class="line">task_celery.config_from_object(&#39;task_celery_dic.conf&#39;)</span><br></pre></td></tr></table></figure>
+<p>win10 运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A app:task_celery worker --pool&#x3D;solo</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/06/19/celery%E4%B8%AD%E4%BD%BF%E7%94%A8sqlalchemy/" data-id="ckblxo6wz0000ssuj3i0mdf0l" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-yapi在线接口文档安装和使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/06/18/yapi%E5%9C%A8%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" class="article-date">
@@ -575,7 +620,7 @@ server.py
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -586,6 +631,10 @@ server.py
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2020/09/02/web%E5%90%8E%E7%AB%AF%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%9F%A5%E8%AF%86/">web后端需要了解的知识</a>
+          </li>
         
           <li>
             <a href="/2020/08/28/redis%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE/">redis高可用配置</a>
@@ -601,10 +650,6 @@ server.py
         
           <li>
             <a href="/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/">flask请求上下文和应用上下文</a>
-          </li>
-        
-          <li>
-            <a href="/2020/08/19/get%E5%92%8Cpost/">get和post</a>
           </li>
         
       </ul>
