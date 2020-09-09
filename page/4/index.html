@@ -5,11 +5,11 @@
   
 
   
-  <title>Tag: 部署 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
 <meta property="article:author" content="John Doe">
@@ -64,38 +64,146 @@
       <div class="outer">
         <section id="main">
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/" class="archive-article-date">
-  <time datetime="2020-07-30T01:30:21.000Z" itemprop="datePublished">Jul 30</time>
+    <article id="post-搭建" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/29/%E6%90%AD%E5%BB%BA/" class="article-date">
+  <time datetime="2020-05-29T08:26:27.000Z" itemprop="datePublished">2020-05-29</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%90%AD%E5%BB%BA/">搭建</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/">flask+nginx+uwgi+supervisor部署</a>
+      <a class="article-title" href="/2020/05/29/%E6%90%AD%E5%BB%BA/">&#39;搭建&#39;</a>
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        密码：160011
+        
+          <p class="article-more-link">
+            <a href="/2020/05/29/%E6%90%AD%E5%BB%BA/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/29/%E6%90%AD%E5%BB%BA/" data-id="ckas1suue000218ujhwgxbf5p" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li></ul>
+
+    </footer>
   </div>
+  
 </article>
+
+
   
+    <article id="post-hexo-github-page-搭建博客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/05/29/hexo-github-page-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" class="article-date">
+  <time datetime="2020-05-29T07:30:14.000Z" itemprop="datePublished">2020-05-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    </div></section>
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/05/29/hexo-github-page-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">hexo + github page 搭建博客</a>
+    </h1>
   
 
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <br>
+**什么是hexo?**
+<br>
+- Hexo 是一个快速、简洁且高效的博客框架。其使用Markdown解析文章。
+<br>
+**搭建步骤(WIN 10 为例)**
+<br>
+- 1.安装Node.js
+<br>
+    可以在：https://nodejs.org/zh-cn/download/ 这个链接中下载安装包（安装包可以自动安装依赖和配置环境），安装完成后，可以在命令行中输入 node -v 来检测是否安装成功。
+<br>
+- 2.安装Hexo
+<br>
+    通过npm(软件包管理工具)命令来安装： npm install -g hexo-cli,安装完成后输入 hexo -v 来验证是否安装成功。
+<br>
+- 3.hexo命令
+<br>
+    hexo init blog 初始化文件夹（必须是空文件夹）
+    hexo g 生成静态网页
+    hexo s 打开本地服务器
+<br>
+- 4.github设置
+<br>
+    在github上新建一个项目(New repository),然后在Respository name 中输入项目名，后缀必须是.github.io,名称和github名一样。
+<br>
+- 5.连接Github和本地
+<br>
+    git config --global user.name 'test'
+    git config --global user.email 'test@gmail.com'
+<br>
+- 6.blog配置：
+<br>
+    打开博客根目录下的 _config.yml(博客的配置文件),在最后一行加入：
+
+<pre><code>deploy:
+  type: git
+  repository: https://github.com/username/username.github.io
+  branch: master</code></pre><br>
+- 7.输入命令
+<br>
+    hexo clean
+<br>
+    hexo g
+<br>
+    hexo d
+<br>
+- 8.发布文章
+<br>
+    输入 hexo n 'blogname'会发现在/source/_posts目录下多出来个 blogname.md 文件 然后再markdown中编辑即可。可以使用 hexo s --debug 在本地浏览效果(localhost:4000),也可在markdoown中浏览效果，然后通过hexo g hexo d 生成和部署
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/05/29/hexo-github-page-%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" data-id="ckas1suud000118uje97v88lr" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
 
 </section>
         

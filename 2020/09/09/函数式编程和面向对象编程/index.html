@@ -5,13 +5,17 @@
   
 
   
-  <title>Tag: 部署 | Hexo</title>
+  <title>函数式编程和面向对象编程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/%E9%83%A8%E7%BD%B2/index.html">
+  <meta name="description" content="今天在云+社区上看到一篇来自IT派的文章，觉得例子很不错，在此记录一下。面向过程：根据业务逻辑从上到下写垒代码，其往往用一长段代码来实现指定功能，最常见的操作就是粘贴复制。函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可。面向对象：对函数进行分类和封装。函数式： 123456789101112def kanchai(name, age, gender):    print &amp;q">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数式编程和面向对象编程">
+<meta property="og:url" content="http://yoursite.com/2020/09/09/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天在云+社区上看到一篇来自IT派的文章，觉得例子很不错，在此记录一下。面向过程：根据业务逻辑从上到下写垒代码，其往往用一长段代码来实现指定功能，最常见的操作就是粘贴复制。函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可。面向对象：对函数进行分类和封装。函数式： 123456789101112def kanchai(name, age, gender):    print &amp;q">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-09T05:27:34.000Z">
+<meta property="article:modified_time" content="2020-09-09T05:33:28.291Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -62,40 +66,64 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/" class="archive-article-date">
-  <time datetime="2020-07-30T01:30:21.000Z" itemprop="datePublished">Jul 30</time>
+        <section id="main"><article id="post-函数式编程和面向对象编程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/09/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time datetime="2020-09-09T05:27:34.000Z" itemprop="datePublished">2020-09-09</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/">flask+nginx+uwgi+supervisor部署</a>
+    <h1 class="article-title" itemprop="name">
+      函数式编程和面向对象编程
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天在云+社区上看到一篇来自IT派的文章，觉得例子很不错，在此记录一下。<br>面向过程：根据业务逻辑从上到下写垒代码，其往往用一长段代码来实现指定功能，最常见的操作就是粘贴复制。<br>函数式：将某功能代码封装到函数中，日后便无需重复编写，仅调用函数即可。<br>面向对象：对函数进行分类和封装。<br>函数式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">def kanchai(name, age, gender):</span><br><span class="line">    print &quot;%s,%s岁,%s,上山去砍柴&quot; %(name, age, gender)</span><br><span class="line">def qudongbei(name, age, gender):</span><br><span class="line">    print &quot;%s,%s岁,%s,开车去东北&quot; %(name, age, gender)</span><br><span class="line">def dabaojian(name, age, gender):</span><br><span class="line">    print &quot;%s,%s岁,%s,最爱大保健&quot; %(name, age, gender)</span><br><span class="line">kanchai(&#39;小明&#39;, 10, &#39;男&#39;)</span><br><span class="line">qudongbei(&#39;小明&#39;, 10, &#39;男&#39;)</span><br><span class="line">dabaojian(&#39;小明&#39;, 10, &#39;男&#39;)</span><br><span class="line">kanchai(&#39;老李&#39;, 90, &#39;男&#39;)</span><br><span class="line">qudongbei(&#39;老李&#39;, 90, &#39;男&#39;)</span><br><span class="line">dabaojian(&#39;老李&#39;, 90, &#39;男&#39;)</span><br></pre></td></tr></table></figure>
+<p>面向对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Foo:</span><br><span class="line">        def __init__(self, name, age ,gender):</span><br><span class="line">                self.name &#x3D; name</span><br><span class="line">                self.age &#x3D; age</span><br><span class="line">                self.gender &#x3D; gender</span><br><span class="line">        def kanchai(self):</span><br><span class="line">                print &quot;%s,%s岁,%s,上山去砍柴&quot; %(self.name, self.age, self.gender)</span><br><span class="line">        def qudongbei(self):</span><br><span class="line">                print &quot;%s,%s岁,%s,开车去东北&quot; %(self.name, self.age, self.gender)</span><br><span class="line">        def dabaojian(self):</span><br><span class="line">                print &quot;%s,%s岁,%s,最爱大保健&quot; %(self.name, self.age, self.gender)</span><br><span class="line">xiaoming &#x3D; Foo(&#39;小明&#39;, 10, &#39;男&#39;)</span><br><span class="line">xiaoming.kanchai()</span><br><span class="line">xiaoming.qudongbei()</span><br><span class="line">xiaoming.dabaojian()</span><br><span class="line">laoli &#x3D; Foo(&#39;老李&#39;, 90, &#39;男&#39;)</span><br><span class="line">laoli.kanchai()</span><br><span class="line">laoli.qudongbei()</span><br><span class="line">laoli.dabaojian()</span><br></pre></td></tr></table></figure>
 
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/09/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" data-id="ckev8ce3i0003s8uj2x8tdmp7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/09/09/pypy%E5%AE%89%E8%A3%85/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          pypy安装
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/09/09/sqlalchemy%E6%97%A0%E6%B3%95%E6%9F%A5%E8%AF%A2%E4%B8%8D%E4%B8%BA%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E4%BF%AE%E6%94%B9%E7%9A%84%E6%95%B0%E6%8D%AE/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">sqlalchemy无法查询不为同一个对象修改的数据</div>
+    </a>
+  
+</nav>
+
+  
+</article>
 
 </section>
         
