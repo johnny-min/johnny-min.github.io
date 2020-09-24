@@ -5,17 +5,17 @@
   
 
   
-  <title>flask+nginx+uwgi+supervisor部署 | Hexo</title>
+  <title>flask+nginx+uWSGI+supervisor部署 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="1.安装python安装wget 1yum -y install wget 下载python包 1wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.8.2&#x2F;Python-3.8.2.tgz 解压python到project目录下 1tar zxvf Python-3.8.2.tgz -C &#x2F;pro">
 <meta property="og:type" content="article">
-<meta property="og:title" content="flask+nginx+uwgi+supervisor部署">
+<meta property="og:title" content="flask+nginx+uWSGI+supervisor部署">
 <meta property="og:url" content="http://yoursite.com/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="1.安装python安装wget 1yum -y install wget 下载python包 1wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.8.2&#x2F;Python-3.8.2.tgz 解压python到project目录下 1tar zxvf Python-3.8.2.tgz -C &#x2F;pro">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-30T01:30:21.000Z">
-<meta property="article:modified_time" content="2020-09-09T02:31:57.087Z">
+<meta property="article:modified_time" content="2020-09-18T10:17:50.401Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="部署">
 <meta name="twitter:card" content="summary">
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      flask+nginx+uwgi+supervisor部署
+      flask+nginx+uWSGI+supervisor部署
     </h1>
   
 
@@ -140,12 +140,14 @@
 <p>7.启动，停止</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;</span><br><span class="line">.&#x2F;nginx</span><br><span class="line">.&#x2F;nginx -s stop</span><br><span class="line">.&#x2F;nginx -s quit</span><br><span class="line">.&#x2F;nginx -s reload</span><br></pre></td></tr></table></figure>
 <h2 id="导入web应用"><a href="#导入web应用" class="headerlink" title="导入web应用"></a>导入web应用</h2><p>略</p>
-<h2 id="安装uwsgi"><a href="#安装uwsgi" class="headerlink" title="安装uwsgi"></a>安装uwsgi</h2><p>uWSGI是一个Web服务器，Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换</p>
+<h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><p>uWSGI是一个Web服务器，Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
-<p>wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Python web应用或web框架之间的标准接口，以提高web应用在一系列web服务器间的移植性。<br>1.WSGI是一套接口标准协议/规范；<br>2.通信（作用）区间是Web服务器和Python Web应用程序之间；<br>3.目的是制定标准，以保证不同Web服务器可以和不同的Python程序之间相互通信</p>
+<p>配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">socket &#x3D; 127.0.0.1:8081</span><br><span class="line">chdir&#x3D; &#x2F;code&#x2F;ClashRoyale  # 项目名</span><br><span class="line">wsgi_file&#x3D;server.py       # app启动文件</span><br><span class="line">callable &#x3D; app</span><br><span class="line">master &#x3D; true</span><br><span class="line">vacuum &#x3D; true</span><br><span class="line">chmod-socket&#x3D;664</span><br><span class="line">stats&#x3D;0.0.0.0:9191</span><br><span class="line">listen&#x3D;128</span><br><span class="line">processes&#x3D;5</span><br><span class="line">thunder-lock&#x3D;true</span><br><span class="line">harakiri&#x3D;90</span><br><span class="line">daemonize&#x3D; &#x2F;code&#x2F;ClashRoyale&#x2F;log&#x2F;uwsgi.log</span><br><span class="line">pidfile&#x3D; &#x2F;code&#x2F;ClashRoyale&#x2F;uwsgi.pid</span><br></pre></td></tr></table></figure>
+<p>wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Python web应用或web框架之间的标准接口，以提高web应用在一系列web服务器间的移植性。<br>1.WSGI是一套接口标准协议/规范；<br>2.通信（作用）区间是Web服务器和Python Web应用程序之间；<br>3.目的是制定标准，以保证不同Web服务器可以和不同的Python程序之间相互通信<br>uwsgi<br>uwsgi协议是一个uWSGI服务器自有的协议</p>
 <h2 id="Gunicorn"><a href="#Gunicorn" class="headerlink" title="Gunicorn"></a>Gunicorn</h2><p>高并发下的选择。这是一个被广泛使用的高性能的Python WSGI UNIX HTTP服务器,也有人选择uWsgi可以达到同样的效果。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gunicorn</span><br></pre></td></tr></table></figure>
-<h2 id="web应用处理请求整体流程"><a href="#web应用处理请求整体流程" class="headerlink" title="web应用处理请求整体流程"></a>web应用处理请求整体流程</h2><p>1.用户操作浏览器发送请求<br>2.请求转发到对应的web服务器（nginx）<br>3.web服务器将请求转交给web应用程序，web应用程序处理请求<br>4.web应用将请求结果返回给web服务器，由web服务器返回用户响应结果<br>5.浏览器收到响应，向用户展示</p>
+<h2 id="web应用处理请求整体流程"><a href="#web应用处理请求整体流程" class="headerlink" title="web应用处理请求整体流程"></a>web应用处理请求整体流程</h2><p>1.用户操作浏览器发送请求<br>2.请求转发到对应的web服务器（nginx）,nginx反向代理到uWSGI web服务器<br>3.web服务器将请求转交给web应用程序，web应用程序处理请求<br>4.web应用将请求结果返回给web服务器，由web服务器返回用户响应结果<br>5.浏览器收到响应，向用户展示<br>为什么有了uWSGI为什么还需要nginx？因为nginx具备优秀的静态内容处理能力，然后将动态内容转发给uWSGI服务器，这样可以达到很好的客户端响应。</p>
 <h2 id="静态网页和动态网页区别"><a href="#静态网页和动态网页区别" class="headerlink" title="静态网页和动态网页区别"></a>静态网页和动态网页区别</h2><p>静态网页是写死的，所有的内容都是不变的，除非修改静态网页代码；<br>动态网页是通过数据库动态的生成网页的。</p>
 <h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>Tomcat，web应用服务器（可以看作一个WEB容器，但实际上是一个应用程序服务器）（区别于Nginx的web服务器）既能为动态网页服务，又能为静态网页提供支持。单Tomcat没有通常的Web服务器快，所以大型网站可以选择Tomcat和Nginx结合，Nginx负责接受客户端的http请求，然后将请求抓发给Tomcat来处理。</p>
 <h2 id="安装supervisor"><a href="#安装supervisor" class="headerlink" title="安装supervisor"></a>安装supervisor</h2><p>1.下载</p>
@@ -244,23 +246,23 @@
       <ul>
         
           <li>
-            <a href="/2020/09/09/pypy%E5%AE%89%E8%A3%85/">pypy安装</a>
+            <a href="/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/">Python中C接口的开发何使用</a>
           </li>
         
           <li>
-            <a href="/2020/09/09/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">函数式编程和面向对象编程</a>
+            <a href="/2020/09/24/flaskrestfulResponseFormats/">flaskrestfulResponseFormats</a>
           </li>
         
           <li>
-            <a href="/2020/09/09/sqlalchemy%E6%97%A0%E6%B3%95%E6%9F%A5%E8%AF%A2%E4%B8%8D%E4%B8%BA%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E4%BF%AE%E6%94%B9%E7%9A%84%E6%95%B0%E6%8D%AE/">sqlalchemy无法查询不为同一个对象修改的数据</a>
+            <a href="/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/">跨库查询</a>
           </li>
         
           <li>
-            <a href="/2020/09/02/web%E5%90%8E%E7%AB%AF%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%9F%A5%E8%AF%86/">web后端需要了解的知识</a>
+            <a href="/2020/09/21/python%E9%A2%98/">python题</a>
           </li>
         
           <li>
-            <a href="/2020/08/28/redis%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE/">redis高可用配置</a>
+            <a href="/2020/09/11/tcp%E5%92%8Cudp/">tcp和udp</a>
           </li>
         
       </ul>

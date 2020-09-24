@@ -64,6 +64,309 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-flask-nginx-uwgi-supervisor部署" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/" class="article-date">
+  <time datetime="2020-07-30T01:30:21.000Z" itemprop="datePublished">2020-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/">flask+nginx+uWSGI+supervisor部署</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-安装python"><a href="#1-安装python" class="headerlink" title="1.安装python"></a>1.安装python</h2><p>安装wget</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br></pre></td></tr></table></figure>
+<p>下载python包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.8.2&#x2F;Python-3.8.2.tgz</span><br></pre></td></tr></table></figure>
+<p>解压python到project目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar zxvf Python-3.8.2.tgz -C &#x2F;project&#x2F;</span><br></pre></td></tr></table></figure>
+<p>编译时出错zipimport.ZipImportError: can’t decompress data; zlib not available</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install zlib* -y    # 缺少zlib包，安装zlib包</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;root&#x2F;Python3.8.2</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>创建软链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s &#x2F;project&#x2F;Python-3.8.2&#x2F;bin&#x2F;python3.8 &#x2F;usr&#x2F;bin&#x2F;python3</span><br><span class="line">ln -s &#x2F;project&#x2F;Python-3.8.2&#x2F;bin&#x2F;pip3.8 &#x2F;usr&#x2F;bin&#x2F;pip3</span><br></pre></td></tr></table></figure>
+<h2 id="centos安装mysql"><a href="#centos安装mysql" class="headerlink" title="centos安装mysql"></a>centos安装mysql</h2><p>1.下载mysql包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;Downloads&#x2F;MySQL-5.7&#x2F;mysql-5.7.25-linux-glibc2.12-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>2.解压包到/usr/local/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf mysql-5.7.25-linux-glibc2.12-x86_64.tar.gz -C &#x2F;usr&#x2F;local&#x2F;</span><br></pre></td></tr></table></figure>
+<p>3.改文件名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line">mv mysql-5.7.25-linux-glibc2.12-x86_64  mysql</span><br></pre></td></tr></table></figure>
+<p>4.添加mysql用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd mysql&#x2F;</span><br><span class="line">useradd -s &#x2F;bin&#x2F;false -M mysql</span><br><span class="line">cd ..</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
+<p>5.创建cnf文件，mysql-bin.log文件,mysql-error.log文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">touch &#x2F;etc&#x2F;my.cnf</span><br><span class="line">mkdir &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;logs</span><br><span class="line">touch &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;logs&#x2F;mysql-bin.log</span><br><span class="line">touch &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql-error.log</span><br></pre></td></tr></table></figure>
+<p>6.修改mysql目录权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
+<p>7.初始化数据库,并记录最后的数据库密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line"> .&#x2F;mysqld --initialize --user&#x3D;mysql --basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql --datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data</span><br></pre></td></tr></table></figure>
+<p>将 mysql 加入服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server  &#x2F;etc&#x2F;init.d&#x2F;mysql</span><br></pre></td></tr></table></figure>
+<p>8.配置mysql，/etc/my.cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># binlog 配置</span><br><span class="line">log-bin&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;logs&#x2F;mysql-bin.log</span><br><span class="line">expire-logs-days&#x3D;14</span><br><span class="line">max-binlog-size&#x3D;500M</span><br><span class="line">server-id&#x3D;1</span><br><span class="line"># GENERAL</span><br><span class="line">basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql</span><br><span class="line">datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line">user&#x3D;mysql</span><br><span class="line">default-storage-engine&#x3D;InnoDB</span><br><span class="line">character-set-server&#x3D;utf8</span><br><span class="line">lower_case_table_names &#x3D; 0  # 为0时，数据库名可以大写</span><br><span class="line">explicit_defaults_for_timestamp&#x3D;true</span><br><span class="line">[mysqld_safe]</span><br><span class="line">log-error&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql-error.log</span><br><span class="line">pid-file&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysqld.pid</span><br><span class="line">[client]</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line">[mysql]</span><br><span class="line">default-character-set&#x3D;utf8</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br></pre></td></tr></table></figure>
+<p>9.开启mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service mysqld start</span><br><span class="line">service mysqld stop</span><br></pre></td></tr></table></figure>
+<p>10.进入mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line"> .&#x2F;mysql -u root -p</span><br></pre></td></tr></table></figure>
+<p>修改密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">CREATE USER &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON  *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<h2 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h2><p>nginx是高性能的http和反向代理的web服务器，仅仅支持静态网页，对于支持动态网页就会显得无能为力，在处理并发上较强。<br>1.安装依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<p>2.下载包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.18.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>3.解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf nginx-1.18.0.tar.gz</span><br><span class="line">cd nginx-1.18.0</span><br></pre></td></tr></table></figure>
+<p>4.配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;configure   # 默认配置</span><br></pre></td></tr></table></figure>
+<p>5.编译并安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>6.查找安装路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis nginx</span><br></pre></td></tr></table></figure>
+<p>7.启动，停止</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;</span><br><span class="line">.&#x2F;nginx</span><br><span class="line">.&#x2F;nginx -s stop</span><br><span class="line">.&#x2F;nginx -s quit</span><br><span class="line">.&#x2F;nginx -s reload</span><br></pre></td></tr></table></figure>
+<h2 id="导入web应用"><a href="#导入web应用" class="headerlink" title="导入web应用"></a>导入web应用</h2><p>略</p>
+<h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><p>uWSGI是一个Web服务器，Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">socket &#x3D; 127.0.0.1:8081</span><br><span class="line">chdir&#x3D; &#x2F;code&#x2F;ClashRoyale  # 项目名</span><br><span class="line">wsgi_file&#x3D;server.py       # app启动文件</span><br><span class="line">callable &#x3D; app</span><br><span class="line">master &#x3D; true</span><br><span class="line">vacuum &#x3D; true</span><br><span class="line">chmod-socket&#x3D;664</span><br><span class="line">stats&#x3D;0.0.0.0:9191</span><br><span class="line">listen&#x3D;128</span><br><span class="line">processes&#x3D;5</span><br><span class="line">thunder-lock&#x3D;true</span><br><span class="line">harakiri&#x3D;90</span><br><span class="line">daemonize&#x3D; &#x2F;code&#x2F;ClashRoyale&#x2F;log&#x2F;uwsgi.log</span><br><span class="line">pidfile&#x3D; &#x2F;code&#x2F;ClashRoyale&#x2F;uwsgi.pid</span><br></pre></td></tr></table></figure>
+<p>wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Python web应用或web框架之间的标准接口，以提高web应用在一系列web服务器间的移植性。<br>1.WSGI是一套接口标准协议/规范；<br>2.通信（作用）区间是Web服务器和Python Web应用程序之间；<br>3.目的是制定标准，以保证不同Web服务器可以和不同的Python程序之间相互通信<br>uwsgi<br>uwsgi协议是一个uWSGI服务器自有的协议</p>
+<h2 id="Gunicorn"><a href="#Gunicorn" class="headerlink" title="Gunicorn"></a>Gunicorn</h2><p>高并发下的选择。这是一个被广泛使用的高性能的Python WSGI UNIX HTTP服务器,也有人选择uWsgi可以达到同样的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gunicorn</span><br></pre></td></tr></table></figure>
+<h2 id="web应用处理请求整体流程"><a href="#web应用处理请求整体流程" class="headerlink" title="web应用处理请求整体流程"></a>web应用处理请求整体流程</h2><p>1.用户操作浏览器发送请求<br>2.请求转发到对应的web服务器（nginx）,nginx反向代理到uWSGI web服务器<br>3.web服务器将请求转交给web应用程序，web应用程序处理请求<br>4.web应用将请求结果返回给web服务器，由web服务器返回用户响应结果<br>5.浏览器收到响应，向用户展示<br>为什么有了uWSGI为什么还需要nginx？因为nginx具备优秀的静态内容处理能力，然后将动态内容转发给uWSGI服务器，这样可以达到很好的客户端响应。</p>
+<h2 id="静态网页和动态网页区别"><a href="#静态网页和动态网页区别" class="headerlink" title="静态网页和动态网页区别"></a>静态网页和动态网页区别</h2><p>静态网页是写死的，所有的内容都是不变的，除非修改静态网页代码；<br>动态网页是通过数据库动态的生成网页的。</p>
+<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>Tomcat，web应用服务器（可以看作一个WEB容器，但实际上是一个应用程序服务器）（区别于Nginx的web服务器）既能为动态网页服务，又能为静态网页提供支持。单Tomcat没有通常的Web服务器快，所以大型网站可以选择Tomcat和Nginx结合，Nginx负责接受客户端的http请求，然后将请求抓发给Tomcat来处理。</p>
+<h2 id="安装supervisor"><a href="#安装supervisor" class="headerlink" title="安装supervisor"></a>安装supervisor</h2><p>1.下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install supervisor</span><br></pre></td></tr></table></figure>
+<p>2.修改配置文件(/etc/supervisord.conf)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[inet_http_server]         ; inet (TCP) server disabled by default</span><br><span class="line">port&#x3D;0.0.0.0:9001        ; (ip_address:port specifier, *:port for all iface)</span><br><span class="line">username&#x3D;user              ; (default is no username (open server))</span><br><span class="line">password&#x3D;123               ; (default is no password (open server))</span><br><span class="line">...</span><br><span class="line">[include]</span><br><span class="line">files &#x3D; &#x2F;etc&#x2F;supervisord.d&#x2F;*.conf</span><br></pre></td></tr></table></figure>
+<p>3.各服务配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># directory &#x3D; &#x2F;Code&#x2F;project        程序的启动目录  </span><br><span class="line"># command &#x3D; gunicorn -w 4 -worker-class gevent -bind 0.0.0.0:5000 入口文件名:app   启动命令</span><br><span class="line">[program:CR_data_server]</span><br><span class="line">command&#x3D;uwsgi --ini &#x2F;code&#x2F;ClashRoyale&#x2F;conf&#x2F;uwsgi.ini</span><br><span class="line">autostart&#x3D;true</span><br><span class="line">autorestart&#x3D;true</span><br><span class="line">stdout_logfile&#x3D;&#x2F;code&#x2F;ClashRoyale&#x2F;log&#x2F;uwsgi_supervisor.log</span><br><span class="line">daemonize&#x3D;no</span><br><span class="line">user&#x3D;root</span><br></pre></td></tr></table></figure>
+<h2 id="单一部署"><a href="#单一部署" class="headerlink" title="单一部署"></a>单一部署</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    worker_connections 1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span><br><span class="line">                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line"></span><br><span class="line">    access_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile            on;</span><br><span class="line">    tcp_nopush          on;</span><br><span class="line">    tcp_nodelay         on;</span><br><span class="line">    keepalive_timeout   65;</span><br><span class="line">    types_hash_max_size 2048;</span><br><span class="line"></span><br><span class="line">    include             &#x2F;etc&#x2F;nginx&#x2F;mime.types;</span><br><span class="line">    default_type        application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80 default_server;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	charset utf-8;</span><br><span class="line"></span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		include uwsgi_params;</span><br><span class="line">		uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">		uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;ClashRoyale;  # 项目根目录</span><br><span class="line">		uwsgi_param UWSGI_SCRIPT server:app;        # server 为app入口name</span><br><span class="line">		uwsgi_read_timeout 300;</span><br><span class="line">		uwsgi_connect_timeout 300;</span><br><span class="line">        uwsgi_send_timeout 300;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="前后端分离部署"><a href="#前后端分离部署" class="headerlink" title="前后端分离部署"></a>前后端分离部署</h2><p>nginx配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name xxxx.com www.xxxx.com;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      root &#x2F;root&#x2F;works_app&#x2F;dist; # 生成的静态文件的地址</span><br><span class="line">      index index.html index.htm;</span><br><span class="line">      try_files $uri $uri&#x2F; &#x2F;index.html;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">    location &#x2F;api &#123;</span><br><span class="line">	   	  proxy_pass http:&#x2F;&#x2F;127.0.0.1:81;     # 反向代理到后端</span><br><span class="line">	      proxy_set_header Host $host;</span><br><span class="line">	    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 81;</span><br><span class="line">    server_name xxxx.com;  # 域名，更换成自己的域名</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      include uwsgi_params;</span><br><span class="line">      uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">      uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;DataPortal;</span><br><span class="line">      uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">      uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">      uwsgi_read_timeout 300;</span><br><span class="line">      uwsgi_connect_timeout 300;</span><br><span class="line">      uwsgi_send_timeout 300;</span><br><span class="line">    	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后重启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/" data-id="ckddufv2x00012suj0uwkb9yk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-mysql创建用户并赋予权限" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/" class="article-date">
+  <time datetime="2020-07-28T06:36:31.000Z" itemprop="datePublished">2020-07-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/">mysql创建用户并赋予权限</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="先删除用户"><a href="#先删除用户" class="headerlink" title="先删除用户"></a>先删除用户</h2><p>因为可能上次没有彻底删除该用户，所以创建该用户时候报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">drop user &#39;zhang&#39;@&#39;%&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<h2 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h2><p>‘zhang’是用户名， ‘%’是允许访问的IP为全部， ‘Zhang.@123’是密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create user &#39;zhang&#39;@&#39;%&#39; identified by &#39;Zhang.@123&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<h2 id="赋予权限"><a href="#赋予权限" class="headerlink" title="赋予权限"></a>赋予权限</h2><p>mysql里好像不能进行同数据库下的多表操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT SELECT ON KTSredis.a_status,KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br></pre></td></tr></table></figure>
+<p>上述做法是错误的。得多次执行（下面分别是查询，插入，修改，删除，所有,最高等权限）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GRANT SELECT ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">GRANT insert ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">GRANT update ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">GRANT delete ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">grant all privileges ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">grant all on *.* to &#39;zhang&#39;@&#39;%&#39;;</span><br></pre></td></tr></table></figure>
+<p>最后刷新权限即可。</p>
+<h2 id="查看权限"><a href="#查看权限" class="headerlink" title="查看权限"></a>查看权限</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show grants;</span><br><span class="line">show grants for &#39;zhang&#39;@&#39;%&#39;;</span><br></pre></td></tr></table></figure>
+<h2 id="撤销权限"><a href="#撤销权限" class="headerlink" title="撤销权限"></a>撤销权限</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">revoke all on *.* from &#39;zhang&#39;@&#39;%&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/" data-id="ckddufv2z00032suj2zy96p4j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-nginx部署问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2020-07-24T07:50:48.000Z" itemprop="datePublished">2020-07-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/">nginx部署问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="nginx出现问题时的分析"><a href="#nginx出现问题时的分析" class="headerlink" title="nginx出现问题时的分析"></a>nginx出现问题时的分析</h2><ol>
+<li>nginx -s quit / nginx -t检查nginx部署状态</li>
+<li>/var/log/nginx/error.log 分析问题</li>
+<li>今天部署时遇到了大小写问题，大写写成了小写。找了好久，在这里记录一下。<h2 id="在nginx服务器上安装证书"><a href="#在nginx服务器上安装证书" class="headerlink" title="在nginx服务器上安装证书"></a>在nginx服务器上安装证书</h2></li>
+<li>先找到nginx的目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;nginx</span><br></pre></td></tr></table></figure></li>
+<li>然后在其目录下创建cert文件夹<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir cert</span><br></pre></td></tr></table></figure></li>
+<li>将下载的证书文件放到cert目录下</li>
+<li>找到nginx配置文件，并修改<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 我的是在 &#x2F;code&#x2F;DataPortal&#x2F;conf&#x2F; 下</span><br><span class="line">http &#123;</span><br><span class="line">  server &#123;</span><br><span class="line">          listen       80 default_server;</span><br><span class="line">      		server_name  www.q.cmpython.com; # 你所绑定的域名</span><br><span class="line">      		rewrite ^(.*)$ https:&#x2F;&#x2F;$host$1 permanent; # 自动跳转https</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">  # HTTPS server</span><br><span class="line">  		server &#123;</span><br><span class="line">  			listen 443 ssl;</span><br><span class="line">  			server_name localhost;</span><br><span class="line">  			root html;</span><br><span class="line">  			index index.html index.htm;</span><br><span class="line">  			ssl_certificate cert&#x2F;a.pem;  # 你的证书文件</span><br><span class="line">  			ssl_certificate_key cert&#x2F;b.key;   # 你的证书文件</span><br><span class="line">  			ssl_session_timeout 5m;</span><br><span class="line">  			ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  #使用此加密套件。</span><br><span class="line">  			ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   #使用该协议进行配置。</span><br><span class="line">  			ssl_prefer_server_ciphers on;   </span><br><span class="line">  			location &#x2F; &#123;</span><br><span class="line">  				include uwsgi_params;</span><br><span class="line">  				uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">  				uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;DataPortal;</span><br><span class="line">  				uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">  				uwsgi_read_timeout 300;</span><br><span class="line">  				uwsgi_connect_timeout 300;</span><br><span class="line">  				uwsgi_send_timeout 300;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>保存nginx.conf文件并退出</li>
+<li>重启Nginx服务器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop</span><br><span class="line">nginx -s start</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" data-id="ckddufv3900072suj6g9xhhdb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="mysql-sql-mode-only-full-group-by" class="article article-type-mysql" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/15/sql-mode-only-full-group-by/" class="article-date">
+  <time datetime="2020-07-15T09:49:35.000Z" itemprop="datePublished">2020-07-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/15/sql-mode-only-full-group-by/">sql_mode=only_full_group_by</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mysql-gruop-by报错this-is-incompatible-with-sql-mode-only-full-group-by"><a href="#mysql-gruop-by报错this-is-incompatible-with-sql-mode-only-full-group-by" class="headerlink" title="mysql gruop by报错this is incompatible with sql_mode=only_full_group_by"></a>mysql gruop by报错this is incompatible with sql_mode=only_full_group_by</h1><p>mysql复杂查询时报出：sql_mode=only_full_group_by</p>
+<h2 id="查看sql-model参数"><a href="#查看sql-model参数" class="headerlink" title="查看sql_model参数"></a>查看sql_model参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@sql_mode;</span><br><span class="line">SELECT @@GLOBAL.sql_mode;</span><br><span class="line">发现：</span><br><span class="line">ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br><span class="line">第一项默认开启ONLY_FULL_GROUP_BY，</span><br></pre></td></tr></table></figure>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>默认关掉ONLY_FULL_GROUP_BY</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set @@GLOBAL.sql_mode&#x3D;&#39;&#39;;</span><br><span class="line">set sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;;</span><br></pre></td></tr></table></figure>
+<p>以上做法每重启一下就得重新设置一下。想要彻底解决就得修改配置文件，<br>win: my.ini, centos: /etc/my.cnf ，在[mysqld]下添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/15/sql-mode-only-full-group-by/" data-id="ckddufv2h00002sujcnhjhh4q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python应用中使用mongoDB" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" class="article-date">
+  <time datetime="2020-07-07T09:18:07.000Z" itemprop="datePublished">2020-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/">python应用中使用mongoDB</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="MongoDB简介"><a href="#MongoDB简介" class="headerlink" title="MongoDB简介"></a>MongoDB简介</h2><p>MongoDB是一种面向文档的数据库管理系统，它是由C++编写的非关系性数据库，其内容存储形式类似JSON对象</p>
+<h2 id="centos安装"><a href="#centos安装" class="headerlink" title="centos安装"></a>centos安装</h2><p>先添加MongoDB源<br><a href="https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el7.x86_64.rpm" target="_blank" rel="noopener">https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el7.x86_64.rpm</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;yum.repos.d&#x2F;mongodb-org.repo</span><br><span class="line">接着修改并保存</span><br><span class="line">[mongodb-org-4.2]</span><br><span class="line">name&#x3D;MongoDB Repository</span><br><span class="line">baseurl&#x3D;https:&#x2F;&#x2F;repo.mongodb.org&#x2F;yum&#x2F;redhat&#x2F;#releasever&#x2F;mongodb-org&#x2F;4.2&#x2F;x86_64&#x2F;</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;www.mongodb.org&#x2F;static&#x2F;pgp&#x2F;server-4.2.asc</span><br><span class="line">然后yum安装</span><br><span class="line">sudo yum install mongodb-org</span><br><span class="line">验证</span><br><span class="line">rpm -qa |grep mongodb</span><br><span class="line">rpm -ql mongodb-org-server</span><br><span class="line">启动</span><br><span class="line">sudo systemctl start mongodb</span><br><span class="line">验证</span><br><span class="line">mongo</span><br><span class="line">停止</span><br><span class="line">sudo systemctl stop mongodb</span><br><span class="line">重启</span><br><span class="line">sudo systemvtl restart mongodb</span><br></pre></td></tr></table></figure>
+<h2 id="远程连接"><a href="#远程连接" class="headerlink" title="远程连接"></a>远程连接</h2><p>修改配置绑定并重启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;mongod.conf</span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 0.0.0.0</span><br></pre></td></tr></table></figure>
+<p>添加权限认证(配置文件中)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
+<p>创建账号和密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">运行</span><br><span class="line">mongod --port 27017 --dbpath &#x2F;data&#x2F;db</span><br><span class="line">进入MongoDB命令行：</span><br><span class="line">mongo --port 27017</span><br><span class="line">use admin</span><br><span class="line">db.createUser(&#123;user:&#39;admin&#39;,pwd:&#39;123456&#39;,roles:[&#123;role: &#39;root&#39;, db:&#39;admin&#39;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
+<p>开放端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld  # 查看防火墙状态</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;27017&#x2F;tcp --permanent # mongodb默认端口号</span><br><span class="line">firewall-cmd --reload  # 重新加载防火墙</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone&#x3D;public --query-port&#x3D;27017&#x2F;tcp # 查看端口号是否开放成功，输出yes开放成功，no则失败</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 27017 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"># encoding: utf-8</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">@author: cm</span><br><span class="line">@software: vspn</span><br><span class="line">@file: update.py</span><br><span class="line">@time: 2020&#x2F;6&#x2F;15 14:57</span><br><span class="line">@desc:</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line"></span><br><span class="line">import pymongo</span><br><span class="line"># 连接MongoDB</span><br><span class="line">client &#x3D; pymongo.MongoClient(host&#x3D;&#39;localhost&#39;, port&#x3D;27017)</span><br><span class="line"># client &#x3D; pymongo.MongoClient(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;&#39;)</span><br><span class="line"># 指定数据库</span><br><span class="line">db &#x3D; client.test</span><br><span class="line"># db &#x3D; client[&#39;test&#39;]</span><br><span class="line"># 指定集合</span><br><span class="line">collection &#x3D; db.student</span><br><span class="line"># collection &#x3D; db[&#39;student&#39;]</span><br><span class="line"># 插入数据</span><br><span class="line">student &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;1&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;a&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">student1 &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;2&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;b&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">student2 &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;3&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;c&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">result &#x3D; collection.insert_one(student)</span><br><span class="line">result &#x3D; collection.insert_many([student1, student2])</span><br><span class="line">print(result)</span><br><span class="line"># 查询</span><br><span class="line">result &#x3D; collection.find_one(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">print(type(result))</span><br><span class="line">print(result)</span><br><span class="line"># 根据ObjectId查询</span><br><span class="line">from bson.objectid import ObjectId</span><br><span class="line">result &#x3D; collection.find_one(&#123;&#39;_id&#39;: ObjectId(&#39;593278&#39;)&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: 18&#125;)</span><br><span class="line">print(result)</span><br><span class="line">for item in result:</span><br><span class="line">    print(item)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">$lt 小于    $gt 大于  $lte 小于等于   $gte 大于等于   $ne 不等于    $in 在范围内     $nin 不在范围内      $regex 正则匹配</span><br><span class="line">$exists 属性是否存在    $type 类型判断      $mod 数字模操作      $text 文本查询      $where 高级条件查询</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$gt&#39;: 17&#125;&#125;)  # 查询大于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$lt&#39;: 17&#125;&#125;)  # 查询小于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$lte&#39;: 17&#125;&#125;)  # 查询小于等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$gte&#39;: 17&#125;&#125;)  # 查询大于等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$ne&#39;: 17&#125;&#125;)  # 查询不等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$in&#39;: [17, 18]&#125;&#125;)  # 查询在17-18范围内的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$nin&#39;: [17, 18]&#125;&#125;)  # 查询不在17-18范围内的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$regex&#39;: &#39;^A.*&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$exists&#39;: True&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$type&#39;: &#39;int&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$mod&#39;: [5, 0]&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$text&#39;: &#123;&#39;search&#39;: &#39;Mike&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$where&#39;: &#39;obj.fans_count &#x3D;&#x3D; obj.follows_count&#39;&#125;)     # 粉丝数等于关注数</span><br><span class="line"># 计数</span><br><span class="line">count &#x3D; collection.find(&#123;&#39;age&#39;: 18&#125;).count</span><br><span class="line"># 排序</span><br><span class="line">results &#x3D; collection.find().sort(&#39;age&#39;, pymongo.ASCENDING)</span><br><span class="line"># 偏移</span><br><span class="line">results &#x3D; collection.find().sort(&#39;name&#39;, pymongo.ASCENDING).skip(2)</span><br><span class="line">results &#x3D; collection.find().sort(&#39;name&#39;, pymongo.ASCENDING).skip(2).limit(2)</span><br><span class="line"># 更新</span><br><span class="line">condition &#x3D; &#123;&#39;name&#39;: &#39;b&#39;&#125;</span><br><span class="line">student_result &#x3D; collection.find_one(&#123;&#39;name&#39;: &#39;b&#39;&#125;)</span><br><span class="line">student_result[&#39;age&#39;] &#x3D; 15</span><br><span class="line">result &#x3D; collection.update_one(condition, &#123;&#39;$set&#39;: student_result&#125;)</span><br><span class="line">print(result)</span><br><span class="line">print(result.matched_count, result.modified_count)  # 匹配条数， 受影响条数</span><br><span class="line">condition &#x3D; &#123;&#39;age&#39;: &#123;&#39;$gt&#39;: 15&#125;&#125;    # 大于15</span><br><span class="line">result &#x3D; collection.update_many(condition, &#123;&#39;$inc&#39;: &#123;&#39;age&#39;: 1&#125;&#125;)</span><br><span class="line">print(result)</span><br><span class="line">print(result.matched_count, result.modified_count)  # 匹配条数， 受影响条数</span><br><span class="line"># 删除</span><br><span class="line"># result &#x3D; collection.remove(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line"># print(result)</span><br><span class="line">result &#x3D; collection.delete_one(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">print(result)</span><br><span class="line">results &#x3D; collection.delete_many(&#123;&#39;age&#39;: &#123;&#39;$lt&#39;: 1&#125;&#125;)</span><br><span class="line">print(result.deleted_count)</span><br><span class="line"># 组合</span><br><span class="line">result &#x3D; collection.find_one_and_delete(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">result &#x3D; collection.find_one_and_replace(&#123;&#39;name&#39;: &#39;a&#39;&#125;, &#123;&#39;y&#39;: &#39;d&#39;&#125;)</span><br><span class="line">result &#x3D; collection.find_one_and_update(&#123;&#39;name&#39;: &#39;a&#39;&#125;, &#123;&#39;name&#39;: &#39;e&#39;&#125;)</span><br><span class="line">result &#x3D; collection.create_index()</span><br><span class="line">result &#x3D; collection.create_indexs()</span><br><span class="line">result &#x3D; collection.drop_index()</span><br><span class="line"></span><br><span class="line"># 复杂查询</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$and&#39;: [&#123;&#39;sys_time&#39;: &#123;&#39;$in&#39;: [1, 10]&#125;&#125;, &#123;&#39;roomId&#39;: &#123;&#39;$in&#39;: [&#39;a&#39;, &#39;b&#39;]&#125;&#125;]&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$or&#39;: [&#123;&#39;sys_time&#39;: &#123;&#39;$in&#39;: [1, 10]&#125;&#125;, &#123;&#39;roomId&#39;: &#123;&#39;$in&#39;: [&#39;a&#39;, &#39;b&#39;]&#125;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" data-id="ckcbuby4k00006wuj6lftea7j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-redis在python的使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/06/redis%E5%9C%A8python%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
@@ -293,297 +596,6 @@
 
 
   
-    <article id="post-rabbitMQ在python中的使用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
-  <time datetime="2020-06-17T07:13:25.000Z" itemprop="datePublished">2020-06-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">rabbitMQ在python中的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是rabbitMQ"><a href="#什么是rabbitMQ" class="headerlink" title="什么是rabbitMQ"></a>什么是rabbitMQ</h2><p>rabbitMQ是一种消息队列，消息是应用间传递的数据，消息队列是应用间的通信方式。</p>
-<h2 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h2><h3 id="win10"><a href="#win10" class="headerlink" title="win10"></a>win10</h3><h4 id="下载erlang"><a href="#下载erlang" class="headerlink" title="下载erlang"></a>下载erlang</h4><p>RabbitMQ是用Erlang编写的，所以安装Erlang。<br>下载地址： <a href="https://www.erlang.org/downloads" target="_blank" rel="noopener">https://www.erlang.org/downloads</a><br>配置环境变量</p>
-<h4 id="下载并安装RabbitMQ"><a href="#下载并安装RabbitMQ" class="headerlink" title="下载并安装RabbitMQ"></a>下载并安装RabbitMQ</h4><p>下载地址：<a href="https://www.rabbitmq.com/download.html" target="_blank" rel="noopener">https://www.rabbitmq.com/download.html</a><br>可以选择： Downloads on Bintray 然后下载对应的版本<br>安装完成后到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin 目录下打开cmder输入rabbitmq-plugins enable rabbitmq_management命令进行安装，完毕后点击sbin目录下的rabbitmq-server.bat运行rabbit。server成功开启后访问<a href="http://localhost:15672，登录账号和密码都是guest。">http://localhost:15672，登录账号和密码都是guest。</a></p>
-<h3 id="配置用户"><a href="#配置用户" class="headerlink" title="配置用户"></a>配置用户</h3><p>cmder进入到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin目录下运行以下命令创建用户:rabbitmqctl add_user user password</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user admin admin</span><br></pre></td></tr></table></figure>
-<p>给用户添加角色：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
-<p>给用户赋权限, 指定允许访问的vhost以及write/read：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br></pre></td></tr></table></figure>
-<p>查看vhost（/）允许哪些用户访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_permissions -p &#x2F;</span><br></pre></td></tr></table></figure>
-<p>日志启用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin</span><br><span class="line">rabbitmq-plugins.bat enable rabbitmq_tracing</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start RabbitMQ</span><br></pre></td></tr></table></figure>
-<p>配置允许远程访问的用户:<br>vim /etc/rabbitmq/rabbitmq.config 修改为loopback_users,[]<br>重启rabbitMQ<br>win系统在rabbit.app下修改:<br>E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\ebin\rabbit.app</p>
-<h2 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h2><h3 id="下载erlang-rabbitmq"><a href="#下载erlang-rabbitmq" class="headerlink" title="下载erlang, rabbitmq"></a>下载erlang, rabbitmq</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install erlang-nox</span><br><span class="line">sudo apt-get update   #  更新源</span><br><span class="line">sudo apt-get install rabbitmq-server</span><br></pre></td></tr></table></figure>
-<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmqct start_app    # 启动</span><br><span class="line">sudo rabbitmqctl stop     # 停止</span><br><span class="line">sudo rabbitmqctl restart_vhost  # 重启</span><br><span class="line">sudo rabbitmqctl status       # 状态</span><br></pre></td></tr></table></figure>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">添加admin用户，密码为admin:</span><br><span class="line">sudo rabbitmqctl add_user admin admin</span><br><span class="line">赋权:</span><br><span class="line">sudo rabbitmqctl set_user_tags admin administrator</span><br><span class="line">给用户赋权限, 指定允许访问的vhost以及write&#x2F;read：</span><br><span class="line">sudo rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br><span class="line">GUI:</span><br><span class="line">cd &#x2F;etc&#x2F;rabbitmq&#x2F;</span><br><span class="line">sudo rabbitmq-plugins enable rabbitmq_management</span><br><span class="line">日志：</span><br><span class="line">sudo rabbitmq-plugins enable rabbitmq_tracing</span><br></pre></td></tr></table></figure>
-
-<h2 id="python使用pika对接rabbitMQ"><a href="#python使用pika对接rabbitMQ" class="headerlink" title="python使用pika对接rabbitMQ"></a>python使用pika对接rabbitMQ</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import pika</span><br><span class="line"></span><br><span class="line"># 生产者</span><br><span class="line"></span><br><span class="line">credentials &#x3D; pika.PlainCredentials(&#39;admin&#39;, &#39;admin&#39;)  # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;172.20.61.137&#39;, port&#x3D;5672, virtual_host&#x3D;&#39;&#x2F;&#39;, credentials&#x3D;credentials))    # 同步连接模式</span><br><span class="line">channel &#x3D; connection.channel()      # 创建频道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)    # 通过这个频道来创建队列，如果MQ中队列存在忽略，没有则创建 durable指定队列持久化</span><br><span class="line"></span><br><span class="line">channel.basic_publish(exchange&#x3D;&#39;&#39;,</span><br><span class="line">                      routing_key&#x3D;&#39;TEST01&#39;,     # 指定队列名称</span><br><span class="line">                      body&#x3D;&#39;Hello World!&#39;,      # 往该队列中发送一个消息</span><br><span class="line">                      properties&#x3D;pika.BasicProperties(</span><br><span class="line">                          delivery_mode&#x3D;2,          # 指定消息持久化</span><br><span class="line">						  expiration&#x3D;&#39;50&#39; 	# ttl设置</span><br><span class="line">                      ))</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">connection.close()</span><br><span class="line"></span><br><span class="line"># 消费者</span><br><span class="line"></span><br><span class="line">credentials &#x3D; pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)     # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;172.20.61.137&#39;, port&#x3D;5672, virtual_host&#x3D;&#39;&#x2F;&#39;, credentials&#x3D;credentials))</span><br><span class="line">channel &#x3D; connection.channel()      # 创建管道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def callback(ch, method, properties, body):         # callback函数负责接收队列里的消息</span><br><span class="line">    print(&quot; [x] Received %r&quot; % body)</span><br><span class="line">    ch.basic_ack(delivery_tag&#x3D;method.delivery_tag)  # 向生成者发送消费完毕的确认信息，然后生产者将此条消息同队列里剔除</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">channel.basic_consume(&#39;TEST01&#39;,       # 指定队列名 queue&#x3D;</span><br><span class="line">                      callback,            # 从队列里取消息</span><br><span class="line">                      False)     # no_ack&#x3D; 当消费者遇到情况(its channel is closed, connection is closed, or TCP connection is lost)挂掉了，那么RabbitMQ会重新将该任务添加到队列中</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">channel.start_consuming()</span><br></pre></td></tr></table></figure>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在ubuntu中使用rabbitMQ时，出现了rabbitMQ WEB 管理界面无消息统计信息 + 消息非持久化（即拿即用即销毁？在log日志中也有消息记录，这是怎么回事呢？？？）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">怎么解决？</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="ckbj6lot30000ysujazsg9rau" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-django快速搭建后台" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/05/django%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%90%8E%E5%8F%B0/" class="article-date">
-  <time datetime="2020-06-05T07:30:30.000Z" itemprop="datePublished">2020-06-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/05/django%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%90%8E%E5%8F%B0/">django快速搭建后台</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>项目中可能会需要一个简单的后台管理功能，直接操作数据库固然能达到效果，但也不是长久之计。在这种情况下，可以考虑下django这个web应用框架。以下是简单应用：</p>
-<h2 id="安装django"><a href="#安装django" class="headerlink" title="安装django"></a>安装django</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install django</span><br></pre></td></tr></table></figure>
-<h2 id="安装pymysql"><a href="#安装pymysql" class="headerlink" title="安装pymysql"></a>安装pymysql</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install pymysql</span><br></pre></td></tr></table></figure>
-<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-admin.py startproject prjname</span><br></pre></td></tr></table></figure>
-<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>在prjname/prjname/views.py中输入下列代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from django.http import HttpResponse</span><br><span class="line"> </span><br><span class="line">def hello(request):</span><br><span class="line">    return HttpResponse(&quot;Hello world ! &quot;)</span><br></pre></td></tr></table></figure>
-<p>在/prjname/prjname/urls.py中绑定URL和视图函数</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from Admin import view</span><br><span class="line">from django.contrib import admin</span><br><span class="line">from django.urls import path</span><br><span class="line"></span><br><span class="line">urlpatterns &#x3D; [</span><br><span class="line">    path(&#39;admin&#x2F;&#39;, admin.site.urls),</span><br><span class="line">    path(&#39;index&#x2F;&#39;, view.index),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<h2 id="创建app"><a href="#创建app" class="headerlink" title="创建app"></a>创建app</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">django-admin.py startapp appname</span><br></pre></td></tr></table></figure>
-<p>创建完成后再/prjname/prjname/settings.py的INSTALLED_APPS中添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">INSTALLED_APPS &#x3D; [</span><br><span class="line">    &#39;django.contrib.admin&#39;,</span><br><span class="line">    &#39;django.contrib.auth&#39;,</span><br><span class="line">    &#39;django.contrib.contenttypes&#39;,</span><br><span class="line">    &#39;django.contrib.sessions&#39;,</span><br><span class="line">    &#39;django.contrib.messages&#39;,</span><br><span class="line">    &#39;django.contrib.staticfiles&#39;,</span><br><span class="line">    &#39;backstage&#39;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<h2 id="定义模型"><a href="#定义模型" class="headerlink" title="定义模型"></a>定义模型</h2><p>在/prjname/prjname/settings.py的DATABASES中配置数据库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">DATABASES &#x3D; &#123;</span><br><span class="line">    &#39;default&#39;: &#123;</span><br><span class="line">        &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,</span><br><span class="line">        &#39;NAME&#39;: &#39;test&#39;,</span><br><span class="line">        &#39;HOST&#39;: &#39;localhost&#39;,</span><br><span class="line">        &#39;USER&#39;: &#39;root&#39;,</span><br><span class="line">        &#39;PASSWORD&#39;: &#39;&#39;,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在/prjname/prjname/<strong>init</strong>.py中加入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import pymysql</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pymysql.install_as_MySQLdb()</span><br></pre></td></tr></table></figure>
-<p>在appname目录下的models.py中定义你的模型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class User(models.Model):</span><br><span class="line">    db_table &#x3D; &#39;user&#39;	# 数据库表名，无则自动生成</span><br><span class="line"></span><br><span class="line">    username &#x3D; models.CharField(max_length&#x3D;16)</span><br><span class="line">    password &#x3D; models.CharField(max_length&#x3D;16)</span><br><span class="line">    email &#x3D; models.EmailField()</span><br><span class="line">    role &#x3D; models.IntegerField()</span><br><span class="line">    register_time &#x3D; models.DateField(auto_now_add&#x3D;True)</span><br></pre></td></tr></table></figure>
-<p>在appname目录下的admin.py中注册模型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">from django.contrib import admin</span><br><span class="line">from .models import *</span><br><span class="line"></span><br><span class="line"># Register your models here.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">admin.site.register(User)</span><br></pre></td></tr></table></figure>
-<h2 id="迁移数据"><a href="#迁移数据" class="headerlink" title="迁移数据"></a>迁移数据</h2><p>运行脚本时一定要指定python的版本，不然会报错。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python manage.py makemigrations</span><br><span class="line">python manage.py migrate</span><br><span class="line">python manage.py createsuperuser # 创建管理员</span><br><span class="line">python manage.py runserver</span><br></pre></td></tr></table></figure>
-<p>如果报错是mysql版本的话，可以去\Python38-32\Lib\site-packages\django\db\backends\mysql（win10）中找到base.py文件做下列修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">version &#x3D; Database.version_info</span><br><span class="line">if version &lt; (1, 3, 13):</span><br><span class="line">    pass</span><br><span class="line">    # 初次启动遇到 mysql版本问题，所以屏蔽掉此处</span><br><span class="line">    # raise ImproperlyConfigured(&#39;mysqlclient 1.3.13 or newer is required; you have %s.&#39; % Database.__version__)</span><br></pre></td></tr></table></figure>
-<p>网上有人说还要去operations.py中把query = query.decode(errors=’replace’)改为query = query.encode(errors=’replace’)，但是我在这个文件中没找到这个语句就没修改。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/05/django%E5%BF%AB%E9%80%9F%E6%90%AD%E5%BB%BA%E5%90%8E%E5%8F%B0/" data-id="ckb1x3sgr0000mcuj4owqg9uc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-任务队列celery" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/03/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97celery/" class="article-date">
-  <time datetime="2020-06-03T05:36:58.000Z" itemprop="datePublished">2020-06-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/03/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97celery/">&#39;任务队列celery&#39;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="celery-简介"><a href="#celery-简介" class="headerlink" title="celery 简介"></a>celery 简介</h2><p>celery是一个实时处理和任务调度的分布式任务队列。比如<br><br></p>
-<ol>
-<li>web里的发邮件就可以使用它，当点击发邮件后主程序继续运行而不必等待邮件过程。</li>
-<li>定时任务，<h2 id="celery-架构"><a href="#celery-架构" class="headerlink" title="celery 架构"></a>celery 架构</h2></li>
-<li>Celery Baet: 任务调度器，读取配置文件内容，将任务发送给队列；</li>
-<li>Celery Worker: 执行任务的消费者；</li>
-<li>Broker: 消息代理（消息中间件），接受生产者发过来的任务消息，存进队列再按顺序分发给消费方；</li>
-<li>Producer：生产者；</li>
-<li>Result Backend：任务处理完后保存状态信息和结果。<h2 id="消息代理"><a href="#消息代理" class="headerlink" title="消息代理"></a>消息代理</h2>可以选择Redis，RabbitMQ。官方推荐后者，以为害怕因为Redis遇到突发状况引起数据丢失。<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;tree proj&#x2F;</span><br><span class="line">|---__init__.py</span><br><span class="line">|---celery.py</span><br><span class="line">|---conf.py</span><br><span class="line">|---task_celery.py</span><br><span class="line">|---task_celery_send.py</span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>conf.py 配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BROKER_URL &#x3D; &#39;redis:&#x2F;&#x2F;:password@localhost:6379&#x2F;15&#39;</span><br><span class="line">CELERY_RESULT_BACKEND &#x3D; &#39;redis:&#x2F;&#x2F;:password@localhost:6379&#x2F;15&#39;</span><br><span class="line">backend &#x3D; &quot;redis&quot;</span><br><span class="line"></span><br><span class="line">CELERY_TIMEZONE &#x3D; &#39;Asia&#x2F;Shanghai&#39;</span><br><span class="line"></span><br><span class="line">CELERY_IMPORTS &#x3D; (</span><br><span class="line">    &#39;task_celery_dic.task_celery&#39;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">CELERYD_MAX_TASKS_PER_CHILD &#x3D; 100 # 并发worker下的任务数</span><br><span class="line">CELERYD_CONCURRENCY &#x3D; 100  # 并发worker数</span><br></pre></td></tr></table></figure></li>
-<li><p>celery.py 主程序<br>不能把主程序写到<strong>init</strong>.py中，不然会读取不到conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from celery import Celery</span><br><span class="line"></span><br><span class="line">app &#x3D; Celery(&#39;task_celery_dic&#39;)</span><br><span class="line">app.config_from_object(&#39;task_celery_dic.conf&#39;)</span><br><span class="line"># app.conf.update(conf)</span><br></pre></td></tr></table></figure></li>
-<li><p>task_celery.py 存放任务函数的文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line">from task_celery_dic.celery import *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.task</span><br><span class="line">def add(task_shell, interval):</span><br><span class="line">    while 1:</span><br><span class="line">        # os.system(task_shell)</span><br><span class="line">        print(1+1)</span><br><span class="line">        print(task_shell, interval)</span><br><span class="line">        time.sleep(interval * 60)</span><br></pre></td></tr></table></figure></li>
-<li><p>task_celery_send.py 运行任务的文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from task_celery_dic.task_celery import add</span><br><span class="line">from celery.result import AsyncResult</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def task_back(task_shell, interval):</span><br><span class="line">    a &#x3D; add.apply_async(args&#x3D;(task_shell, interval))</span><br><span class="line">    print(a.id)</span><br><span class="line">    print(AsyncResult(a.id).state)</span><br></pre></td></tr></table></figure></li>
-<li><p>开启celery<br>win 10: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip3 install eventlet</span><br><span class="line">&lt;br&gt;</span><br><span class="line">celery -A task_celery_dic worker --pool&#x3D;eventlet</span><br></pre></td></tr></table></figure>
-<p>linux:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip3 install future</span><br><span class="line">celery -A task_celery_dic worker -l info</span><br></pre></td></tr></table></figure></li>
-<li><p>flask + celery 异步发送邮件<br>腾讯的企业邮箱授权码要在设置中绑定微信，然后才能在安全页面中申请授权码，要注意的是腾讯企业邮箱和QQ邮箱用的协议不一样，QQ是tls,而企业邮箱是SSL,flask中使用时要注意配置。</p>
-<br>
-server.py
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from celery import Celery</span><br><span class="line">from flask_script import Manager</span><br><span class="line">from flask_mail import Mail, Message</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line">app.config[&quot;SECRET_KEY&quot;] &#x3D; &quot;12345678&quot;</span><br><span class="line">app.config[&#39;JSON_AS_ASCII&#39;] &#x3D; False</span><br><span class="line">app.config[&#39;FLASKY_MAIL_SUBJECT_PREFIX&#39;] &#x3D; &#39;test&#39;</span><br><span class="line">app.config[&#39;MAIL_USE_SSL&#39;] &#x3D; True</span><br><span class="line">app.config[&#39;MAIL_USE_TLS&#39;] &#x3D; False          # 默认就是 false, 加上警示自己</span><br><span class="line">app.config[&#39;MAIL_SERVER&#39;] &#x3D; &#39;smtp.exmail.qq.com&#39;</span><br><span class="line">app.config[&#39;MAIL_PORT&#39;] &#x3D; 465</span><br><span class="line">app.config[&#39;MAIL_USERNAME&#39;] &#x3D; &#39;xxx@qq.com&#39;	# 你的腾讯企业邮箱</span><br><span class="line">app.config[&#39;MAIL_PASSWORD&#39;] &#x3D; &#39;xxxxxxxx&#39; 申请的密码</span><br><span class="line">app.config[&#39;MAIL_DEFAULT_SENDER &#39;] &#x3D;  &#39;xxx@qq.com&#39;	# 你的腾讯企业邮箱</span><br><span class="line">app.config[&#39;FLASKY_MAIL_to&#39;] &#x3D; [&#39;xxx@gmail.com&#39;] #要发送的邮箱</span><br><span class="line">manager &#x3D; Manager(app)</span><br><span class="line">mail &#x3D; Mail(app)</span><br><span class="line"></span><br><span class="line">def make_celery(app):</span><br><span class="line">    celery &#x3D; Celery(&#39;server&#39;, backend&#x3D;&#39;redis:&#x2F;&#x2F;:160011@localhost:6379&#x2F;14&#39;, broker&#x3D;&#39;redis:&#x2F;&#x2F;:160011@localhost:6379&#x2F;14&#39;)</span><br><span class="line">    celery.conf.update(task_serializer&#x3D;&#39;json&#39;)</span><br><span class="line">    TaskBase &#x3D; celery.Task</span><br><span class="line"></span><br><span class="line">    class ContextTask(TaskBase):</span><br><span class="line">        abstract &#x3D; True</span><br><span class="line"></span><br><span class="line">        def __call__(self, *args, **kwargs):</span><br><span class="line">            with app.app_context():</span><br><span class="line">                return TaskBase.__call__(self, *args, **kwargs)</span><br><span class="line"></span><br><span class="line">    celery.Task &#x3D; ContextTask</span><br><span class="line">    return celery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">celery &#x3D; make_celery(app)</span><br><span class="line"></span><br><span class="line">@celery.task()</span><br><span class="line">def send_email_celery():</span><br><span class="line">    # time1 &#x3D; send()</span><br><span class="line">    from datetime import datetime</span><br><span class="line">    time1 &#x3D; datetime.now()</span><br><span class="line">    time1 &#x3D; time1.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">    msg &#x3D; Message(subject&#x3D;app.config[&#39;FLASKY_MAIL_SUBJECT_PREFIX&#39;], sender&#x3D;app.config[&#39;MAIL_DEFAULT_SENDER &#39;],</span><br><span class="line">                  recipients&#x3D;app.config[&#39;FLASKY_MAIL_to&#39;])</span><br><span class="line">    msg.body &#x3D; &#39;crl2020_spring&#39;</span><br><span class="line">    with app.open_resource(&quot;D:&#x2F;code&#x2F;aa&#x2F;excel&#x2F;aa&#123;&#125;.xlsx&quot;.format(time1)) as fp:</span><br><span class="line">        msg.attach(filename&#x3D;os.path.basename(&quot;d:&#x2F;code&#x2F;aa&#x2F;excel&#x2F;aa&#123;&#125;.xlsx&quot;.format(time1)),</span><br><span class="line">                   data&#x3D;fp.read(),</span><br><span class="line">                   content_type&#x3D;&#39;application&#x2F;octet-stream&#39;)</span><br><span class="line">    with app.open_resource(&quot;D:&#x2F;code&#x2F;aa&#x2F;excel&#x2F;aa&#123;&#125;.xlsx&quot;.format(time1)) as fp:</span><br><span class="line">        msg.attach(filename&#x3D;os.path.basename(&quot;d:&#x2F;code&#x2F;aa&#x2F;excel&#x2F;aa&#123;&#125;.xlsx&quot;.format(time1)),</span><br><span class="line">                   data&#x3D;fp.read(),</span><br><span class="line">                   content_type&#x3D;&#39;application&#x2F;octet-stream&#39;)</span><br><span class="line"></span><br><span class="line">    with app.app_context():</span><br><span class="line">        mail.send(msg)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#增加发送邮件函数</span><br><span class="line">@app.route(&#39;&#x2F;sendemail&#x2F;&#39;)</span><br><span class="line">def send_mail():</span><br><span class="line">    send_email_celery.apply_async()</span><br><span class="line">    return &#39;请稍等一会，并注意查收&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run(&#39;0.0.0.0&#39;, debug&#x3D;True)</span><br></pre></td></tr></table></figure>
-然后在命令行中运行：
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A server.celery worker  --pool&#x3D;solo</span><br></pre></td></tr></table></figure>
-注意格式是 celery -A yourmodelname.celery worker --pool=solo
-</li>
-<li><p>其他配置<br>网上搜，暂时不写了。</p>
-</li>
-<li><p>win10使用中遇到了TypeError: wrap_socket() got an unexpected keyword argument ‘_context’问题，将–pool=eventlet 改为–pool=solo 解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A server.celery worker  --pool&#x3D;solo</span><br></pre></td></tr></table></figure></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/03/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97celery/" data-id="ckb07s3750000w4uj2w4w4t9x" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-获取数据库所有表名和字段" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/" class="article-date">
-  <time datetime="2020-06-01T03:25:17.000Z" itemprop="datePublished">2020-06-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/">&#39;获取数据库所有表名和字段&#39;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在sqlalchemy中的获取方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">engine &#x3D; sqlalchemy.create_engine(&#39;mysql+pymysql:&#x2F;&#x2F;root:password@ip:3306&#x2F;databasename?charset&#x3D;utf8mb4&#39;)</span><br><span class="line"></span><br><span class="line"># 获取数据库名，返回list</span><br><span class="line"></span><br><span class="line">database_name &#x3D; sqlalchemy.inspect(engine)</span><br><span class="line"></span><br><span class="line">database_list &#x3D; database_name.get_schema_names()</span><br><span class="line"></span><br><span class="line"># 获取表名，返回list</span><br><span class="line"></span><br><span class="line">table_list &#x3D; engine.table_names()</span><br><span class="line"></span><br><span class="line"># 获取表字段列表</span><br><span class="line"></span><br><span class="line">md &#x3D; sqlalchemy.MetaData()</span><br><span class="line"></span><br><span class="line">table &#x3D; sqlalchemy.Table(&#39;table_name&#39;, md, autoload&#x3D;Ture, autoload_with&#x3D;engine)</span><br><span class="line"></span><br><span class="line">columns &#x3D; table.c</span><br><span class="line"></span><br><span class="line">[c.name for c in columns]</span><br></pre></td></tr></table></figure>
-<p>在flask-sqlalchemy中的获取方式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 反射数据库中已存在的表</span><br><span class="line"></span><br><span class="line">db.reflect()</span><br><span class="line"></span><br><span class="line"># 获取所有表名及字段</span><br><span class="line"></span><br><span class="line">all_table &#x3D; &#123;table_obj.name: [i.name for i in table_obj.c] for table_obj in db.get_tables_for_bind()&#125;</span><br></pre></td></tr></table></figure>
-<p>使用：<br>既然我们获取到了表名和字段了，那么要怎么使用它呢？看下面的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">table_c &#x3D; &#123;i.name: i for i in all_table.get(&#39;card&#39;).c&#125;</span><br><span class="line">a &#x3D; table_c.get(&#39;cardName&#39;)</span><br><span class="line">b &#x3D; table_c.get(&#39;cardEName&#39;)</span><br><span class="line">data &#x3D; db.session.query(all_table.get(&#39;card&#39;)).filter(a &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data, type(data))</span><br><span class="line">print(data.id)</span><br><span class="line">data1 &#x3D; db.session.query(Cards).filter(Cards.cardName &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data1)</span><br><span class="line">data2 &#x3D; db.session.query(b).filter(a &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data2)</span><br><span class="line"></span><br><span class="line">(1, &#39;三个火枪手&#39;, &#39;https:&#x2F;&#x2F;statsroyale.com&#x2F;zh&#x2F;card&#x2F;Three+Musketeers&#39;, &#39;9&#39;, &#39;2&#39;, &#39;troop&#39;, &#39;Three Musketeers&#39;, 26000028) &lt;class &#39;sqlalchemy.util._collections.result&#39;&gt;</span><br><span class="line"></span><br><span class="line">&lt;models.Cards object at 0x0C78A550&gt;</span><br><span class="line"></span><br><span class="line">(&#39;Three Musketeers&#39;,)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/" data-id="ckavyackn0000oouj697zhuc1" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/29/hello-world/" class="article-date">
-  <time datetime="2020-05-29T09:40:41.659Z" itemprop="datePublished">2020-05-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/29/hello-world/" data-id="ckas1suu9000018ujauane1s7" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -641,23 +653,23 @@ server.py
       <ul>
         
           <li>
-            <a href="/2020/09/09/pypy%E5%AE%89%E8%A3%85/">pypy安装</a>
+            <a href="/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/">Python中C接口的开发何使用</a>
           </li>
         
           <li>
-            <a href="/2020/09/09/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">函数式编程和面向对象编程</a>
+            <a href="/2020/09/24/flaskrestfulResponseFormats/">flaskrestfulResponseFormats</a>
           </li>
         
           <li>
-            <a href="/2020/09/09/sqlalchemy%E6%97%A0%E6%B3%95%E6%9F%A5%E8%AF%A2%E4%B8%8D%E4%B8%BA%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E4%BF%AE%E6%94%B9%E7%9A%84%E6%95%B0%E6%8D%AE/">sqlalchemy无法查询不为同一个对象修改的数据</a>
+            <a href="/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/">跨库查询</a>
           </li>
         
           <li>
-            <a href="/2020/09/02/web%E5%90%8E%E7%AB%AF%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%9F%A5%E8%AF%86/">web后端需要了解的知识</a>
+            <a href="/2020/09/21/python%E9%A2%98/">python题</a>
           </li>
         
           <li>
-            <a href="/2020/08/28/redis%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE/">redis高可用配置</a>
+            <a href="/2020/09/11/tcp%E5%92%8Cudp/">tcp和udp</a>
           </li>
         
       </ul>
