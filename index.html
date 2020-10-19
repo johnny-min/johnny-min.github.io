@@ -64,6 +64,207 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-linux下安装navicat破解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/" class="article-date">
+  <time datetime="2020-10-19T03:55:29.000Z" itemprop="datePublished">2020-10-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/">linux下安装navicat破解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="下载navicat15-premium"><a href="#下载navicat15-premium" class="headerlink" title="下载navicat15-premium"></a>下载navicat15-premium</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;</span><br><span class="line">## 安装依赖</span><br><span class="line">1.准备编译patcher-keygen需要的环境</span><br></pre></td></tr></table></figure>
+<h1 id="安装-capstone"><a href="#安装-capstone" class="headerlink" title="安装 capstone"></a>安装 capstone</h1><p>sudo apt-get install libcapstone-dev</p>
+<h1 id="安装-cmake"><a href="#安装-cmake" class="headerlink" title="安装 cmake"></a>安装 cmake</h1><p>sudo apt-get install cmake</p>
+<h1 id="安装-rapidjson"><a href="#安装-rapidjson" class="headerlink" title="安装 rapidjson"></a>安装 rapidjson</h1><p>sudo apt-get install rapidjson-dev</p>
+<h1 id="安装-keystone"><a href="#安装-keystone" class="headerlink" title="安装 keystone"></a>安装 keystone</h1><p>git clone <a href="https://github.com/keystone-engine/keystone.git" target="_blank" rel="noopener">https://github.com/keystone-engine/keystone.git</a></p>
+<h1 id="进入keystone的目录"><a href="#进入keystone的目录" class="headerlink" title="进入keystone的目录"></a>进入keystone的目录</h1><p>cd keystone</p>
+<h1 id="创建一个build目录用于存放keystone编译后的库文件"><a href="#创建一个build目录用于存放keystone编译后的库文件" class="headerlink" title="创建一个build目录用于存放keystone编译后的库文件"></a>创建一个build目录用于存放keystone编译后的库文件</h1><p>mkdir build</p>
+<h1 id="进入创建的build目录"><a href="#进入创建的build目录" class="headerlink" title="进入创建的build目录"></a>进入创建的build目录</h1><p> cd build</p>
+<h1 id="执行上级目录中的make-share-sh脚本"><a href="#执行上级目录中的make-share-sh脚本" class="headerlink" title="执行上级目录中的make-share.sh脚本"></a>执行上级目录中的make-share.sh脚本</h1><p>../make-share.sh</p>
+<h1 id="安装keystone动态库"><a href="#安装keystone动态库" class="headerlink" title="安装keystone动态库"></a>安装keystone动态库</h1><p>sudo make install</p>
+<h1 id="执行dconfig动态链接库为系统所共享"><a href="#执行dconfig动态链接库为系统所共享" class="headerlink" title="执行dconfig动态链接库为系统所共享"></a>执行dconfig动态链接库为系统所共享</h1><p>sudo ldconfig</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2.编译patcher-keygen</span><br></pre></td></tr></table></figure>
+<h1 id="从git仓库拉取-patcher-keygen-的linux分支"><a href="#从git仓库拉取-patcher-keygen-的linux分支" class="headerlink" title="从git仓库拉取 patcher-keygen 的linux分支"></a>从git仓库拉取 patcher-keygen 的linux分支</h1><p>git clone -b linux –single-branch <a href="https://github.com/HeQuanX/navicat-keygen-tools.git" target="_blank" rel="noopener">https://github.com/HeQuanX/navicat-keygen-tools.git</a></p>
+<h1 id="进入-navicat-keygen-tools-目录"><a href="#进入-navicat-keygen-tools-目录" class="headerlink" title="进入 navicat-keygen-tools 目录"></a>进入 navicat-keygen-tools 目录</h1><p>cd navicat-keygen-tools</p>
+<h1 id="执行编译安装-注-执行make-all需要gcc9-x以上才能支持，下面提供安装演示"><a href="#执行编译安装-注-执行make-all需要gcc9-x以上才能支持，下面提供安装演示" class="headerlink" title="执行编译安装(注:执行make all需要gcc9.x以上才能支持，下面提供安装演示)"></a>执行编译安装(注:执行make all需要gcc9.x以上才能支持，下面提供安装演示)</h1><p>make all</p>
+<h1 id="make-all执行完毕且无误后，会在-navicat-keygen-tools-bin-文件夹下看到编译后的keygen-patcher"><a href="#make-all执行完毕且无误后，会在-navicat-keygen-tools-bin-文件夹下看到编译后的keygen-patcher" class="headerlink" title="make all执行完毕且无误后，会在 navicat-keygen-tools/bin/ 文件夹下看到编译后的keygen/patcher"></a>make all执行完毕且无误后，会在 navicat-keygen-tools/bin/ 文件夹下看到编译后的keygen/patcher</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果出现No CMAKE_CXX_COMPILER could be found.</span><br></pre></td></tr></table></figure>
+<p>sudo apt-get update<br>sudo apt-get install -y build-essential</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">出现fatal error: openssl&#x2F;opensslv.h: No such file or directory</span><br></pre></td></tr></table></figure>
+<h1 id="安装-GCC-Compiler"><a href="#安装-GCC-Compiler" class="headerlink" title="安装 GCC Compiler"></a>安装 GCC Compiler</h1><h1 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu:"></a>ubuntu:</h1><p>sudo apt-get install libssl-dev</p>
+<h1 id="centos"><a href="#centos" class="headerlink" title="centos:"></a>centos:</h1><p>yum install openssl-devel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在make all patcher-keygen时出现collect2: error: ld returned 1 exit status</span><br></pre></td></tr></table></figure>
+<h1 id="找到navicat-keygen-tools中的makefile-找到并作如下修改"><a href="#找到navicat-keygen-tools中的makefile-找到并作如下修改" class="headerlink" title="找到navicat-keygen-tools中的makefile,找到并作如下修改"></a>找到navicat-keygen-tools中的makefile,找到并作如下修改</h1><p>patcher: $(PATCHER_HEADER) $(PATCHER_SOURCE)<br>    @if [ ! -d $(OUTPUT_DIR) ]; then mkdir -p $(OUTPUT_DIR); fi<br>    $(CC) -lstdc++fs -std=c++17 -O2 <br>-I$(COMMON_DIR) <br>$(if $(OPENSSL_INCLUDE_PATH),-I$(OPENSSL_INCLUDE_PATH),) $(if $(OPENSSL_LIB_PATH),-L$(OPENSSL_LIB_PATH),) <br>$(if $(CAPSTONE_INCLUDE_PATH),-I$(CAPSTONE_INCLUDE_PATH),) $(if $(CAPSTONE_LIB_PATH),-L$(CAPSTONE_LIB_PATH),) <br>$(if $(KEYSTONE_INCLUDE_PATH),-I$(KEYSTONE_INCLUDE_PATH),) $(if $(KEYSTONE_LIB_PATH),-L$(KEYSTONE_LIB_PATH),) <br>$(PATCHER_SOURCE) -o $(PATCHER_BINARY) -lcrypto -lcapstone -lkeystone -lstdc++fs<br>    @echo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 使用</span><br><span class="line">1、提取AppImage文件里的所有文件到一个文件夹</span><br></pre></td></tr></table></figure>
+<p>mkdir ~/Desktop/navicat15-premium-en<br>sudo mount -o loop ~/Desktop/navicat15-premium-en.AppImage ~/Desktop/navicat15-premium-en<br>cp -r ~/Desktop/navicat15-premium-en ~/Desktop/navicat15-premium-en-patched<br>sudo umount ~/Desktop/navicat15-premium-en<br>rm -rf ~/Desktop/navicat15-premium-en</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2、使用 navicat-patcher 替换官方公钥。</span><br></pre></td></tr></table></figure>
+<p>./bin/navicat-patcher ~/Desktop/navicat15-premium-en-patched</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3、将文件重新打包成AppImage</span><br></pre></td></tr></table></figure>
+<p>wget ‘<a href="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage&#39;" target="_blank" rel="noopener">https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage&#39;</a><br>chmod +x appimagetool-x86_64.AppImage<br>./appimagetool-x86_64.AppImage ~/Desktop/navicat15-premium-en-patched ~/Desktop/navicat15-premium-en-patched.AppImage</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4、运行刚生成的AppImage：</span><br></pre></td></tr></table></figure>
+<p>chmod +x ~/Desktop/navicat15-premium-en-patched.AppImage<br>~/Desktop/navicat15-premium-en-patched.AppImage</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5、使用 navicat-keygen 来生成 序列号 和 激活码</span><br></pre></td></tr></table></figure>
+<p>./bin/navicat-keygen –text ./RegPrivateKey.pem</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">一定使用下面的选择</span><br></pre></td></tr></table></figure>
+<p>./bin/navicat-keygen –text ./RegPrivateKey.pem</p>
+<hr>
+<ul>
+<li>Navicat Keygen (Linux) by @DoubleLabyrinth       *</li>
+<li>Version: 1.0                         *</li>
+</ul>
+<hr>
+<p>[*] Select Navicat product:<br>0. DataModeler</p>
+<ol>
+<li>Premium</li>
+<li>MySQL</li>
+<li>PostgreSQL</li>
+<li>Oracle</li>
+<li>SQLServer</li>
+<li>SQLite</li>
+<li>MariaDB</li>
+<li>MongoDB</li>
+<li>ReportViewer</li>
+</ol>
+<p>(Input index)&gt; 1</p>
+<p>[*] Select product language:<br>0. English</p>
+<ol>
+<li>Simplified Chinese</li>
+<li>Traditional Chinese</li>
+<li>Japanese</li>
+<li>Polish</li>
+<li>Spanish</li>
+<li>French</li>
+<li>German</li>
+<li>Korean</li>
+<li>Russian</li>
+<li>Portuguese</li>
+</ol>
+<p>(Input index)&gt; 0</p>
+<p>[*] Input major version number:<br>(range: 0 ~ 15, default: 12)&gt; 15</p>
+<p>[*] Serial number:<br>NAVM-RTVJ-EO42-IODD</p>
+<h1 id="此处可随意"><a href="#此处可随意" class="headerlink" title="此处可随意"></a>此处可随意</h1><p>[<em>] Your name: qq<br>[</em>] Your organization: qqq</p>
+<h1 id="到这一步时断开网络，找到注册窗口，填写keygen给你的-序列号，然后点击-激活"><a href="#到这一步时断开网络，找到注册窗口，填写keygen给你的-序列号，然后点击-激活" class="headerlink" title="到这一步时断开网络，找到注册窗口，填写keygen给你的 序列号，然后点击 激活"></a>到这一步时断开网络，找到注册窗口，填写keygen给你的 序列号，然后点击 激活</h1><h1 id="通常在线激活会失败，所以在弹出的提示中选择-手动激活"><a href="#通常在线激活会失败，所以在弹出的提示中选择-手动激活" class="headerlink" title="通常在线激活会失败，所以在弹出的提示中选择 手动激活"></a>通常在线激活会失败，所以在弹出的提示中选择 手动激活</h1><h1 id="复制-请求码-到keygen，连按两次回车结束"><a href="#复制-请求码-到keygen，连按两次回车结束" class="headerlink" title="复制 请求码 到keygen，连按两次回车结束"></a>复制 请求码 到keygen，连按两次回车结束</h1><p>[*] Input request code in Base64: (Double press ENTER to end)<br>OaGPC3MNjJ/pINbajFzLRkrV2OaSXYLr2tNLDW0fIthPOJQFXr84OOroCY1XN8R2xl2j7epZ182PL6q+BRaSC6hnHev/cZwhq/4LFNcLu0T0D/QUhEEBJl4QzFr8TlFSYI1qhWGLIxkGZggA8vMLMb/sLHYn9QebBigvleP9dNCS4sO82bilFrKFUtq3ch8r7V3mbcbXJCfLhXgrHRvT2FV/s1BFuZzuWZUujxlp37U6Y2PFD8fQgsgBUwrxYbF0XxnXKbCmvtgh2yaB3w9YnQLoDiipKp7io1IxEFMYHCpjmfTGk4WU01mSbdi2OS/wm9pq2Y62xvwawsq1WQJoMg==</p>
+<p>[*] Request Info:<br>{“K”:”NAVMRTVJEO42IODD”, “DI”:”4A12F84C6A088104D23E”, “P”:”linux”}</p>
+<p>[*] Response Info:<br>{“K”:”NAVMRTVJEO42IODD”,”DI”:”4A12F84C6A088104D23E”,”N”:”DoubleLabyrinth”,”O”:”DoubleLabyrinth”,”T”:1575543648}</p>
+<h1 id="Activation-Code复制粘贴到手动激活-的窗口，然后点击-激活"><a href="#Activation-Code复制粘贴到手动激活-的窗口，然后点击-激活" class="headerlink" title="Activation Code复制粘贴到手动激活 的窗口，然后点击 激活"></a>Activation Code复制粘贴到手动激活 的窗口，然后点击 激活</h1><p>[*] Activation Code:<br>i45HIr7T1g69Cm9g3bN1DBpM/Zio8idBw3LOFGXFQjXj0nPfy9yRGuxaUBQkWXSOWa5EAv7S9Z1sljlkZP6cKdfDGYsBb/4N1W5Oj1qogzNtRo5LGwKe9Re3zPY3SO8RXACfpNaKjdjpoOQa9GjQ/igDVH8r1k+Oc7nEnRPZBm0w9aJIM9kS42lbjynVuOJMZIotZbk1NloCodNyRQw3vEEP7kq6bRZsQFp2qF/mr+hIPH8lo/WF3hh+2NivdrzmrKKhPnoqSgSsEttL9a6ueGOP7Io3j2lAFqb9hEj1uC3tPRpYcBpTZX7GAloAENSasFwMdBIdszifDrRW42wzXw==</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">清理</span><br></pre></td></tr></table></figure>
+<p>rm ~/Desktop/navicat15-premium-en.AppImage<br>rm -rf ~/Desktop/navicat15-premium-en-patched<br>mv ~/Desktop/navicat15-premium-en-patched.AppImage ~/Desktop/navicat15-premium-en.AppImage</p>
+<pre><code>用到的文件在lightsail服务器里</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/" data-id="ckgg3aijh0000q4ujcem38czq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-http状态码大全" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/15/http%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/" class="article-date">
+  <time datetime="2020-10-15T07:46:49.000Z" itemprop="datePublished">2020-10-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/15/http%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/">http状态码大全</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="大分类"><a href="#大分类" class="headerlink" title="大分类"></a>大分类</h2><p>1**      信息，服务器收到请求，需要请求者继续执行操作<br>2**      成功，操作被成功接收并处理<br>3**      重定向，需要进一步的操作以完成请求<br>4**      客户端错误，请求包含语法错误或无法完成请求<br>5**      服务器错误，服务器在处理请求的过程中发生了错误</p>
+<h2 id="细节区分"><a href="#细节区分" class="headerlink" title="细节区分"></a>细节区分</h2><h3 id="1"><a href="#1" class="headerlink" title="1**"></a>1**</h3><p>100      Continue                继续。客户端应继续其请求<br>101      Switching Protocols      切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</p>
+<h3 id="2"><a href="#2" class="headerlink" title="2**"></a>2**</h3><p>200      OK                                请求成功。一般用于GET与POST请求<br>201      Created                            已创建。成功请求并创建了新的资源<br>202      Accepted                          已接受。已经接受请求，但未处理完成<br>203      Non-Authoritative Information      非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本<br>204      No Content                        无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档<br>205      Reset Content                      重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域<br>206      Partial Content                    部分内容。服务器成功处理了部分GET请求</p>
+<h3 id="3"><a href="#3" class="headerlink" title="3**"></a>3**</h3><p>300      Multiple Choices         多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择<br>301      Moved Permanently         永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替<br>302      Found                     临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI<br>303      See Other                 查看其它地址。与301类似。使用GET和POST请求查看<br>304      Not Modified             未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源<br>305      Use Proxy                 使用代理。所请求的资源必须通过代理访问<br>306      Unused                   已经被废弃的HTTP状态码<br>307      Temporary Redirect       临时重定向。与302类似。使用GET请求重定向</p>
+<h3 id="4"><a href="#4" class="headerlink" title="4**"></a>4**</h3><p>400      Bad Request                        客户端请求的语法错误，服务器无法理解<br>401      Unauthorized                      请求要求用户的身份认证<br>402      Payment Required                  保留，将来使用<br>403      Forbidden                          服务器理解请求客户端的请求，但是拒绝执行此请求<br>404      Not Found                          服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面<br>405      Method Not Allowed                客户端请求中的方法被禁止<br>406      Not Acceptable                    服务器无法根据客户端请求的内容特性完成请求<br>407      Proxy Authentication Required      请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权<br>408      Request Time-out                  服务器等待客户端发送的请求时间过长，超时<br>409      Conflict                          服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突<br>410      Gone                              客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置<br>411      Length Required                    服务器无法处理客户端发送的不带Content-Length的请求信息<br>412      Precondition Failed                客户端请求信息的先决条件错误<br>413      Request Entity Too Large          由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息<br>414      Request-URI Too Large              请求的URI过长（URI通常为网址），服务器无法处理<br>415      Unsupported Media Type            服务器无法处理请求附带的媒体格式<br>416      Requested range not satisfiable    客户端请求的范围无效<br>417      Expectation Failed                服务器无法满足Expect的请求头信息</p>
+<h3 id="5"><a href="#5" class="headerlink" title="5**"></a>5**</h3><p>500      Internal Server Error             服务器内部错误，无法完成请求<br>501      Not Implemented                   服务器不支持请求的功能，无法完成请求<br>502      Bad Gateway                       作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应<br>503      Service Unavailable               由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中<br>504      Gateway Time-out                 充当网关或代理的服务器，未及时从远端服务器获取请求<br>505      HTTP Version not supported       服务器不支持请求的HTTP协议的版本，无法完成处理</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/15/http%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/" data-id="ckgg3aipy0008q4ujdfl8b9gk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-用户权限表简单设计" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/14/%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E8%A1%A8%E7%AE%80%E5%8D%95%E8%AE%BE%E8%AE%A1/" class="article-date">
+  <time datetime="2020-10-14T03:59:29.000Z" itemprop="datePublished">2020-10-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/14/%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E8%A1%A8%E7%AE%80%E5%8D%95%E8%AE%BE%E8%AE%A1/">用户权限表简单设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##关系<br>用户&lt;—&gt;角色&lt;—&gt;权限</p>
+<h2 id="基础表"><a href="#基础表" class="headerlink" title="基础表"></a>基础表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;user&#96; (</span><br><span class="line">  &#96;id&#96; int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;name&#96; varchar(20) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;姓名&#39;,</span><br><span class="line">  &#96;email&#96; varchar(30) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;邮箱&#39;,</span><br><span class="line">  &#96;is_admin&#96; tinyint(1) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;是否是超级管理员 1表示是 0 表示不是&#39;,</span><br><span class="line">  &#96;status&#96; tinyint(1) NOT NULL DEFAULT &#39;1&#39; COMMENT &#39;状态 1：有效 0：无效&#39;,</span><br><span class="line">  &#96;updated_time&#96; timestamp NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39; COMMENT &#39;最后一次更新时间&#39;,</span><br><span class="line">  &#96;created_time&#96; timestamp NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39; COMMENT &#39;插入时间&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  KEY &#96;idx_email&#96; (&#96;email&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB  DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;用户表&#39;;</span><br><span class="line">CREATE TABLE &#96;role&#96; (</span><br><span class="line">  &#96;id&#96; int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;name&#96; varchar(50) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;角色名称&#39;,</span><br><span class="line">  &#96;status&#96; tinyint(1) NOT NULL DEFAULT &#39;1&#39; COMMENT &#39;状态 1：有效 0：无效&#39;,</span><br><span class="line">  &#96;updated_time&#96; timestamp NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39; COMMENT &#39;最后一次更新时间&#39;,</span><br><span class="line">  &#96;created_time&#96; timestamp NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39; COMMENT &#39;插入时间&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;角色表&#39;;</span><br><span class="line">CREATE TABLE &#96;access&#96; (</span><br><span class="line">  &#96;id&#96; int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;title&#96; varchar(50) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;权限名称&#39;,</span><br><span class="line">  &#96;urls&#96; varchar(1000) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;json 数组&#39;,</span><br><span class="line">  &#96;status&#96; tinyint(1) NOT NULL DEFAULT &#39;1&#39; COMMENT &#39;状态 1：有效 0：无效&#39;,</span><br><span class="line">  &#96;updated_time&#96; timestamp NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39; COMMENT &#39;最后一次更新时间&#39;,</span><br><span class="line">  &#96;created_time&#96; timestamp NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39; COMMENT &#39;插入时间&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;权限详情表&#39;;</span><br></pre></td></tr></table></figure>
+<h2 id="关联表"><a href="#关联表" class="headerlink" title="关联表"></a>关联表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;user_role&#96; (</span><br><span class="line">  &#96;id&#96; int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;uid&#96; int(11) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;用户id&#39;,</span><br><span class="line">  &#96;role_id&#96; int(11) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;角色ID&#39;,</span><br><span class="line">  &#96;created_time&#96; timestamp NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39; COMMENT &#39;插入时间&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  KEY &#96;idx_uid&#96; (&#96;uid&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;用户角色表&#39;;</span><br><span class="line">CREATE TABLE &#96;role_access&#96; (</span><br><span class="line">  &#96;id&#96; int(11) unsigned NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;role_id&#96; int(11) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;角色id&#39;,</span><br><span class="line">  &#96;access_id&#96; int(11) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;权限id&#39;,</span><br><span class="line">  &#96;created_time&#96; timestamp NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39; COMMENT &#39;插入时间&#39;,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  KEY &#96;idx_role_id&#96; (&#96;role_id&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;角色权限表&#39;;</span><br></pre></td></tr></table></figure>
+<h2 id="用户操作记录"><a href="#用户操作记录" class="headerlink" title="用户操作记录"></a>用户操作记录</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;app_access_log&#96; (</span><br><span class="line">  &#96;id&#96; int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;uid&#96; bigint(20) NOT NULL DEFAULT &#39;0&#39; COMMENT &#39;品牌UID&#39;,</span><br><span class="line">  &#96;target_url&#96; varchar(255) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;访问的url&#39;,</span><br><span class="line">  &#96;query_params&#96; longtext NOT NULL COMMENT &#39;get和post参数&#39;,</span><br><span class="line">  &#96;ua&#96; varchar(255) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;访问ua&#39;,</span><br><span class="line">  &#96;ip&#96; varchar(32) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;访问ip&#39;,</span><br><span class="line">  &#96;note&#96; varchar(1000) NOT NULL DEFAULT &#39;&#39; COMMENT &#39;json格式备注字段&#39;,</span><br><span class="line">  &#96;created_time&#96; timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,</span><br><span class="line">  PRIMARY KEY (&#96;id&#96;),</span><br><span class="line">  KEY &#96;idx_uid&#96; (&#96;uid&#96;)</span><br><span class="line">) ENGINE&#x3D;InnoDB DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;用户操作记录表&#39;;</span><br></pre></td></tr></table></figure>
+<h2 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	c.*,</span><br><span class="line">	d.&#96;name&#96;</span><br><span class="line">FROM</span><br><span class="line">	&#96;user&#96; AS a</span><br><span class="line">INNER JOIN user_role AS b ON a.id &#x3D; b.uid</span><br><span class="line">INNER JOIN role_access c	ON b.id &#x3D; c.role_id</span><br><span class="line">INNER JOIN role d ON c.access_id &#x3D; d.id</span><br><span class="line">WHERE</span><br><span class="line">	a.&#96;name&#96; &#x3D; &#39;cm&#39;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/14/%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E8%A1%A8%E7%AE%80%E5%8D%95%E8%AE%BE%E8%AE%A1/" data-id="ckgg3aipq0005q4uj257e1pee" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/database/" rel="tag">database</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Python中C接口的开发何使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/" class="article-date">
@@ -368,167 +569,6 @@
 
 
   
-    <article id="post-sqlalchemy无法查询不为同一个对象修改的数据" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/09/sqlalchemy%E6%97%A0%E6%B3%95%E6%9F%A5%E8%AF%A2%E4%B8%8D%E4%B8%BA%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E4%BF%AE%E6%94%B9%E7%9A%84%E6%95%B0%E6%8D%AE/" class="article-date">
-  <time datetime="2020-09-09T03:09:20.000Z" itemprop="datePublished">2020-09-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/09/sqlalchemy%E6%97%A0%E6%B3%95%E6%9F%A5%E8%AF%A2%E4%B8%8D%E4%B8%BA%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E4%BF%AE%E6%94%B9%E7%9A%84%E6%95%B0%E6%8D%AE/">sqlalchemy无法查询不为同一个对象修改的数据</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>解决办法为：每次查询都建立一个新的对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">from sqlalchemy.orm import sessionmaker</span><br><span class="line">from sqlalchemy import create_engine</span><br><span class="line">from models import Student</span><br><span class="line">from threading import Thread</span><br><span class="line"></span><br><span class="line"># create_engine()用来初始化数据库连接</span><br><span class="line">engine &#x3D; create_engine(</span><br><span class="line">        &quot;mysql+pymysql:&#x2F;&#x2F;root:123456@127.0.0.1:3306&#x2F;test?charset&#x3D;utf8&quot;,</span><br><span class="line">        max_overflow&#x3D;0,  # 超过连接池大小外最多创建的连接</span><br><span class="line">        pool_size&#x3D;5,  # 连接池大小</span><br><span class="line">        pool_timeout&#x3D;30,  # 池中没有线程最多等待的时间，否则报错</span><br><span class="line">        pool_recycle&#x3D;-1  # 多久之后对线程池中的线程进行一次连接的回收（重置）</span><br><span class="line">         pool_pre_ping&#x3D;True # 可以实现对结帐时连接的悲观测试 如果出现检测到“断开”情况的错误，则该连接将立即被回收，并且所有比当前时间更早的合并池连接都将失效</span><br><span class="line">    )</span><br><span class="line"># sessionmaker()创建一个配置过的Session类</span><br><span class="line">SessionFactory &#x3D; sessionmaker(bind&#x3D;engine)</span><br><span class="line"></span><br><span class="line">def task():</span><br><span class="line">    # 去连接池中获取一个连接</span><br><span class="line">    session &#x3D; SessionFactory()</span><br><span class="line">    ret &#x3D; session.query(Student).all()</span><br><span class="line">    # 将连接交还给连接池</span><br><span class="line">    session.close()</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/09/sqlalchemy%E6%97%A0%E6%B3%95%E6%9F%A5%E8%AF%A2%E4%B8%8D%E4%B8%BA%E5%90%8C%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E4%BF%AE%E6%94%B9%E7%9A%84%E6%95%B0%E6%8D%AE/" data-id="ckev8ce3g0001s8uj2pz1enlt" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-web后端需要了解的知识" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/02/web%E5%90%8E%E7%AB%AF%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%9F%A5%E8%AF%86/" class="article-date">
-  <time datetime="2020-09-02T06:48:32.000Z" itemprop="datePublished">2020-09-02</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/02/web%E5%90%8E%E7%AB%AF%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%9F%A5%E8%AF%86/">web后端需要了解的知识</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="internet是如何工作的？"><a href="#internet是如何工作的？" class="headerlink" title="internet是如何工作的？"></a>internet是如何工作的？</h2><p>当我们的计算机发送一个‘你好’的消息给另一个计算机时，大致过程是这样：<br>1.本地计算机从上到下依次经过application(应用协议层)–TCP(传输协议层)–ip(互联网协议层)–hardware(硬件层)<br>2.然后经过internet到另一个计算机<br>3.另一个计算机再从下到上依次经过hardware(硬件层)–ip(互联网协议层)–TCP(传输协议层)–application(应用协议层)</p>
-<h2 id="什么是http？"><a href="#什么是http？" class="headerlink" title="什么是http？"></a>什么是http？</h2><p>http是超文本传输协议。https是加上了tls(前身是ssl)加密数据，保证了安全性。</p>
-<h2 id="浏览器是怎么工作的"><a href="#浏览器是怎么工作的" class="headerlink" title="浏览器是怎么工作的"></a>浏览器是怎么工作的</h2><p>略</p>
-<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>DNS是域名系统<br>DNS的作用是根据域名查询IP地址</p>
-<h2 id="Domain-域名"><a href="#Domain-域名" class="headerlink" title="Domain/域名"></a>Domain/域名</h2><p>IP地址的代称，目的是为了便于记忆</p>
-<h2 id="操作系统"><a href="#操作系统" class="headerlink" title="操作系统"></a>操作系统</h2><p>后端程序员不会linux，像话吗？<br>慢慢来，先从SSH连接工具，再到基本常用的命令。</p>
-<h2 id="后端语言"><a href="#后端语言" class="headerlink" title="后端语言"></a>后端语言</h2><p>Java， python， C#， PHP， GO， Rust, ruby…</p>
-<h2 id="git"><a href="#git" class="headerlink" title="git"></a>git</h2><p>通过git控制代码版本</p>
-<h2 id="database"><a href="#database" class="headerlink" title="database"></a>database</h2><ol>
-<li>Relational Database / 关系型数据库<br>PostgreSQL(高优先级)，MySQL，MariaDB，Oracle，MS SQL</li>
-<li>NoSQL Database / 非关系型数据库<br>MongoDB(高优先级), RethinkDB, CouchDB, DynamoDB<h2 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h2>对象关系映射，将面向对象语言程序中的对象自动持久化到关系数据库中。<h2 id="关于api的设计"><a href="#关于api的设计" class="headerlink" title="关于api的设计"></a>关于api的设计</h2><h3 id="Authentication-身份验证"><a href="#Authentication-身份验证" class="headerlink" title="Authentication / 身份验证"></a>Authentication / 身份验证</h3>OAuth, Basic Authentication, Token Authentication<br>后端接口处需要加上身份验证，不能谁来等能取请求接口，不安全。<h3 id="设计风格"><a href="#设计风格" class="headerlink" title="设计风格"></a>设计风格</h3></li>
-<li>REST<br>server的APi如何设计才能满足REST？<br>a.URL root:<br>abc.com/api/v1/*<br>api.abc.com/v1/*<br>b.URI使用名词而不是动词，且推荐用复数。<br>c.使用正确的HTTP Status Code表示访问状态</li>
-<li>json APIS  <h2 id="caching-缓存"><a href="#caching-缓存" class="headerlink" title="caching / 缓存"></a>caching / 缓存</h2></li>
-<li>CDN</li>
-<li>server side ： redis</li>
-<li>client side<h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2></li>
-<li>md5</li>
-<li>sha1, sha2, sha256 …<h2 id="search-engines-搜索引擎"><a href="#search-engines-搜索引擎" class="headerlink" title="search engines / 搜索引擎"></a>search engines / 搜索引擎</h2>Elasticsearch<h2 id="message-brokers-消息队列"><a href="#message-brokers-消息队列" class="headerlink" title="message brokers / 消息队列"></a>message brokers / 消息队列</h2>rabbitMQ， kafaka<h2 id="web-server-web服务器"><a href="#web-server-web服务器" class="headerlink" title="web server / web服务器"></a>web server / web服务器</h2>Nginx<h2 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h2>docker</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/02/web%E5%90%8E%E7%AB%AF%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E7%9A%84%E7%9F%A5%E8%AF%86/" data-id="ckel2sz8z0000jouj52no1xu5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-redis高可用配置" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/08/28/redis%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE/" class="article-date">
-  <time datetime="2020-08-28T03:21:13.000Z" itemprop="datePublished">2020-08-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/28/redis%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE/">redis高可用配置</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="redis-高可用机制的一些方法"><a href="#redis-高可用机制的一些方法" class="headerlink" title="redis 高可用机制的一些方法"></a>redis 高可用机制的一些方法</h2><p>redis主从复制、redis持久化机制、哨兵机制、keepalived等</p>
-<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><ol>
-<li>原理<br>两个角色：master(主) 和 slave(从) ，（redis 里只支持一个主，而mysql和Nginx主从复制可以多主多从）<br>主数据库可以进行读写，而从数据库一般是只读。读写分离，主写从读</li>
-<li>同步选择<br>主从服务器刚刚连接的时候，会先进行全量同步；全同步结束后，再进行增量同步。</li>
-<li>配置<br>修改从服务器的redis/conf中的redis.conf文件<br>修改IP地址和端口号为主服务器的IP和端口<br>如果主redis服务器配置了密码,则需要配置masterauth<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">slaveof 1.2.3.4 6379</span><br><span class="line">masterauth 123456</span><br></pre></td></tr></table></figure>
-<h2 id="哨兵机制"><a href="#哨兵机制" class="headerlink" title="哨兵机制"></a>哨兵机制</h2>redis的哨兵机制需要开启主从复制的支持，其作用是管理多个redis服务器。该系统会执行一下三个任务：</li>
-<li>监控</li>
-<li>提醒</li>
-<li>自动故障迁移<br>配置：<br>配置之前注意防火墙是否关闭，默认端口号：26379，<br>修改sentinel.conf<br>修改心跳检测 5000毫秒<br>指定了在执行故障转移时，最多可以有多少个从Redis实例在同步新的主实例，在从Redis实例较多的情况下这个数字越小，同步的时间越长，完成故障转移所需的时间就越长<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor mymaster  1.2.3.4  6379  1</span><br><span class="line">sentinel auth-pass mymaster 123456</span><br><span class="line">sentinel down-after-milliseconds mymaster 5000</span><br><span class="line">sentinel parallel-syncs mymaster 2</span><br></pre></td></tr></table></figure>
-启动：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;redis-server sentinel.conf --sentinel &amp;</span><br></pre></td></tr></table></figure>
-启动后如果打印+ monitor master 主节点名 ip     和    +slave slave  ip则表示启动成功<h2 id="keepalived"><a href="#keepalived" class="headerlink" title="keepalived"></a>keepalived</h2></li>
-<li>centos7 安装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install-y keepalived</span><br></pre></td></tr></table></figure></li>
-<li>配置<br>虚拟IP 172.16.81.139<br>主：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf</span><br><span class="line">! Configuration File for keepalived</span><br><span class="line"></span><br><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     acassen@firewall.loc</span><br><span class="line">     failover@firewall.loc</span><br><span class="line">     sysadmin@firewall.loc</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">   smtp_server 192.168.200.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id redis01</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script chk_redis &#123;</span><br><span class="line">    script &quot;&#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_check.sh&quot;</span><br><span class="line">    interval 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state MASTER</span><br><span class="line">    interface eno16777984</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 100</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_redis</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        172.16.81.139</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    notify_master &#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_master.sh</span><br><span class="line">    notify_backup &#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_backup.sh</span><br><span class="line">    notify_fault  &#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_fault.sh  </span><br><span class="line">    notify_stop   &#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_stop.sh</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-从：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;keepalived&#x2F;keepalived.conf</span><br><span class="line">! Configuration File for keepalived</span><br><span class="line"></span><br><span class="line">global_defs &#123;</span><br><span class="line">   notification_email &#123;</span><br><span class="line">     acassen@firewall.loc</span><br><span class="line">     failover@firewall.loc</span><br><span class="line">     sysadmin@firewall.loc</span><br><span class="line">   &#125;</span><br><span class="line">   notification_email_from Alexandre.Cassen@firewall.loc</span><br><span class="line">   smtp_server 192.168.200.1</span><br><span class="line">   smtp_connect_timeout 30</span><br><span class="line">   router_id redis02</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_script chk_redis &#123;</span><br><span class="line">    script &quot;&#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_check.sh&quot;</span><br><span class="line">    interval 2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">    state BACKUP</span><br><span class="line">    interface eno16777984</span><br><span class="line">    virtual_router_id 51</span><br><span class="line">    priority 99</span><br><span class="line">    advert_int 1</span><br><span class="line">    authentication &#123;</span><br><span class="line">        auth_type PASS</span><br><span class="line">        auth_pass 1111</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    track_script &#123;</span><br><span class="line">        chk_redis</span><br><span class="line">    &#125;</span><br><span class="line">    virtual_ipaddress &#123;</span><br><span class="line">        172.16.81.139</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    notify_master &#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_master.sh</span><br><span class="line">    notify_backup &#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_backup.sh</span><br><span class="line">    notify_fault  &#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_fault.sh  </span><br><span class="line">    notify_stop  &#x2F;etc&#x2F;keepalived&#x2F;script&#x2F;redis_stop.sh</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>脚本<br>主：ip 1.2.3.4 从： ip 1.2.3.5<br>创建存放脚本目录：mkdir -p /etc/keepalived/script/<br>cd /etc/keepalived/script/<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_check.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">ALIVE&#x3D;&#96;&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -a 123456 PING&#96;</span><br><span class="line"></span><br><span class="line">if [ &quot;$ALIVE&quot; &#x3D;&#x3D; &quot;PONG&quot; ];then</span><br><span class="line"></span><br><span class="line">echo $ALIVE</span><br><span class="line"></span><br><span class="line">exit 0</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">echo $ALIVE</span><br><span class="line"></span><br><span class="line">exit 1</span><br><span class="line"></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_master.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">REDISCLI&#x3D;&quot;&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -a 123456&quot;</span><br><span class="line">LOGFILE&#x3D;&quot;&#x2F;var&#x2F;log&#x2F;keepalived-redis-state.log&quot;</span><br><span class="line"></span><br><span class="line">sleep 15</span><br><span class="line"></span><br><span class="line">echo &quot;[master]&quot; &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">date &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">echo &quot;Being master....&quot; &gt;&gt;$LOGFILE 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;Run SLAVEOF cmd ...&quot;&gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">$REDISCLI SLAVEOF 1.2.3.5 6379 &gt;&gt;$LOGFILE  2&gt;&amp;1</span><br><span class="line">if [ $? -ne 0 ];then</span><br><span class="line">    echo &quot;data rsync fail.&quot; &gt;&gt;$LOGFILE 2&gt;&amp;1</span><br><span class="line">else</span><br><span class="line">    echo &quot;data rsync OK.&quot; &gt;&gt; $LOGFILE  2&gt;&amp;1</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">sleep 10 #延迟10秒以后待数据同步完成后再取消同步状态</span><br><span class="line"></span><br><span class="line">echo &quot;Run SLAVEOF NO ONE cmd ...&quot;&gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">$REDISCLI SLAVEOF NO ONE &gt;&gt; $LOGFILE 2&gt;&amp;1</span><br><span class="line">if [ $? -ne 0 ];then</span><br><span class="line">    echo &quot;Run SLAVEOF NO ONE cmd fail.&quot; &gt;&gt;$LOGFILE 2&gt;&amp;1</span><br><span class="line">else</span><br><span class="line">    echo &quot;Run SLAVEOF NO ONE cmd OK.&quot; &gt;&gt; $LOGFILE  2&gt;&amp;1</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_backup.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">REDISCLI&#x3D;&quot;&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -a 123456&quot;</span><br><span class="line"></span><br><span class="line">LOGFILE&#x3D;&quot;&#x2F;var&#x2F;log&#x2F;keepalived-redis-state.log&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;[backup]&quot; &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">date &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">echo &quot;Being slave....&quot; &gt;&gt;$LOGFILE 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sleep 15 #延迟15秒待数据被对方同步完成之后再切换主从角色</span><br><span class="line"></span><br><span class="line">echo &quot;Run SLAVEOF cmd ...&quot;&gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">$REDISCLI SLAVEOF 1.2.3.5 6379 &gt;&gt;$LOGFILE  2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_fault.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">LOGFILE&#x3D;&#x2F;var&#x2F;log&#x2F;keepalived-redis-state.log</span><br><span class="line"></span><br><span class="line">echo &quot;[fault]&quot; &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">date &gt;&gt; $LOGFILE</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_stop.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">LOGFILE&#x3D;&#x2F;var&#x2F;log&#x2F;keepalived-redis-state.log</span><br><span class="line"></span><br><span class="line">echo &quot;[stop]&quot; &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">date &gt;&gt; $LOGFILE</span><br></pre></td></tr></table></figure>
-从：<br>创建存放脚本目录：mkdir -p /etc/keepalived/script/<br>cd /etc/keepalived/script/<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_check.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">ALIVE&#x3D;&#96;&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -a 123456 PING&#96;</span><br><span class="line"></span><br><span class="line">if [ &quot;$ALIVE&quot; &#x3D;&#x3D; &quot;PONG&quot; ]; then</span><br><span class="line"></span><br><span class="line">echo $ALIVE</span><br><span class="line"></span><br><span class="line">exit 0</span><br><span class="line"></span><br><span class="line">else</span><br><span class="line"></span><br><span class="line">echo $ALIVE</span><br><span class="line"></span><br><span class="line">exit 1</span><br><span class="line"></span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_master.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">REDISCLI&#x3D;&quot;&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -a 123456&quot;</span><br><span class="line"></span><br><span class="line">LOGFILE&#x3D;&quot;&#x2F;var&#x2F;log&#x2F;keepalived-redis-state.log&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;[master]&quot; &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">date &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">echo &quot;Being master....&quot; &gt;&gt;$LOGFILE 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;Run SLAVEOF cmd ...&quot;&gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">$REDISCLI SLAVEOF 1.2.3.4 6379 &gt;&gt;$LOGFILE  2&gt;&amp;1</span><br><span class="line"></span><br><span class="line">sleep 10 #延迟10秒以后待数据同步完成后再取消同步状态</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;Run SLAVEOF NO ONE cmd ...&quot;&gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">$REDISCLI SLAVEOF NO ONE &gt;&gt; $LOGFILE 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_backup.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">REDISCLI&#x3D;&quot;&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-cli -a 123456&quot;</span><br><span class="line"></span><br><span class="line">LOGFILE&#x3D;&quot;&#x2F;var&#x2F;log&#x2F;keepalived-redis-state.log&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">echo &quot;[backup]&quot; &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">date &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">echo &quot;Being slave....&quot; &gt;&gt;$LOGFILE 2&gt;&amp;1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sleep 15 #延迟15秒待数据被对方同步完成之后再切换主从角色</span><br><span class="line"></span><br><span class="line">echo &quot;Run SLAVEOF cmd ...&quot;&gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">$REDISCLI SLAVEOF 1.2.3.4 6379 &gt;&gt;$LOGFILE  2&gt;&amp;1</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_fault.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">LOGFILE&#x3D;&#x2F;var&#x2F;log&#x2F;keepalived-redis-state.log</span><br><span class="line"></span><br><span class="line">echo &quot;[fault]&quot; &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">date &gt;&gt; $LOGFILE</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost script]# cat redis_stop.sh</span><br><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">LOGFILE&#x3D;&#x2F;var&#x2F;log&#x2F;keepalived-redis-state.log</span><br><span class="line"></span><br><span class="line">echo &quot;[stop]&quot; &gt;&gt; $LOGFILE</span><br><span class="line"></span><br><span class="line">date &gt;&gt; $LOGFILE</span><br></pre></td></tr></table></figure></li>
-<li>启动<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">systemctl start keepalived</span><br><span class="line"></span><br><span class="line">systemctl enable keepalived</span><br></pre></td></tr></table></figure></li>
-<li>测试<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep keepalived</span><br><span class="line">ping 172.16.81.139</span><br><span class="line">查看VIP地址</span><br><span class="line">redis-cli -h 172.16.81.139 -p 6379 -a 123456</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/28/redis%E9%AB%98%E5%8F%AF%E7%94%A8%E9%85%8D%E7%BD%AE/" data-id="ckee117jj00049sujasm47ad1" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -554,7 +594,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
     </div>
   </div>
 
@@ -564,7 +604,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12.5px;">celery</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 17.5px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 17.5px;">mysql</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12.5px;">celery</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 17.5px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 17.5px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -573,7 +613,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -586,23 +626,23 @@
       <ul>
         
           <li>
+            <a href="/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/">linux下安装navicat破解</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/15/http%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/">http状态码大全</a>
+          </li>
+        
+          <li>
+            <a href="/2020/10/14/%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E8%A1%A8%E7%AE%80%E5%8D%95%E8%AE%BE%E8%AE%A1/">用户权限表简单设计</a>
+          </li>
+        
+          <li>
             <a href="/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/">Python中C接口的开发何使用</a>
           </li>
         
           <li>
             <a href="/2020/09/24/flaskrestfulResponseFormats/">flaskrestfulResponseFormats</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/">跨库查询</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/21/python%E9%A2%98/">python题</a>
-          </li>
-        
-          <li>
-            <a href="/2020/09/11/tcp%E5%92%8Cudp/">tcp和udp</a>
           </li>
         
       </ul>
