@@ -7,15 +7,15 @@
   
   <title>tcp和udp | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="建立连接：1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧序列号作为">
+  <meta name="description" content="握手和挥手建立连接：1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧">
 <meta property="og:type" content="article">
 <meta property="og:title" content="tcp和udp">
 <meta property="og:url" content="http://yoursite.com/2020/09/11/tcp%E5%92%8Cudp/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="建立连接：1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧序列号作为">
+<meta property="og:description" content="握手和挥手建立连接：1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-09-11T04:00:21.000Z">
-<meta property="article:modified_time" content="2020-09-11T04:01:49.448Z">
+<meta property="article:modified_time" content="2020-10-28T03:20:00.104Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -88,10 +88,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>建立连接：<br>1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。<br>2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧序列号作为起始数据段来回应我。<br>3、 主机A收到这个数据段后,再发送一个确认应答,确认已收到主机B 的数据段:”我已收到回复,我现在要开始传输实际数据了。</p>
+        <h2 id="握手和挥手"><a href="#握手和挥手" class="headerlink" title="握手和挥手"></a>握手和挥手</h2><p>建立连接：<br>1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。<br>2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧序列号作为起始数据段来回应我。<br>3、 主机A收到这个数据段后,再发送一个确认应答,确认已收到主机B 的数据段:”我已收到回复,我现在要开始传输实际数据了。</p>
 <p>这样3次握手就完成了,主机A和主机B 就可以传输数据了.<br>3次握手的特点：<br>没有应用层的数据，SYN这个标志位只有在TCP建产连接时才会被置1，握手完成后SYN标志位被置0，ACK和确认序号是非常重要的。</p>
 <p>断开连接：</p>
 <p>1、当主机A完成数据传输后,将控制位FIN置1,提出停止TCP连接的请求。<br>2、主机B收到FIN后对其作出响应,确认这一方向上的TCP连接将关闭,将ACK置1。<br>3、由B 端再提出反方向的关闭请求,将FIN置1。<br>4、主机A对主机B的请求进行确认,将ACK置1,双方向的关闭结束。</p>
+<h2 id="关于分包和粘包"><a href="#关于分包和粘包" class="headerlink" title="关于分包和粘包"></a>关于分包和粘包</h2><p>粘包：发送方发送两个字符串”hello”+”world”,接收方却一次性接收到了”helloworld”.<br>分包：发送方发送字符串”helloworld”,接收方却接收到了两个字符串”hello”和”world”.</p>
+<h2 id="TCP为什么会分包"><a href="#TCP为什么会分包" class="headerlink" title="TCP为什么会分包"></a>TCP为什么会分包</h2><p>TCP是以段（Segment）为单位发送数据的,建立TCP链接后,有一个最大消息长度（MSS）.如果应用层数据包超过MSS,就会把应用层数据包拆分,分成两个段来发送.这个时候接收端的应用层就要拼接这两个TCP包,才能正确处理数据.<br>TCP为什么会粘包<br>有时候,TCP为了提高网络的利用率,会使用一个叫做Nagle的算法.该算法是指,发送端即使有要发送的数据,如果很少的话,会延迟发送.如果应用层给TCP传送数据很快的话,就会把两个应用层数据包“粘”在一起,TCP最后只发一个TCP数据包给接收端.</p>
+<h2 id="如何处理"><a href="#如何处理" class="headerlink" title="如何处理"></a>如何处理</h2><p>在进行TCP Socket开发时,都需要处理数据包粘包和分包的情况.使用的语言是Python.实际上解决该问题很简单,在应用层下,定义一个协议：消息头部+消息长度+消息正文即可.</p>
 
       
     </div>
@@ -143,7 +146,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
     </div>
   </div>
 
@@ -153,7 +156,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12.5px;">celery</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/flask/" style="font-size: 17.5px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 17.5px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12.5px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/flask/" style="font-size: 18px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 12px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 14px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -162,7 +165,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -175,23 +178,23 @@
       <ul>
         
           <li>
-            <a href="/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/">linux下安装navicat破解</a>
+            <a href="/2020/11/12/python-init-%E5%92%8C-new/">python__init__和__new__</a>
           </li>
         
           <li>
-            <a href="/2020/10/15/http%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/">http状态码大全</a>
+            <a href="/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/">centos7开启ssh及连接</a>
           </li>
         
           <li>
-            <a href="/2020/10/14/%E7%94%A8%E6%88%B7%E6%9D%83%E9%99%90%E8%A1%A8%E7%AE%80%E5%8D%95%E8%AE%BE%E8%AE%A1/">用户权限表简单设计</a>
+            <a href="/2020/11/11/python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%EF%BC%8C%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%8C%E7%94%9F%E6%88%90%E5%99%A8/">python可迭代对象，迭代器，生成器</a>
           </li>
         
           <li>
-            <a href="/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/">Python中C接口的开发何使用</a>
+            <a href="/2020/11/11/python%E9%97%AD%E5%8C%85/">python闭包</a>
           </li>
         
           <li>
-            <a href="/2020/09/24/flaskrestfulResponseFormats/">flaskrestfulResponseFormats</a>
+            <a href="/2020/11/09/redis%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AC%E8%BD%BD/">redis性能优化转载</a>
           </li>
         
       </ul>

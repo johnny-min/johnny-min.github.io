@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>centos7开启ssh及连接 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安装OpenSSH服务1yum install openssh-server -y 配置OpenSSH服务(默认的配置已可以正常工作) OpenSSH的主配置文件：&#x2F;etc&#x2F;ssh&#x2F;sshd_config 常见的配置选项： 123456789101112131415 Port&#x3D;22  设置SSH的端口号是22(默认端口号为22)Protocol 2  启用SSH版本2协议ListenAd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos7开启ssh及连接">
+<meta property="og:url" content="http://yoursite.com/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="安装OpenSSH服务1yum install openssh-server -y 配置OpenSSH服务(默认的配置已可以正常工作) OpenSSH的主配置文件：&#x2F;etc&#x2F;ssh&#x2F;sshd_config 常见的配置选项： 123456789101112131415 Port&#x3D;22  设置SSH的端口号是22(默认端口号为22)Protocol 2  启用SSH版本2协议ListenAd">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-11-12T07:04:57.000Z">
+<meta property="article:modified_time" content="2020-11-12T07:12:49.343Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="centos">
+<meta property="article:tag" content="ssh">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-centos7开启ssh及连接" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/" class="article-date">
+  <time datetime="2020-11-12T07:04:57.000Z" itemprop="datePublished">2020-11-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      centos7开启ssh及连接
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装OpenSSH服务"><a href="#安装OpenSSH服务" class="headerlink" title="安装OpenSSH服务"></a>安装OpenSSH服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install openssh-server -y</span><br></pre></td></tr></table></figure>
+<h2 id="配置OpenSSH服务-默认的配置已可以正常工作"><a href="#配置OpenSSH服务-默认的配置已可以正常工作" class="headerlink" title="配置OpenSSH服务(默认的配置已可以正常工作)"></a>配置OpenSSH服务(默认的配置已可以正常工作)</h2><p> OpenSSH的主配置文件：/etc/ssh/sshd_config<br> 常见的配置选项：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> Port&#x3D;22  设置SSH的端口号是22(默认端口号为22)</span><br><span class="line"></span><br><span class="line">Protocol 2  启用SSH版本2协议</span><br><span class="line"></span><br><span class="line">ListenAddress 192.168.0.222  设置服务监听的地址</span><br><span class="line"></span><br><span class="line">DenyUsers   user1 user2 foo  拒绝访问的用户(用空格隔开)</span><br><span class="line"></span><br><span class="line">AllowUsers  root osmond vivek  允许访问的用户(用空格隔开)</span><br><span class="line"></span><br><span class="line">PermitRootLogin  no  禁止root用户登陆</span><br><span class="line"></span><br><span class="line">PermitEmptyPasswords no  用户登陆需要密码认证</span><br><span class="line"></span><br><span class="line">PasswordAuthentication  yes  启用口令认证方式</span><br></pre></td></tr></table></figure></p>
+<h2 id="重启OpenSSH服务"><a href="#重启OpenSSH服务" class="headerlink" title="重启OpenSSH服务"></a>重启OpenSSH服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure>
+<h2 id="通过ssh远程连接服务器"><a href="#通过ssh远程连接服务器" class="headerlink" title="通过ssh远程连接服务器"></a>通过ssh远程连接服务器</h2><p>安装ssh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install openssh-clients</span><br></pre></td></tr></table></figure>
+<p>连接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@1.1.1.1</span><br></pre></td></tr></table></figure>
+<p>文件下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;</span><br><span class="line">scp root@1.1.1.1:&#x2F;root&#x2F;a.txt &#x2F;home&#x2F;a.txt</span><br></pre></td></tr></table></figure>
+<p>上传</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文件名&gt;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/" data-id="ckhmvh4lu000g1guj5sk33k00" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/11/12/python-init-%E5%92%8C-new/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          python__init__和__new__
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/11/11/python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%EF%BC%8C%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%8C%E7%94%9F%E6%88%90%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">python可迭代对象，迭代器，生成器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%90%AD%E5%BB%BA/">搭建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/flask/" style="font-size: 18px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 12px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 14px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/12/python-init-%E5%92%8C-new/">python__init__和__new__</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/">centos7开启ssh及连接</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/11/python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%EF%BC%8C%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%8C%E7%94%9F%E6%88%90%E5%99%A8/">python可迭代对象，迭代器，生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/11/python%E9%97%AD%E5%8C%85/">python闭包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/09/redis%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AC%E8%BD%BD/">redis性能优化转载</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

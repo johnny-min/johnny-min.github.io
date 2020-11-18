@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>nginx负载配置 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="虚拟域名成本原因，使用虚拟域名来测试查看本机ip 1ipconfig -a 添加虚拟域名 123sudo vim &#x2F;etc&#x2F;hosts# 如198.2.1.1 www.cmpython.com 创建域名转发配置文件 12345sudo sucd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;confmkdir vhostcd vhosttouch w">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx负载配置">
+<meta property="og:url" content="http://yoursite.com/2020/10/23/nginx%E8%B4%9F%E8%BD%BD%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="虚拟域名成本原因，使用虚拟域名来测试查看本机ip 1ipconfig -a 添加虚拟域名 123sudo vim &#x2F;etc&#x2F;hosts# 如198.2.1.1 www.cmpython.com 创建域名转发配置文件 12345sudo sucd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;confmkdir vhostcd vhosttouch w">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-23T07:00:04.000Z">
+<meta property="article:modified_time" content="2020-10-23T07:15:07.560Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="nginx">
+<meta property="article:tag" content="golang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-nginx负载配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/23/nginx%E8%B4%9F%E8%BD%BD%E9%85%8D%E7%BD%AE/" class="article-date">
+  <time datetime="2020-10-23T07:00:04.000Z" itemprop="datePublished">2020-10-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nginx负载配置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="虚拟域名"><a href="#虚拟域名" class="headerlink" title="虚拟域名"></a>虚拟域名</h2><p>成本原因，使用虚拟域名来测试<br>查看本机ip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ipconfig -a</span><br></pre></td></tr></table></figure>
+<p>添加虚拟域名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;hosts</span><br><span class="line"># 如</span><br><span class="line">198.2.1.1 www.cmpython.com</span><br></pre></td></tr></table></figure>
+<p>创建域名转发配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo su</span><br><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf</span><br><span class="line">mkdir vhost</span><br><span class="line">cd vhost</span><br><span class="line">touch www.cmpython.com.conf</span><br></pre></td></tr></table></figure>
+<p>编辑 nginx.conf 配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;nginx.conf</span><br><span class="line"># 在http节点下作添加</span><br><span class="line">upstream web &#123;</span><br><span class="line">       server 127.0.0.1:3001 weight&#x3D;1;</span><br><span class="line">       server 127.0.0.1:3002 weight&#x3D;2;</span><br><span class="line">       server 127.0.0.1:3003 weight&#x3D;3;</span><br><span class="line">       server 127.0.0.1:3004 weight&#x3D;4;</span><br><span class="line">    &#125;</span><br><span class="line">include vhost&#x2F;*conf</span><br></pre></td></tr></table></figure>
+<p>编辑域名转发配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;conf&#x2F;vhost&#x2F;www.cmpython.com.conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    autoindex on;</span><br><span class="line">    # 这是你想要设置域名</span><br><span class="line">    server_name www.cmpython.com;</span><br><span class="line">    access_log &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;logs&#x2F;access.log combined;</span><br><span class="line">    index index.html index.htm index.jsp index.php;</span><br><span class="line">    #error_page 404 &#x2F;404.html;</span><br><span class="line">    if ( $query_string ~* &quot;.*[\;&#39;\&lt;\&gt;].*&quot; )&#123;</span><br><span class="line">        return 404;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">		# upstream 节点的name</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;web;</span><br><span class="line">        add_header Access-Control-Aloow-Origin *;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="golang-测试代码"><a href="#golang-测试代码" class="headerlink" title="golang 测试代码"></a>golang 测试代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import (</span><br><span class="line">	&quot;encoding&#x2F;json&quot;</span><br><span class="line">	&quot;fmt&quot;</span><br><span class="line">	&quot;net&#x2F;http&quot;</span><br><span class="line">	&quot;os&quot;</span><br><span class="line">	&quot;strings&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">type JsonResult  struct&#123;</span><br><span class="line">	Code int &#96;json:&quot;code&quot;&#96;</span><br><span class="line">	Msg  string &#96;json:&quot;msg&quot;&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">	ports :&#x3D; []string&#123;&quot;:3001&quot;, &quot;:3002&quot;, &quot;:3003&quot;, &quot;:3004&quot;&#125;</span><br><span class="line">	for _, v :&#x3D; range ports&#123;</span><br><span class="line">		fmt.Printf(v)</span><br><span class="line">		go func(port string) &#123;</span><br><span class="line">			fmt.Printf(port)</span><br><span class="line">			mux :&#x3D; http.NewServeMux()</span><br><span class="line">			mux.HandleFunc(&quot;&#x2F;&quot;, index)</span><br><span class="line">			mux.HandleFunc(&quot;&#x2F;buy&#x2F;ticket&quot;, handleReq)</span><br><span class="line">			go http.ListenAndServe(port, mux)</span><br><span class="line">		&#125;(v)</span><br><span class="line">	&#125;</span><br><span class="line">	select &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func index(writer http.ResponseWriter, request *http.Request) &#123;</span><br><span class="line">	writer.Header().Set(&quot;content-type&quot;,&quot;text&#x2F;json&quot;)</span><br><span class="line">	msg, _ :&#x3D; json.Marshal(JsonResult&#123;Code: 200, Msg: &quot;验证成功&quot;&#125;)</span><br><span class="line">	writer.Write(msg)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func handleReq(writer http.ResponseWriter, request *http.Request) &#123;</span><br><span class="line">	failedMsg :&#x3D; &quot;handle in port&quot;</span><br><span class="line">	&#x2F;&#x2F; 日志记录</span><br><span class="line">	writeLog(failedMsg, &quot;.&#x2F;stat.log&quot;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func writeLog(msg string, logPath string) &#123;</span><br><span class="line">	fd, _ :&#x3D; os.OpenFile(logPath, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0644)</span><br><span class="line">	defer fd.Close()</span><br><span class="line">	content :&#x3D; strings.Join([]string&#123;msg, &quot;\r\n&quot;&#125;, &quot;3001&quot;)</span><br><span class="line">	buf :&#x3D; []byte(content)</span><br><span class="line">	fd.Write(buf)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ab -n 1000 -c 100 http:&#x2F;&#x2F;www.cmpython.com&#x2F;buy&#x2F;ticket</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/23/nginx%E8%B4%9F%E8%BD%BD%E9%85%8D%E7%BD%AE/" data-id="ckhmvh4lr000e1guj0vwh0tjj" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2020/10/30/flask%E5%AF%B9%E6%8E%A5%E9%98%BF%E9%87%8C%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          flask对接阿里短信服务
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">linux下安装navicat破解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%90%AD%E5%BB%BA/">搭建</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/celery/" style="font-size: 12px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/flask/" style="font-size: 18px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 12px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 14px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/11/12/python-init-%E5%92%8C-new/">python__init__和__new__</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/">centos7开启ssh及连接</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/11/python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%EF%BC%8C%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%8C%E7%94%9F%E6%88%90%E5%99%A8/">python可迭代对象，迭代器，生成器</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/11/python%E9%97%AD%E5%8C%85/">python闭包</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/09/redis%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AC%E8%BD%BD/">redis性能优化转载</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
