@@ -5,17 +5,13 @@
   
 
   
-  <title>flaskrestfulResponseFormats | Hexo</title>
+  <title>Tag: cProfile | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="flask restful 响应格式12345678910111213class DataToXML(Resource):    &quot;&quot;&quot;    Response Formats test    &quot;&quot;&quot;    # @.representation(&#39;application&#x2F;xml&#39;)    def get(self">
-<meta property="og:type" content="article">
-<meta property="og:title" content="flaskrestfulResponseFormats">
-<meta property="og:url" content="http://yoursite.com/2020/09/24/flaskrestfulResponseFormats/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/tags/cProfile/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="flask restful 响应格式12345678910111213class DataToXML(Resource):    &quot;&quot;&quot;    Response Formats test    &quot;&quot;&quot;    # @.representation(&#39;application&#x2F;xml&#39;)    def get(self">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-09-24T03:26:45.000Z">
-<meta property="article:modified_time" content="2020-09-24T03:27:21.234Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -66,61 +62,40 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-flaskrestfulResponseFormats" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/24/flaskrestfulResponseFormats/" class="article-date">
-  <time datetime="2020-09-24T03:26:45.000Z" itemprop="datePublished">2020-09-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      flaskrestfulResponseFormats
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2020" class="archive-year">2020</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" class="archive-article-date">
+  <time datetime="2020-11-19T07:57:47.000Z" itemprop="datePublished">Nov 19</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">python性能调优</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="flask-restful-响应格式"><a href="#flask-restful-响应格式" class="headerlink" title="flask restful 响应格式"></a>flask restful 响应格式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class DataToXML(Resource):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Response Formats test</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    # @.representation(&#39;application&#x2F;xml&#39;)</span><br><span class="line">    def get(self):</span><br><span class="line">        import xmltodict</span><br><span class="line">        something &#x3D; &#123;&#39;a&#39;: 1, &#39;b&#39;: 2&#125;</span><br><span class="line">        # dict to xml</span><br><span class="line">        something &#x3D; xmltodict.unparse(&#123;&#39;info&#39;: something&#125;)</span><br><span class="line">        response &#x3D; make_response(something)</span><br><span class="line">        response.headers[&#39;content-type&#39;] &#x3D; &#39;application&#x2F;xml&#39;</span><br><span class="line">        return response</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/24/flaskrestfulResponseFormats/" data-id="ckfgoso6g00009wujatarh4i8" class="article-share-link">Share</a>
-      
-      
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Python中C接口的开发何使用
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">跨库查询</div>
-    </a>
-  
-</nav>
-
-  
 </article>
+  
+  
+    </div></section>
+  
+
 
 </section>
         
