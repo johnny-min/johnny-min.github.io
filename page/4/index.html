@@ -64,6 +64,216 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-docker安装和使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/26/docker%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-08-26T06:08:02.000Z" itemprop="datePublished">2020-08-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/26/docker%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/">docker安装和使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="安装-docker"><a href="#安装-docker" class="headerlink" title="安装 docker"></a>安装 docker</h2><p>ubuntu:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 卸载旧版本</span><br><span class="line">sudo apt-get remove docker \</span><br><span class="line">               docker-engine \</span><br><span class="line">               docker.io</span><br><span class="line"># 更新 apt 软件包缓存，并安装 docker-ce</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+<p>centos</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># 卸载旧版本</span><br><span class="line">sudo yum remove docker \</span><br><span class="line">                  docker-client \</span><br><span class="line">                  docker-client-latest \</span><br><span class="line">                  docker-common \</span><br><span class="line">                  docker-latest \</span><br><span class="line">                  docker-latest-logrotate \</span><br><span class="line">                  docker-logrotate \</span><br><span class="line">                  docker-selinux \</span><br><span class="line">                  docker-engine-selinux \</span><br><span class="line">                  docker-engine</span><br><span class="line"># 安装依赖</span><br><span class="line">sudo yum install -y yum-utils</span><br><span class="line"># 添加 yum 软件源</span><br><span class="line"></span><br><span class="line">sudo yum-config-manager \</span><br><span class="line">  --add-repo \</span><br><span class="line">  https:&#x2F;&#x2F;mirrors.ustc.edu.cn&#x2F;docker-ce&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br><span class="line"></span><br><span class="line">sudo sed -i &#39;s&#x2F;download.docker.com&#x2F;mirrors.ustc.edu.cn\&#x2F;docker-ce&#x2F;g&#39; &#x2F;etc&#x2F;yum.repos.d&#x2F;docker-ce.repo</span><br><span class="line"></span><br><span class="line"># 官方源</span><br><span class="line">#  sudo yum-config-manager \</span><br><span class="line">#    --add-repo \</span><br><span class="line">#    https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;centos&#x2F;docker-ce.repo</span><br><span class="line"></span><br><span class="line"># 安装 Docker</span><br><span class="line">sudo yum install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+<h2 id="启动-docker"><a href="#启动-docker" class="headerlink" title="启动 docker"></a>启动 docker</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable docker</span><br><span class="line"># 启动</span><br><span class="line">sudo systemctl start docker</span><br><span class="line"># 状态</span><br><span class="line">service docker status</span><br><span class="line"># 结束</span><br><span class="line">sudo systemctl stop docker</span><br><span class="line"># 版本</span><br><span class="line">docker -v</span><br></pre></td></tr></table></figure>
+<h2 id="建立-docker-用户组"><a href="#建立-docker-用户组" class="headerlink" title="建立 docker 用户组"></a>建立 docker 用户组</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker</span><br><span class="line">sudo usermod -aG docker $USER</span><br></pre></td></tr></table></figure>
+<h2 id="镜像操作"><a href="#镜像操作" class="headerlink" title="镜像操作"></a>镜像操作</h2><p>获取镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull [选项] [Docker Registry 地址[:端口号]&#x2F;]仓库名[:标签]</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it ubuntu:18.04 bash</span><br></pre></td></tr></table></figure>
+<p>列出已下载镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker image ls</span><br></pre></td></tr></table></figure>
+<p>删除镜像</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image rm ubuntu</span><br></pre></td></tr></table></figure>
+<p>例子<br>定制 web server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run --name webserver -d -p 1234:80 nginx</span><br></pre></td></tr></table></figure>
+<p>停止</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker stop webserver</span><br></pre></td></tr></table></figure>
+<p>删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker rm webserver</span><br></pre></td></tr></table></figure>
+<p>定制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cheng@cheng-PC:~&#x2F;Desktop$ sudo docker exec -it webserver bash</span><br><span class="line">root@d664a813b0f3:&#x2F;# echo &#39;&lt;h1&gt;Hello, Docker!&lt;&#x2F;h1&gt;&#39; &gt; &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;index.html</span><br><span class="line">root@d664a813b0f3:&#x2F;# exit</span><br></pre></td></tr></table></figure>
+<p>查看改动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">cheng@cheng-PC:~&#x2F;Desktop$ sudo docker diff webserver</span><br><span class="line">C &#x2F;etc</span><br><span class="line">C &#x2F;etc&#x2F;nginx</span><br><span class="line">C &#x2F;etc&#x2F;nginx&#x2F;conf.d</span><br><span class="line">C &#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;default.conf</span><br><span class="line">C &#x2F;var</span><br><span class="line">C &#x2F;var&#x2F;cache</span><br><span class="line">C &#x2F;var&#x2F;cache&#x2F;nginx</span><br><span class="line">A &#x2F;var&#x2F;cache&#x2F;nginx&#x2F;scgi_temp</span><br><span class="line">A &#x2F;var&#x2F;cache&#x2F;nginx&#x2F;uwsgi_temp</span><br><span class="line">A &#x2F;var&#x2F;cache&#x2F;nginx&#x2F;client_temp</span><br><span class="line">A &#x2F;var&#x2F;cache&#x2F;nginx&#x2F;fastcgi_temp</span><br><span class="line">A &#x2F;var&#x2F;cache&#x2F;nginx&#x2F;proxy_temp</span><br><span class="line">C &#x2F;run</span><br><span class="line">A &#x2F;run&#x2F;nginx.pid</span><br><span class="line">C &#x2F;root</span><br><span class="line">A &#x2F;root&#x2F;.bash_history</span><br><span class="line">C &#x2F;usr</span><br><span class="line">C &#x2F;usr&#x2F;share</span><br><span class="line">C &#x2F;usr&#x2F;share&#x2F;nginx</span><br><span class="line">C &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html</span><br><span class="line">C &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;index.html</span><br></pre></td></tr></table></figure>
+<p>提交修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo docker commit --author &quot;cm&quot; --message &quot;修改了默认界面&quot; webserver nginx:v2</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker image ls nginx</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE</span><br><span class="line">nginx               v2                  c18429eb9ac1        About a minute ago   133MB</span><br><span class="line">nginx               latest              f35646e83998        8 days ago           133MB</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker run --name web2 -d -p 1235:80 nginx:v2</span><br><span class="line">098a45f04be8f7da8241093963c63739b1be7e0dba3c390b20ddd0d935e5c5c6</span><br></pre></td></tr></table></figure>
+<h2 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h2><p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上， -i 则让容器的标准输入保持打开</span><br><span class="line">docker run -t -i centos:7 &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+<p>启动已终止容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker container start [OPTIONS] CONTAINER [CONTAINER...]</span><br><span class="line">docker container restart # 重启</span><br></pre></td></tr></table></figure>
+<p>守护态运行(-d)<br>容器会在后台运行并不会把输出的结果 (STDOUT) 打印到宿主机上面(输出结果可以用 docker logs 查看)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d ubuntu:18.04 &#x2F;bin&#x2F;sh -c &quot;while true; do echo hello world; sleep 1; done&quot;</span><br></pre></td></tr></table></figure>
+<p>docker container ls 查看容器信息<br>docker container logs 获取容器的输出信息<br>终止<br>docker container stop</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker container stop d446</span><br><span class="line">d446</span><br></pre></td></tr></table></figure>
+<p>终止状态的容器可以用 docker container ls -a 命令看到<br>进入容器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 使用-d,-i,-t启动容器</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker run -dit centos:7</span><br><span class="line">d446e2353e022dd67bc0e7443f978c35fdcb40613ac2a7c2062fe6fb7b1f8383</span><br><span class="line"># 查看容器信息</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker container ls</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">d446e2353e02        centos:7            &quot;&#x2F;bin&#x2F;bash&quot;         14 seconds ago      Up 13 seconds                           brave_wilson</span><br><span class="line"># 进入容器熟悉的命令行模式</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker exec -it d446 bash</span><br><span class="line">[root@d446e2353e02 &#x2F;]# ^C</span><br><span class="line"># 使用docker exec命令进入容器后使用exit不会停止容器</span><br><span class="line">[root@d446e2353e02 &#x2F;]# exit</span><br><span class="line">exit</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker container ls</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">d446e2353e02        centos:7            &quot;&#x2F;bin&#x2F;bash&quot;         6 minutes ago       Up 6 minutes                            brave_wilson</span><br></pre></td></tr></table></figure>
+<p>导出容器<br>docker export</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker container ls -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                       PORTS               NAMES</span><br><span class="line">d446e2353e02        centos:7            &quot;&#x2F;bin&#x2F;bash&quot;         13 minutes ago      Exited (137) 4 minutes ago                       brave_wilson</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker export d446e2353e02 &gt; centos.tar</span><br></pre></td></tr></table></figure>
+<p>导入<br>docker import</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# cat centos.tar | docker import - test&#x2F;centos:v1.0</span><br><span class="line">sha256:f78f33be371871c1ea60ca4695b1e271d081929d44c7d8643a9968949ea05fae</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker image ls</span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">test&#x2F;centos         v1.0                f78f33be3718        45 seconds ago      203MB</span><br><span class="line">nginx               latest              f35646e83998        8 days ago          133MB</span><br><span class="line">centos              7                   7e6257c9f8d8        2 months ago        203MB</span><br></pre></td></tr></table></figure>
+<p>指定url导入<br>docker import <a href="http://example.com/exampleimage.tgz" target="_blank" rel="noopener">http://example.com/exampleimage.tgz</a> example/imagerepo<br>删除容器<br>docker container rm </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker container ls -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                        PORTS                  NAMES</span><br><span class="line">d446e2353e02        centos:7            &quot;&#x2F;bin&#x2F;bash&quot;              13 minutes ago      Exited (137) 3 minutes ago                           brave_wilson</span><br><span class="line">098a45f04be8        nginx:v2            &quot;&#x2F;docker-entrypoint.…&quot;   16 hours ago        Created                                              web2</span><br><span class="line">d664a813b0f3        nginx               &quot;&#x2F;docker-entrypoint.…&quot;   16 hours ago        Exited (255) 43 minutes ago   0.0.0.0:1234-&gt;80&#x2F;tcp   webserver</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker container rm web2</span><br><span class="line">web2</span><br></pre></td></tr></table></figure>
+<p>清理所有处于终止状态的容器<br>docker container prune</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker container ls -a</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                        PORTS               NAMES</span><br><span class="line">d446e2353e02        centos:7            &quot;&#x2F;bin&#x2F;bash&quot;         21 minutes ago      Exited (137) 11 minutes ago                       brave_wilson</span><br><span class="line">root@cheng-PC:&#x2F;home&#x2F;cheng&#x2F;Desktop# docker container prune</span><br><span class="line">WARNING! This will remove all stopped containers.</span><br><span class="line">Are you sure you want to continue? [y&#x2F;N] y</span><br><span class="line">Deleted Containers:</span><br><span class="line">d446e2353e022dd67bc0e7443f978c35fdcb40613ac2a7c2062fe6fb7b1f8383</span><br><span class="line"></span><br><span class="line">Total reclaimed space: 5B</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/26/docker%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" data-id="ckee117ik00009suj647e70rz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-flask请求上下文和应用上下文" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/" class="article-date">
+  <time datetime="2020-08-26T02:15:53.000Z" itemprop="datePublished">2020-08-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/">flask请求上下文和应用上下文</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="上下文"><a href="#上下文" class="headerlink" title="上下文"></a>上下文</h2><p>在程序中，上下文是指一个个外部变量值的集合</p>
+<h2 id="应用上下文"><a href="#应用上下文" class="headerlink" title="应用上下文"></a>应用上下文</h2><p>在请求，CLI命令或其他活动期间，应用程序上下文跟踪应用程序级别的数据。而不是将应用程序传递给每个函数，而是访问current_app和 g代理</p>
+<h2 id="请求上下文"><a href="#请求上下文" class="headerlink" title="请求上下文"></a>请求上下文</h2><p>flask从客户端接受请求时，视图函数如果要处理请的的话，需要访问一些对象，这些对象可能是作为参数传递过来的，也可能是外部变量（如request）。这些个外部变量有特定值才有意义，即上下文。<br>request就是一个请求上下文，当请求被推送后，request才有意义，才可以使用。</p>
+<h2 id="引申"><a href="#引申" class="headerlink" title="引申"></a>引申</h2><p>请求上下文：request(记录http请求的相关内容)、session(记录请求会话中的信息)。<br>应用上下文：g(在同一次请求上下文中设置临时变量属性，供请求上下文使用)、curent_app(保存当前app相关信息)。</p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>通常情况下应用上下文和请求上下文具有相同的生命周期。<br>即：当flask应用开始处理请求时，它将推送应用上下文和请求上下文。当请求结束时，将弹出请求上下文，然后弹出应用上下文。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/" data-id="ckee117jg00019suj0pvm1qwb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-get和post" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/19/get%E5%92%8Cpost/" class="article-date">
+  <time datetime="2020-08-19T10:30:59.000Z" itemprop="datePublished">2020-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/19/get%E5%92%8Cpost/">get和post</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="get-or-post"><a href="#get-or-post" class="headerlink" title="get or post"></a>get or post</h2><p>一下仅为个人理解：<br>1.一般情况下获取数据用get,修改和更新数据用post。<br>2.get的参数是在url中的，而post参数是在body中携带的。<br>3.get获取的数据一般是在2KB以内，而post则可以超过2KB。<br>4.URL太长了不好看。<br>5.安全性来讲post可能会安全一点，但也到不了哪去。<br>6.效率上讲get高效一点。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/19/get%E5%92%8Cpost/" data-id="cke3ywnui0000l4ujbl9e3s1m" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/19/git/" class="article-date">
+  <time datetime="2020-08-19T03:53:18.000Z" itemprop="datePublished">2020-08-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/19/git/">git</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="下载git"><a href="#下载git" class="headerlink" title="下载git"></a>下载git</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install git</span><br></pre></td></tr></table></figure>
+<p>or</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git-all</span><br></pre></td></tr></table></figure>
+<h2 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;Your Name&quot;</span><br><span class="line">git config --global user.email &quot;123@email.com&quot;</span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure>
+<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>去github上NEW一个Repositories，输入Repository name，其他的默认就行。然后Create repository</p>
+<h2 id="第一次提交"><a href="#第一次提交" class="headerlink" title="第一次提交"></a>第一次提交</h2><p>1、打开cmd，进入项目目录下<br>2、git init<br>3、git add .<br>4、git status<br>5、git commit -m “first commit”<br>6、git remote add origin <a href="mailto:git@github.com">git@github.com</a>:johnny-min/Flask_restful_skeleton.git<br>7、git pull –rebase origin master<br>8、git push -u origin master</p>
+<h2 id="二次提交"><a href="#二次提交" class="headerlink" title="二次提交"></a>二次提交</h2><p>1.git status 查看项目中哪些文件发生了变化，当做验证使用<br>2.git add . 将所有变更文件添加进来<br>3.git status 这个时候文件都变成了 new file<br>4.git commit -am “second commit”<br>5.git push origin master 把本地的推送到远程的分支上面即可<br>6.git status 查看</p>
+<h2 id="克隆"><a href="#克隆" class="headerlink" title="克隆"></a>克隆</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone *****</span><br></pre></td></tr></table></figure>
+<h2 id="查看仓库"><a href="#查看仓库" class="headerlink" title="查看仓库"></a>查看仓库</h2><p>git status<br>git log –oneline</p>
+<h2 id="换账号换仓库"><a href="#换账号换仓库" class="headerlink" title="换账号换仓库"></a>换账号换仓库</h2><p>git config user.name # 查看当前用户名<br>git config user.email # 查看当前邮件<br>git config –global user.name “Your Name”<br>git config –global user.email “<a href="mailto:123@email.com">123@email.com</a>“<br>git remote set-url origin [url]<br>git remote rm origin  # 删除<br>git remote add origin <a href="mailto:git@github.com">git@github.com</a>:johnny-min/Flask_restful_skeleton.git # 添加</p>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch &lt;分支名&gt;    # 创建分支</span><br><span class="line">git checkout 分支名    # 切换分支</span><br><span class="line">git push origin 分支名 # 推送到远程</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/19/git/" data-id="cke3ywnvn0001l4uj6i5ocwan" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-并发和并行" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/08/14/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C/" class="article-date">
@@ -379,7 +589,8 @@
 <p>wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Python web应用或web框架之间的标准接口，以提高web应用在一系列web服务器间的移植性。<br>1.WSGI是一套接口标准协议/规范；<br>2.通信（作用）区间是Web服务器和Python Web应用程序之间；<br>3.目的是制定标准，以保证不同Web服务器可以和不同的Python程序之间相互通信<br>uwsgi<br>uwsgi协议是一个uWSGI服务器自有的协议</p>
 <h2 id="Gunicorn"><a href="#Gunicorn" class="headerlink" title="Gunicorn"></a>Gunicorn</h2><p>高并发下的选择。这是一个被广泛使用的高性能的Python WSGI UNIX HTTP服务器,也有人选择uWsgi可以达到同样的效果。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gunicorn</span><br></pre></td></tr></table></figure>
-<h2 id="web应用处理请求整体流程"><a href="#web应用处理请求整体流程" class="headerlink" title="web应用处理请求整体流程"></a>web应用处理请求整体流程</h2><p>1.用户操作浏览器发送请求<br>2.请求转发到对应的web服务器（nginx）,nginx反向代理到uWSGI web服务器<br>3.web服务器将请求转交给web应用程序，web应用程序处理请求<br>4.web应用将请求结果返回给web服务器，由web服务器返回用户响应结果<br>5.浏览器收到响应，向用户展示<br>为什么有了uWSGI为什么还需要nginx？因为nginx具备优秀的静态内容处理能力，然后将动态内容转发给uWSGI服务器，这样可以达到很好的客户端响应。</p>
+<h2 id="web应用处理请求整体流程"><a href="#web应用处理请求整体流程" class="headerlink" title="web应用处理请求整体流程"></a>web应用处理请求整体流程</h2><p>1.用户操作浏览器发送请求<br>2.请求转发到对应的web服务器（nginx）,一般来说如果是静态请求，直接返回静态页面（纯HTML页面）,nginx反向代理到uWSGI web应用服务器<br>3.web服务器将请求转交给web应用程序，web应用程序处理请求<br>4.web应用将请求结果返回给web服务器，由web服务器返回用户响应结果<br>5.浏览器收到响应，向用户展示<br>为什么有了uWSGI为什么还需要nginx？因为nginx具备优秀的静态内容处理能力，然后将动态内容转发给uWSGI服务器，这样可以达到很好的客户端响应。</p>
+<h2 id="服务器结构图"><a href="#服务器结构图" class="headerlink" title="服务器结构图"></a>服务器结构图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   web 框架（Flask）</span><br><span class="line">     ||</span><br><span class="line">	 ||</span><br><span class="line">   WSGI容器</span><br><span class="line"> （uWSGI应用服务器）</span><br><span class="line">     ||</span><br><span class="line">	 ||</span><br><span class="line">   web服务器</span><br><span class="line">（NGINX，http服务器）</span><br><span class="line">     ||</span><br><span class="line">   客户端</span><br></pre></td></tr></table></figure>
 <h2 id="静态网页和动态网页区别"><a href="#静态网页和动态网页区别" class="headerlink" title="静态网页和动态网页区别"></a>静态网页和动态网页区别</h2><p>静态网页是写死的，所有的内容都是不变的，除非修改静态网页代码；<br>动态网页是通过数据库动态的生成网页的。</p>
 <h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>Tomcat，web应用服务器（可以看作一个WEB容器，但实际上是一个应用程序服务器）（区别于Nginx的web服务器）既能为动态网页服务，又能为静态网页提供支持。单Tomcat没有通常的Web服务器快，所以大型网站可以选择Tomcat和Nginx结合，Nginx负责接受客户端的http请求，然后将请求抓发给Tomcat来处理。</p>
 <h2 id="安装supervisor"><a href="#安装supervisor" class="headerlink" title="安装supervisor"></a>安装supervisor</h2><p>1.下载</p>
@@ -413,204 +624,6 @@
 
 
   
-    <article id="post-mysql创建用户并赋予权限" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/" class="article-date">
-  <time datetime="2020-07-28T06:36:31.000Z" itemprop="datePublished">2020-07-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/">mysql创建用户并赋予权限</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="先删除用户"><a href="#先删除用户" class="headerlink" title="先删除用户"></a>先删除用户</h2><p>因为可能上次没有彻底删除该用户，所以创建该用户时候报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">drop user &#39;zhang&#39;@&#39;%&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-<h2 id="创建用户"><a href="#创建用户" class="headerlink" title="创建用户"></a>创建用户</h2><p>‘zhang’是用户名， ‘%’是允许访问的IP为全部， ‘Zhang.@123’是密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create user &#39;zhang&#39;@&#39;%&#39; identified by &#39;Zhang.@123&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-<h2 id="赋予权限"><a href="#赋予权限" class="headerlink" title="赋予权限"></a>赋予权限</h2><p>mysql里好像不能进行同数据库下的多表操作</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">GRANT SELECT ON KTSredis.a_status,KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br></pre></td></tr></table></figure>
-<p>上述做法是错误的。得多次执行（下面分别是查询，插入，修改，删除，所有,最高等权限）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GRANT SELECT ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">GRANT insert ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">GRANT update ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">GRANT delete ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">grant all privileges ON KTSredis.a_userinfo TO &#39;zhang&#39;@&#39;%&#39; IDENTIFIED BY &#39;Zhang.@123&#39;;</span><br><span class="line">grant all on *.* to &#39;zhang&#39;@&#39;%&#39;;</span><br></pre></td></tr></table></figure>
-<p>最后刷新权限即可。</p>
-<h2 id="查看权限"><a href="#查看权限" class="headerlink" title="查看权限"></a>查看权限</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show grants;</span><br><span class="line">show grants for &#39;zhang&#39;@&#39;%&#39;;</span><br></pre></td></tr></table></figure>
-<h2 id="撤销权限"><a href="#撤销权限" class="headerlink" title="撤销权限"></a>撤销权限</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">revoke all on *.* from &#39;zhang&#39;@&#39;%&#39;;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/" data-id="ckddufv2z00032suj2zy96p4j" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-nginx部署问题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" class="article-date">
-  <time datetime="2020-07-24T07:50:48.000Z" itemprop="datePublished">2020-07-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/">nginx部署问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="nginx出现问题时的分析"><a href="#nginx出现问题时的分析" class="headerlink" title="nginx出现问题时的分析"></a>nginx出现问题时的分析</h2><ol>
-<li>nginx -s quit / nginx -t检查nginx部署状态</li>
-<li>/var/log/nginx/error.log 分析问题</li>
-<li>今天部署时遇到了大小写问题，大写写成了小写。找了好久，在这里记录一下。<h2 id="在nginx服务器上安装证书"><a href="#在nginx服务器上安装证书" class="headerlink" title="在nginx服务器上安装证书"></a>在nginx服务器上安装证书</h2></li>
-<li>先找到nginx的目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;nginx</span><br></pre></td></tr></table></figure></li>
-<li>然后在其目录下创建cert文件夹<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir cert</span><br></pre></td></tr></table></figure></li>
-<li>将下载的证书文件放到cert目录下</li>
-<li>找到nginx配置文件，并修改<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 我的是在 &#x2F;code&#x2F;DataPortal&#x2F;conf&#x2F; 下</span><br><span class="line">http &#123;</span><br><span class="line">  server &#123;</span><br><span class="line">          listen       80 default_server;</span><br><span class="line">      		server_name  www.q.cmpython.com; # 你所绑定的域名</span><br><span class="line">      		rewrite ^(.*)$ https:&#x2F;&#x2F;$host$1 permanent; # 自动跳转https</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">  # HTTPS server</span><br><span class="line">  		server &#123;</span><br><span class="line">  			listen 443 ssl;</span><br><span class="line">  			server_name localhost;</span><br><span class="line">  			root html;</span><br><span class="line">  			index index.html index.htm;</span><br><span class="line">  			ssl_certificate cert&#x2F;a.pem;  # 你的证书文件</span><br><span class="line">  			ssl_certificate_key cert&#x2F;b.key;   # 你的证书文件</span><br><span class="line">  			ssl_session_timeout 5m;</span><br><span class="line">  			ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  #使用此加密套件。</span><br><span class="line">  			ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   #使用该协议进行配置。</span><br><span class="line">  			ssl_prefer_server_ciphers on;   </span><br><span class="line">  			location &#x2F; &#123;</span><br><span class="line">  				include uwsgi_params;</span><br><span class="line">  				uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">  				uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;DataPortal;</span><br><span class="line">  				uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">  				uwsgi_read_timeout 300;</span><br><span class="line">  				uwsgi_connect_timeout 300;</span><br><span class="line">  				uwsgi_send_timeout 300;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>保存nginx.conf文件并退出</li>
-<li>重启Nginx服务器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop</span><br><span class="line">nginx -s start</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" data-id="ckddufv3900072suj6g9xhhdb" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="mysql-sql-mode-only-full-group-by" class="article article-type-mysql" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/15/sql-mode-only-full-group-by/" class="article-date">
-  <time datetime="2020-07-15T09:49:35.000Z" itemprop="datePublished">2020-07-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/15/sql-mode-only-full-group-by/">sql_mode=only_full_group_by</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="mysql-gruop-by报错this-is-incompatible-with-sql-mode-only-full-group-by"><a href="#mysql-gruop-by报错this-is-incompatible-with-sql-mode-only-full-group-by" class="headerlink" title="mysql gruop by报错this is incompatible with sql_mode=only_full_group_by"></a>mysql gruop by报错this is incompatible with sql_mode=only_full_group_by</h1><p>mysql复杂查询时报出：sql_mode=only_full_group_by</p>
-<h2 id="查看sql-model参数"><a href="#查看sql-model参数" class="headerlink" title="查看sql_model参数"></a>查看sql_model参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@sql_mode;</span><br><span class="line">SELECT @@GLOBAL.sql_mode;</span><br><span class="line">发现：</span><br><span class="line">ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br><span class="line">第一项默认开启ONLY_FULL_GROUP_BY，</span><br></pre></td></tr></table></figure>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>默认关掉ONLY_FULL_GROUP_BY</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set @@GLOBAL.sql_mode&#x3D;&#39;&#39;;</span><br><span class="line">set sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;;</span><br></pre></td></tr></table></figure>
-<p>以上做法每重启一下就得重新设置一下。想要彻底解决就得修改配置文件，<br>win: my.ini, centos: /etc/my.cnf ，在[mysqld]下添加</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/15/sql-mode-only-full-group-by/" data-id="ckddufv2h00002sujcnhjhh4q" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python应用中使用mongoDB" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" class="article-date">
-  <time datetime="2020-07-07T09:18:07.000Z" itemprop="datePublished">2020-07-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/">python应用中使用mongoDB</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="MongoDB简介"><a href="#MongoDB简介" class="headerlink" title="MongoDB简介"></a>MongoDB简介</h2><p>MongoDB是一种面向文档的数据库管理系统，它是由C++编写的非关系性数据库，其内容存储形式类似JSON对象</p>
-<h2 id="centos安装"><a href="#centos安装" class="headerlink" title="centos安装"></a>centos安装</h2><p>先添加MongoDB源<br><a href="https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el7.x86_64.rpm" target="_blank" rel="noopener">https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el7.x86_64.rpm</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;yum.repos.d&#x2F;mongodb-org.repo</span><br><span class="line">接着修改并保存</span><br><span class="line">[mongodb-org-4.2]</span><br><span class="line">name&#x3D;MongoDB Repository</span><br><span class="line">baseurl&#x3D;https:&#x2F;&#x2F;repo.mongodb.org&#x2F;yum&#x2F;redhat&#x2F;#releasever&#x2F;mongodb-org&#x2F;4.2&#x2F;x86_64&#x2F;</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;www.mongodb.org&#x2F;static&#x2F;pgp&#x2F;server-4.2.asc</span><br><span class="line">然后yum安装</span><br><span class="line">sudo yum install mongodb-org</span><br><span class="line">验证</span><br><span class="line">rpm -qa |grep mongodb</span><br><span class="line">rpm -ql mongodb-org-server</span><br><span class="line">启动</span><br><span class="line">sudo systemctl start mongodb</span><br><span class="line">验证</span><br><span class="line">mongo</span><br><span class="line">停止</span><br><span class="line">sudo systemctl stop mongodb</span><br><span class="line">重启</span><br><span class="line">sudo systemvtl restart mongodb</span><br></pre></td></tr></table></figure>
-<h2 id="在deepin中安装"><a href="#在deepin中安装" class="headerlink" title="在deepin中安装"></a>在deepin中安装</h2><p>安装依赖</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo aptitude install build-essential</span><br><span class="line">sudo aptitude install libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboos</span><br></pre></td></tr></table></figure>
-<p>下载Debian最新版包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.mongodb.com&#x2F;download-center&#x2F;community</span><br></pre></td></tr></table></figure>
-<p>然后sudo dpkg -i xxx.deb<br>启动mongodb服务,mongod，启动客户端mongo</p>
-<h2 id="远程连接"><a href="#远程连接" class="headerlink" title="远程连接"></a>远程连接</h2><p>修改配置绑定并重启</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;mongod.conf</span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 0.0.0.0</span><br></pre></td></tr></table></figure>
-<p>添加权限认证(配置文件中)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
-<p>创建账号和密码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">运行</span><br><span class="line">mongod --port 27017 --dbpath &#x2F;data&#x2F;db</span><br><span class="line">进入MongoDB命令行：</span><br><span class="line">mongo --port 27017</span><br><span class="line">use admin</span><br><span class="line">db.createUser(&#123;user:&#39;admin&#39;,pwd:&#39;123456&#39;,roles:[&#123;role: &#39;root&#39;, db:&#39;admin&#39;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
-<p>开放端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld  # 查看防火墙状态</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;27017&#x2F;tcp --permanent # mongodb默认端口号</span><br><span class="line">firewall-cmd --reload  # 重新加载防火墙</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone&#x3D;public --query-port&#x3D;27017&#x2F;tcp # 查看端口号是否开放成功，输出yes开放成功，no则失败</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 27017 -j ACCEPT</span><br></pre></td></tr></table></figure>
-<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"># encoding: utf-8</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">@author: cm</span><br><span class="line">@software: vspn</span><br><span class="line">@file: update.py</span><br><span class="line">@time: 2020&#x2F;6&#x2F;15 14:57</span><br><span class="line">@desc:</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line"></span><br><span class="line">import pymongo</span><br><span class="line"># 连接MongoDB</span><br><span class="line">client &#x3D; pymongo.MongoClient(host&#x3D;&#39;localhost&#39;, port&#x3D;27017)</span><br><span class="line"># client &#x3D; pymongo.MongoClient(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;&#39;)</span><br><span class="line"># 指定数据库</span><br><span class="line">db &#x3D; client.test</span><br><span class="line"># db &#x3D; client[&#39;test&#39;]</span><br><span class="line"># 指定集合</span><br><span class="line">collection &#x3D; db.student</span><br><span class="line"># collection &#x3D; db[&#39;student&#39;]</span><br><span class="line"># 插入数据</span><br><span class="line">student &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;1&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;a&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">student1 &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;2&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;b&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">student2 &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;3&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;c&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">result &#x3D; collection.insert_one(student)</span><br><span class="line">result &#x3D; collection.insert_many([student1, student2])</span><br><span class="line">print(result)</span><br><span class="line"># 查询</span><br><span class="line">result &#x3D; collection.find_one(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">print(type(result))</span><br><span class="line">print(result)</span><br><span class="line"># 根据ObjectId查询</span><br><span class="line">from bson.objectid import ObjectId</span><br><span class="line">result &#x3D; collection.find_one(&#123;&#39;_id&#39;: ObjectId(&#39;593278&#39;)&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: 18&#125;)</span><br><span class="line">print(result)</span><br><span class="line">for item in result:</span><br><span class="line">    print(item)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">$lt 小于    $gt 大于  $lte 小于等于   $gte 大于等于   $ne 不等于    $in 在范围内     $nin 不在范围内      $regex 正则匹配</span><br><span class="line">$exists 属性是否存在    $type 类型判断      $mod 数字模操作      $text 文本查询      $where 高级条件查询</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$gt&#39;: 17&#125;&#125;)  # 查询大于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$lt&#39;: 17&#125;&#125;)  # 查询小于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$lte&#39;: 17&#125;&#125;)  # 查询小于等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$gte&#39;: 17&#125;&#125;)  # 查询大于等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$ne&#39;: 17&#125;&#125;)  # 查询不等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$in&#39;: [17, 18]&#125;&#125;)  # 查询在17-18范围内的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$nin&#39;: [17, 18]&#125;&#125;)  # 查询不在17-18范围内的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$regex&#39;: &#39;^A.*&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$exists&#39;: True&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$type&#39;: &#39;int&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$mod&#39;: [5, 0]&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$text&#39;: &#123;&#39;search&#39;: &#39;Mike&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$where&#39;: &#39;obj.fans_count &#x3D;&#x3D; obj.follows_count&#39;&#125;)     # 粉丝数等于关注数</span><br><span class="line"># 计数</span><br><span class="line">count &#x3D; collection.find(&#123;&#39;age&#39;: 18&#125;).count</span><br><span class="line"># 排序</span><br><span class="line">results &#x3D; collection.find().sort(&#39;age&#39;, pymongo.ASCENDING)</span><br><span class="line"># 偏移</span><br><span class="line">results &#x3D; collection.find().sort(&#39;name&#39;, pymongo.ASCENDING).skip(2)</span><br><span class="line">results &#x3D; collection.find().sort(&#39;name&#39;, pymongo.ASCENDING).skip(2).limit(2)</span><br><span class="line"># 更新</span><br><span class="line">condition &#x3D; &#123;&#39;name&#39;: &#39;b&#39;&#125;</span><br><span class="line">student_result &#x3D; collection.find_one(&#123;&#39;name&#39;: &#39;b&#39;&#125;)</span><br><span class="line">student_result[&#39;age&#39;] &#x3D; 15</span><br><span class="line">result &#x3D; collection.update_one(condition, &#123;&#39;$set&#39;: student_result&#125;)</span><br><span class="line">print(result)</span><br><span class="line">print(result.matched_count, result.modified_count)  # 匹配条数， 受影响条数</span><br><span class="line">condition &#x3D; &#123;&#39;age&#39;: &#123;&#39;$gt&#39;: 15&#125;&#125;    # 大于15</span><br><span class="line">result &#x3D; collection.update_many(condition, &#123;&#39;$inc&#39;: &#123;&#39;age&#39;: 1&#125;&#125;)</span><br><span class="line">print(result)</span><br><span class="line">print(result.matched_count, result.modified_count)  # 匹配条数， 受影响条数</span><br><span class="line"># 删除</span><br><span class="line"># result &#x3D; collection.remove(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line"># print(result)</span><br><span class="line">result &#x3D; collection.delete_one(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">print(result)</span><br><span class="line">results &#x3D; collection.delete_many(&#123;&#39;age&#39;: &#123;&#39;$lt&#39;: 1&#125;&#125;)</span><br><span class="line">print(result.deleted_count)</span><br><span class="line"># 组合</span><br><span class="line">result &#x3D; collection.find_one_and_delete(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">result &#x3D; collection.find_one_and_replace(&#123;&#39;name&#39;: &#39;a&#39;&#125;, &#123;&#39;y&#39;: &#39;d&#39;&#125;)</span><br><span class="line">result &#x3D; collection.find_one_and_update(&#123;&#39;name&#39;: &#39;a&#39;&#125;, &#123;&#39;name&#39;: &#39;e&#39;&#125;)</span><br><span class="line">result &#x3D; collection.create_index()</span><br><span class="line">result &#x3D; collection.create_indexs()</span><br><span class="line">result &#x3D; collection.drop_index()</span><br><span class="line"></span><br><span class="line"># 复杂查询</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$and&#39;: [&#123;&#39;sys_time&#39;: &#123;&#39;$in&#39;: [1, 10]&#125;&#125;, &#123;&#39;roomId&#39;: &#123;&#39;$in&#39;: [&#39;a&#39;, &#39;b&#39;]&#125;&#125;]&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$or&#39;: [&#123;&#39;sys_time&#39;: &#123;&#39;$in&#39;: [1, 10]&#125;&#125;, &#123;&#39;roomId&#39;: &#123;&#39;$in&#39;: [&#39;a&#39;, &#39;b&#39;]&#125;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" data-id="ckcbuby4k00006wuj6lftea7j" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -636,7 +649,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cProfile/" rel="tag">cProfile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uwsgi/" rel="tag">uwsgi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cProfile/" rel="tag">cProfile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/" rel="tag">domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash/" rel="tag">logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uwsgi/" rel="tag">uwsgi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
     </div>
   </div>
 
@@ -646,7 +659,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 12px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/es/" style="font-size: 12px;">es</a> <a href="/tags/flask/" style="font-size: 18px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 14px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 14px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 11.67px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 11.67px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/es/" style="font-size: 11.67px;">es</a> <a href="/tags/flask/" style="font-size: 16.67px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 18.33px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 11.67px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -655,7 +668,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -668,23 +681,23 @@
       <ul>
         
           <li>
+            <a href="/2020/12/18/%E5%9F%9F%E5%90%8D/">域名</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/03/sqlalchemy%E4%B8%80%E6%AC%A1%E9%94%81%E8%A1%A8/">sqlalchemy一次锁表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A8%AA%E7%AB%96%E8%A1%A8/">数据库横竖表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/20/logstash%E5%AE%89%E8%A3%85/">logstash安装</a>
+          </li>
+        
+          <li>
             <a href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">python性能调优</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/19/python%E5%AF%B9%E6%8E%A5ES-%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">python对接ES(简单使用)</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/19/elasticsearch%E5%AE%89%E8%A3%85/">elasticsearch安装</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/18/nginx-uwsgi%E8%AF%B7%E6%B1%82%E8%B6%85%E6%97%B6502/">nginx+uwsgi请求超时502</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/12/python-init-%E5%92%8C-new/">python__init__和__new__</a>
           </li>
         
       </ul>

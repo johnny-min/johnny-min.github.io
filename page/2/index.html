@@ -64,6 +64,184 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-python可迭代对象，迭代器，生成器" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/11/python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%EF%BC%8C%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%8C%E7%94%9F%E6%88%90%E5%99%A8/" class="article-date">
+  <time datetime="2020-11-11T08:56:51.000Z" itemprop="datePublished">2020-11-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/11/python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%EF%BC%8C%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%8C%E7%94%9F%E6%88%90%E5%99%A8/">python可迭代对象，迭代器，生成器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>可迭代对象：字面意思可知，可以迭代的对象即为可迭代对象，在python里实现了<strong>iter</strong>()方法的对象即为可迭代对象。<br>迭代器：字面意思可知，其为可以迭代的容器。在python里实现了<strong>iter</strong>(),next()方法的对象即为可迭代对象。<br>生成器：一种特殊的迭代器，生成器自动实现了“迭代器协议”（即<strong>iter</strong>和next方法）。具有yield关键字的函数都是生成器</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/11/python%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1%EF%BC%8C%E8%BF%AD%E4%BB%A3%E5%99%A8%EF%BC%8C%E7%94%9F%E6%88%90%E5%99%A8/" data-id="ckhmvh4lc00031guj3o0y5159" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-python闭包" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/11/python%E9%97%AD%E5%8C%85/" class="article-date">
+  <time datetime="2020-11-11T08:22:06.000Z" itemprop="datePublished">2020-11-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/11/python%E9%97%AD%E5%8C%85/">python闭包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>在一个内部函数中，对外部作用域的变量进行引用，(并且一般外部函数的返回值为内部函数)，那么内部函数就被认为是闭包。<br>高阶函数：函数作为参数或返回值的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">def outer(x):</span><br><span class="line">    def inner(y):</span><br><span class="line">        return x + y  # 使用了外部作用域的变量</span><br><span class="line">    return inner</span><br></pre></td></tr></table></figure>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>1.保存当前的运行环境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">origin &#x3D; [0, 0]</span><br><span class="line">legal_x &#x3D; [0, 50]</span><br><span class="line">legal_y &#x3D; [0, 50]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def create(pos&#x3D;origin):</span><br><span class="line">    print(&#39;pos_old: &#39;, pos)</span><br><span class="line"></span><br><span class="line">    def player_step(direction, step):</span><br><span class="line">        print(&#39;pos: &#39;, pos)</span><br><span class="line">        new_x &#x3D; pos[0] + direction[0] * step</span><br><span class="line">        new_y &#x3D; pos[1] + direction[1] * step</span><br><span class="line">        pos[0] &#x3D; new_x</span><br><span class="line">        pos[1] &#x3D; new_y</span><br><span class="line">        print(new_x, new_y)</span><br><span class="line">        return pos</span><br><span class="line"></span><br><span class="line">    return player_step</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">player &#x3D; create()  </span><br><span class="line">print(player([1, 0], 10))</span><br><span class="line">print(player([0, 1], 20))  </span><br><span class="line">print(player([-1, 0], 10))</span><br></pre></td></tr></table></figure>
+<p>output</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">pos_old:  [0, 0]</span><br><span class="line">pos:  [0, 0]</span><br><span class="line">10 0</span><br><span class="line">[10, 0]</span><br><span class="line">pos:  [10, 0]</span><br><span class="line">10 20</span><br><span class="line">[10, 20]</span><br><span class="line">pos:  [10, 20]</span><br><span class="line">0 20</span><br><span class="line">[0, 20]</span><br></pre></td></tr></table></figure>
+<p>2.根据外部作用域的局部变量来得到不同的结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">def make_filter(keep):   </span><br><span class="line">    def the_filter(file_name):    </span><br><span class="line">        file &#x3D; open(file_name)    </span><br><span class="line">        lines &#x3D; file.readlines()    </span><br><span class="line">        file.close()    </span><br><span class="line">        filter_doc &#x3D; [i for i in lines if keep in i]    </span><br><span class="line">        return filter_doc   </span><br><span class="line">    return the_filter</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/11/python%E9%97%AD%E5%8C%85/" data-id="ckhmvh4le00071gujbskg2h9q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis性能优化转载" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/09/redis%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AC%E8%BD%BD/" class="article-date">
+  <time datetime="2020-11-09T03:01:38.000Z" itemprop="datePublished">2020-11-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/09/redis%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AC%E8%BD%BD/">redis性能优化转载</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.缩短键值对的存储长度；<br>2.使用 lazy free（延迟删除）特性；<br>3.设置键值的过期时间；<br>4.禁用长耗时的查询命令；<br>5.使用 slowlog 优化耗时命令；<br>6.使用 Pipeline 批量操作数据；<br>7.避免大量数据同时失效；<br>8.客户端使用优化；<br>9.限制 Redis 内存大小；<br>10.使用物理机而非虚拟机安装 Redis 服务；<br>11.检查数据持久化策略；<br>12.禁用 THP 特性；<br>13.使用分布式架构来增加读写速度。</p>
+<h2 id="缩短键值对的存储长度"><a href="#缩短键值对的存储长度" class="headerlink" title="缩短键值对的存储长度"></a>缩短键值对的存储长度</h2><p>键值对的长度是和性能成反比的</p>
+<h2 id="使用-lazy-free-特性"><a href="#使用-lazy-free-特性" class="headerlink" title="使用 lazy free 特性"></a>使用 lazy free 特性</h2><p>lazy free 特性是 Redis 4.0 新增的一个非常使用的功能，它可以理解为惰性删除或延迟删除。意思是在删除的时候提供异步延时释放键值的功能，把键值释放操作放在 BIO(Background I/O) 单独的子线程处理中，以减少删除删除对 Redis 主线程的阻塞，可以有效地避免删除 big key 时带来的性能和可用性问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lazyfree-lazy-eviction：表示当 Redis 运行内存超过 maxmeory 时，是否开启 lazy free 机制删除；</span><br><span class="line">lazyfree-lazy-expire：表示设置了过期时间的键值，当过期之后是否开启 lazy free 机制删除；</span><br><span class="line">lazyfree-lazy-server-del：有些指令在处理已存在的键时，会带有一个隐式的 del 键的操作，比如 rename 命令，当目标键已存在，Redis 会先删除目标键，如果这些目标键是一个 big key，就会造成阻塞删除的问题，此配置表示在这种场景中是否开启 lazy free 机制删除；</span><br><span class="line">slave-lazy-flush：针对 slave(从节点) 进行全量数据同步，slave 在加载 master 的 RDB 文件前，会运行 flushall 来清理自己的数据，它表示此时是否开启 lazy free 机制删除。</span><br></pre></td></tr></table></figure>
+<p>建议开启其中的 lazyfree-lazy-eviction、lazyfree-lazy-expire、lazyfree-lazy-server-del 等配置，这样就可以有效的提高主线程的执行效率。</p>
+<h2 id="设置键值的过期时间"><a href="#设置键值的过期时间" class="headerlink" title="设置键值的过期时间"></a>设置键值的过期时间</h2><p>我们应该根据实际的业务情况，对键值设置合理的过期时间，这样 Redis 会帮你自动清除过期的键值对，以节约对内存的占用，以避免键值过多的堆积，频繁的触发内存淘汰策略。</p>
+<h2 id="禁用长耗时的查询命令"><a href="#禁用长耗时的查询命令" class="headerlink" title="禁用长耗时的查询命令"></a>禁用长耗时的查询命令</h2><h2 id="使用-slowlog-优化耗时命令"><a href="#使用-slowlog-优化耗时命令" class="headerlink" title="使用 slowlog 优化耗时命令"></a>使用 slowlog 优化耗时命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">slowlog-log-slower-than ：用于设置慢查询的评定时间，也就是说超过此配置项的命令，将会被当成慢操作记录在慢查询日志中，它执行单位是微秒 (1 秒等于 1000000 微秒)；</span><br><span class="line">slowlog-max-len ：用来配置慢查询日志的最大记录数。</span><br></pre></td></tr></table></figure>
+<p>使用 slowlog get n 来获取相关的慢查询日志</p>
+<h2 id="使用-Pipeline-批量操作数据"><a href="#使用-Pipeline-批量操作数据" class="headerlink" title="使用 Pipeline 批量操作数据"></a>使用 Pipeline 批量操作数据</h2><h2 id="避免大量数据同时失效"><a href="#避免大量数据同时失效" class="headerlink" title="避免大量数据同时失效"></a>避免大量数据同时失效</h2><h2 id="客户端使用优化"><a href="#客户端使用优化" class="headerlink" title="客户端使用优化"></a>客户端使用优化</h2><p>在客户端的使用上我们除了要尽量使用 Pipeline 的技术外，还需要注意要尽量使用 Redis 连接池，而不是频繁创建销毁 Redis 连接，这样就可以减少网络传输次数和减少了非必要调用指令</p>
+<h2 id="限制-Redis-内存大小"><a href="#限制-Redis-内存大小" class="headerlink" title="限制 Redis 内存大小"></a>限制 Redis 内存大小</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">noeviction：不淘汰任何数据，当内存不足时，新增操作会报错，Redis 默认内存淘汰策略；</span><br><span class="line">allkeys-lru：淘汰整个键值中最久未使用的键值；</span><br><span class="line">allkeys-random：随机淘汰任意键值;</span><br><span class="line">volatile-lru：淘汰所有设置了过期时间的键值中最久未使用的键值；</span><br><span class="line">volatile-random：随机淘汰设置了过期时间的任意键值；</span><br><span class="line">volatile-ttl：优先淘汰更早过期的键值。</span><br><span class="line">volatile-lfu：淘汰所有设置了过期时间的键值中，最少使用的键值；</span><br><span class="line">allkeys-lfu：淘汰整个键值中最少使用的键值。</span><br></pre></td></tr></table></figure>
+<h2 id="使用物理机而非虚拟机"><a href="#使用物理机而非虚拟机" class="headerlink" title="使用物理机而非虚拟机"></a>使用物理机而非虚拟机</h2><h2 id="检查数据持久化策略"><a href="#检查数据持久化策略" class="headerlink" title="检查数据持久化策略"></a>检查数据持久化策略</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RDB（Redis DataBase，快照方式）将某一个时刻的内存数据，以二进制的方式写入磁盘；</span><br><span class="line">AOF（Append Only File，文件追加方式），记录所有的操作命令，并以文本的形式追加到文件中；</span><br><span class="line">混合持久化方式，Redis 4.0 之后新增的方式，混合持久化是结合了 RDB 和 AOF 的优点，在写入的时候，先把当前的数据以 RDB 的形式写入文件的开头，再将后续的操作命令以 AOF 的格式存入文件，这样既能保证 Redis 重启时的速度，又能减低数据丢失的风险。</span><br></pre></td></tr></table></figure>
+<p>查询是否开启混合持久化可以使用 config get aof-use-rdb-preamble 命令<br>使用命令 config set aof-use-rdb-preamble yes 开启</p>
+<h2 id="禁用-THP-特性"><a href="#禁用-THP-特性" class="headerlink" title="禁用 THP 特性"></a>禁用 THP 特性</h2><p>Linux kernel 在 2.6.38 内核增加了 Transparent Huge Pages (THP) 特性 ，支持大内存页 2MB 分配，默认开启。<br>当开启了 THP 时，fork 的速度会变慢，fork 之后每个内存页从原来 4KB 变为 2MB，会大幅增加重写期间父进程内存消耗。同时每次写命令引起的复制内存页单位放大了 512 倍，会拖慢写操作的执行时间，导致大量写操作慢查询。例如简单的 incr 命令也会出现在慢查询中，因此 Redis 建议将此特性进行禁用，禁用方法如下：</p>
+<p>echo never &gt;  /sys/kernel/mm/transparent_hugepage/enabled</p>
+<p>为了使机器重启后 THP 配置依然生效，可以在 /etc/rc.local 中追加 echo never &gt; /sys/kernel/mm/transparent_hugepage/enabled。</p>
+<h2 id="使用分布式架构来增加读写速度"><a href="#使用分布式架构来增加读写速度" class="headerlink" title="使用分布式架构来增加读写速度"></a>使用分布式架构来增加读写速度</h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/09/redis%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%BD%AC%E8%BD%BD/" data-id="ckhmvh4lf00091guj571s7xce" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-flask支付宝OAuth" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/30/flask%E6%94%AF%E4%BB%98%E5%AE%9DOAuth/" class="article-date">
+  <time datetime="2020-10-30T10:36:30.000Z" itemprop="datePublished">2020-10-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/30/flask%E6%94%AF%E4%BB%98%E5%AE%9DOAuth/">flask支付宝OAuth</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>1.安装 Microsoft Visual Studio<br>2.找到stdint.h所在路径<br>3.设置用户环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">变量名：VCINSTALLDIR</span><br><span class="line">变量值：D:\vscode\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314</span><br><span class="line">cmd :</span><br><span class="line">set CL&#x3D;-FI&quot;%VCINSTALLDIR%\include\stdint.h</span><br></pre></td></tr></table></figure>
+<p>4.安装alsdk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install alipay-sdk-python&#x3D;&#x3D;3.3.398</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/30/flask%E6%94%AF%E4%BB%98%E5%AE%9DOAuth/" data-id="ckhmvh4kk00001gujgwv08yo7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-flask对接阿里短信服务" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/10/30/flask%E5%AF%B9%E6%8E%A5%E9%98%BF%E9%87%8C%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/" class="article-date">
@@ -405,187 +583,6 @@
 
 
   
-    <article id="post-flaskrestfulResponseFormats" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/24/flaskrestfulResponseFormats/" class="article-date">
-  <time datetime="2020-09-24T03:26:45.000Z" itemprop="datePublished">2020-09-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/24/flaskrestfulResponseFormats/">flaskrestfulResponseFormats</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="flask-restful-响应格式"><a href="#flask-restful-响应格式" class="headerlink" title="flask restful 响应格式"></a>flask restful 响应格式</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class DataToXML(Resource):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Response Formats test</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    # @.representation(&#39;application&#x2F;xml&#39;)</span><br><span class="line">    def get(self):</span><br><span class="line">        import xmltodict</span><br><span class="line">        something &#x3D; &#123;&#39;a&#39;: 1, &#39;b&#39;: 2&#125;</span><br><span class="line">        # dict to xml</span><br><span class="line">        something &#x3D; xmltodict.unparse(&#123;&#39;info&#39;: something&#125;)</span><br><span class="line">        response &#x3D; make_response(something)</span><br><span class="line">        response.headers[&#39;content-type&#39;] &#x3D; &#39;application&#x2F;xml&#39;</span><br><span class="line">        return response</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/24/flaskrestfulResponseFormats/" data-id="ckfgoso6g00009wujatarh4i8" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="flask-跨库查询" class="article article-type-flask" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/" class="article-date">
-  <time datetime="2020-09-22T08:23:58.000Z" itemprop="datePublished">2020-09-22</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/">跨库查询</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="flask-sqlalchemy"><a href="#flask-sqlalchemy" class="headerlink" title="flask-sqlalchemy"></a>flask-sqlalchemy</h2><h3 id="conf配置里"><a href="#conf配置里" class="headerlink" title="conf配置里"></a>conf配置里</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 连接多个数据库</span><br><span class="line">SQLALCHEMY_BINDS &#x3D; &#123;</span><br><span class="line">    # &#39;users&#39;: &#39;mysql+pymysql:&#x2F;&#x2F;root:123456@127.0.0.1:3306&#x2F;database1?charset&#x3D;utf8mb4&#39;</span><br><span class="line">    # &#39;test&#39;: &#39;mysql+pymysql:&#x2F;&#x2F;root:123456@127.0.0.1:3306&#x2F;database2?charset&#x3D;utf8mb4&#39;</span><br><span class="line">    # &#39;appmeta&#39;: &#39;sqlite:&#x2F;&#x2F;&#x2F;&#x2F;path&#x2F;to&#x2F;appmeta.db&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="models"><a href="#models" class="headerlink" title="models"></a>models</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class TaskLevel(db.Model):</span><br><span class="line">    __tablename__ &#x3D; &#39;scrapy_task_level&#39;</span><br><span class="line">    __bind_key__ &#x3D; &#39;config&#39;     # bind database</span><br><span class="line">    sys_id &#x3D; db.Column(db.Integer, primary_key&#x3D;True, autoincrement&#x3D;True)</span><br><span class="line">    taskLevel &#x3D; db.Column(db.Integer)</span><br></pre></td></tr></table></figure>
-<h3 id="使用原生sql时的用法"><a href="#使用原生sql时的用法" class="headerlink" title="使用原生sql时的用法"></a>使用原生sql时的用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data &#x3D; db.session.execute(sql, bind&#x3D;db.get_engine(current_app, bind&#x3D;&#39;originData&#39;))</span><br><span class="line">data &#x3D; data.fetchall()</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/" data-id="ckfgoso7m00039wujh05u164n" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/21/python%E9%A2%98/" class="article-date">
-  <time datetime="2020-09-21T09:56:43.000Z" itemprop="datePublished">2020-09-21</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/21/python%E9%A2%98/">python题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="引申"><a href="#引申" class="headerlink" title="引申"></a>引申</h2><p>python为什么慢？<br>1.动态语言</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 创建变量不需要定义类型，类型可以随意改变</span><br><span class="line">a &#x3D; 1</span><br></pre></td></tr></table></figure>
-<p>2.它是解释型语言而非编译型语言<br>编译型语言：执行之前，有专门的编译过程，通过编译系统将高级语言翻译成机器语言<br>解释型语言：在运行的时候才翻译，每个语句都是执行的时候才翻译。<br><strong>pycache</strong>文件夹：<br>Python解释器将源码转换为字节码，然后再由解释器来执行这些字节码。<br>Python运行时先检查【本地是否有上述字节码文件】和【该字节码文件的修改时间是否在其源文件之后】，是就直接执行，否则重复上述步骤。这样就不需要转字节码了。<br>3.GIL</p>
-<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>一、填空题</p>
-<p>Python是一种面向<strong><strong><em>的高级语言     对象<br>Python可以在多种平台运行，这体现了Python语言的</em></strong></strong>特性。   可移植<br>Python源代码被解释器转换后的格式为<strong>____</strong>。   .pyc<br>Python 3.x默认使用的编码是<strong>__</strong>。   UTF-8<br>二、判断题</p>
-<p>Python是开源的，它可以被移植到许多平台上。（） 对<br>Python的优点之一是具有伪代码的本质。（）    对<br>Python可以开发Web程序，也可以管理操作系统。（）   对<br>Mac系统自带Python开发环境。（）    对<br>Python自带的shell，其性能由于IPython。（）    错<br>我们编写的Python代码在运行过程中，会被编译成二进制代码。 python源码不需要编译成二进制代码<br>Python程序被解释器转换后的文件格式后缀名为.pyc。（） 对<br>Python 3.x版本的代码完全兼容Python 2.x。（） 错<br>PyCharm是开发Python的集成开发环境。（） 对<br>代码print（3，4）是Python 2.x的输出格式。（） 错<br>三、选择题</p>
-<p>下列选项中，不属于Python语言特点的是（c）。<br>A.简单易学 B.开源 C.面对过程 D.可移植性</p>
-<p>2.下列领域中，使用Python可以实现的是（a,b,c,d）。（多选）</p>
-<p>A.Web开发 B.操作系统管理 C.科学计算 D.游戏</p>
-<p>3.下列关于Python 2.x和Python 3.x的说法，正确的是（a,b,d）</p>
-<p>A.Python 3.x使用print语句输出数据</p>
-<p>B.Python 3.x默认使用的编码是UTF-8</p>
-<p>C.Python 2.x和Python 3.x使用//进行除法运算的结果不一致  错</p>
-<p>D.Python 3.x版本的异常可以直接被抛出</p>
-<p>4.下列关于Python的说法中，错误的是（）</p>
-<p>A.Python是从ABC发展起来的</p>
-<p>B.Python是一门高级的计算机语言</p>
-<p>C.Python是一门面向对象的语言</p>
-<p>D.Python是一种代表简单主义思想的语言</p>
-<p>5.下列关于IPython的说法，错误的是（d）。</p>
-<p>A.IPython集成了交互式Python的很多有点</p>
-<p>B.IPython的性能远远优于标准的Python的shell</p>
-<p>C.IPython支持变量自动补全，自动收缩</p>
-<p>D.与标准的Python相比，IPython缺少内置的功能和函数</p>
-<p>python闭包：<br>def test1(a):</p>
-<h1 id="在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这个函数以及用到的一些变量称之为闭包"><a href="#在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这个函数以及用到的一些变量称之为闭包" class="headerlink" title="在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这个函数以及用到的一些变量称之为闭包"></a>在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这个函数以及用到的一些变量称之为闭包</h1><p>  def test2(b):<br>    return a+b<br>  return test2</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/21/python%E9%A2%98/" data-id="ckfgoso7m00049wujfreih3ii" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-tcp和udp" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/11/tcp%E5%92%8Cudp/" class="article-date">
-  <time datetime="2020-09-11T04:00:21.000Z" itemprop="datePublished">2020-09-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/11/tcp%E5%92%8Cudp/">tcp和udp</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="握手和挥手"><a href="#握手和挥手" class="headerlink" title="握手和挥手"></a>握手和挥手</h2><p>建立连接：<br>1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。<br>2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧序列号作为起始数据段来回应我。<br>3、 主机A收到这个数据段后,再发送一个确认应答,确认已收到主机B 的数据段:”我已收到回复,我现在要开始传输实际数据了。</p>
-<p>这样3次握手就完成了,主机A和主机B 就可以传输数据了.<br>3次握手的特点：<br>没有应用层的数据，SYN这个标志位只有在TCP建产连接时才会被置1，握手完成后SYN标志位被置0，ACK和确认序号是非常重要的。</p>
-<p>断开连接：</p>
-<p>1、当主机A完成数据传输后,将控制位FIN置1,提出停止TCP连接的请求。<br>2、主机B收到FIN后对其作出响应,确认这一方向上的TCP连接将关闭,将ACK置1。<br>3、由B 端再提出反方向的关闭请求,将FIN置1。<br>4、主机A对主机B的请求进行确认,将ACK置1,双方向的关闭结束。</p>
-<h2 id="关于分包和粘包"><a href="#关于分包和粘包" class="headerlink" title="关于分包和粘包"></a>关于分包和粘包</h2><p>粘包：发送方发送两个字符串”hello”+”world”,接收方却一次性接收到了”helloworld”.<br>分包：发送方发送字符串”helloworld”,接收方却接收到了两个字符串”hello”和”world”.</p>
-<h2 id="TCP为什么会分包"><a href="#TCP为什么会分包" class="headerlink" title="TCP为什么会分包"></a>TCP为什么会分包</h2><p>TCP是以段（Segment）为单位发送数据的,建立TCP链接后,有一个最大消息长度（MSS）.如果应用层数据包超过MSS,就会把应用层数据包拆分,分成两个段来发送.这个时候接收端的应用层就要拼接这两个TCP包,才能正确处理数据.<br>TCP为什么会粘包<br>有时候,TCP为了提高网络的利用率,会使用一个叫做Nagle的算法.该算法是指,发送端即使有要发送的数据,如果很少的话,会延迟发送.如果应用层给TCP传送数据很快的话,就会把两个应用层数据包“粘”在一起,TCP最后只发一个TCP数据包给接收端.</p>
-<h2 id="如何处理"><a href="#如何处理" class="headerlink" title="如何处理"></a>如何处理</h2><p>在进行TCP Socket开发时,都需要处理数据包粘包和分包的情况.使用的语言是Python.实际上解决该问题很简单,在应用层下,定义一个协议：消息头部+消息长度+消息正文即可.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/11/tcp%E5%92%8Cudp/" data-id="ckfgoso7l00029wuj64666uhi" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -611,7 +608,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cProfile/" rel="tag">cProfile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uwsgi/" rel="tag">uwsgi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cProfile/" rel="tag">cProfile</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/concurrent-future/" rel="tag">concurrent.future</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/database/" rel="tag">database</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/django/" rel="tag">django</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/" rel="tag">docker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/domain/" rel="tag">domain</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/es/" rel="tag">es</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/golang/" rel="tag">golang</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/" rel="tag">hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/logstash/" rel="tag">logstash</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/markdown/" rel="tag">markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/redis/" rel="tag">redis</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/uwsgi/" rel="tag">uwsgi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
     </div>
   </div>
 
@@ -621,7 +618,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 12px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 10px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/es/" style="font-size: 12px;">es</a> <a href="/tags/flask/" style="font-size: 18px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 14px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 14px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 11.67px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 11.67px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/es/" style="font-size: 11.67px;">es</a> <a href="/tags/flask/" style="font-size: 16.67px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 18.33px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 11.67px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -630,7 +627,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -643,23 +640,23 @@
       <ul>
         
           <li>
+            <a href="/2020/12/18/%E5%9F%9F%E5%90%8D/">域名</a>
+          </li>
+        
+          <li>
+            <a href="/2020/12/03/sqlalchemy%E4%B8%80%E6%AC%A1%E9%94%81%E8%A1%A8/">sqlalchemy一次锁表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A8%AA%E7%AB%96%E8%A1%A8/">数据库横竖表</a>
+          </li>
+        
+          <li>
+            <a href="/2020/11/20/logstash%E5%AE%89%E8%A3%85/">logstash安装</a>
+          </li>
+        
+          <li>
             <a href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">python性能调优</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/19/python%E5%AF%B9%E6%8E%A5ES-%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8/">python对接ES(简单使用)</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/19/elasticsearch%E5%AE%89%E8%A3%85/">elasticsearch安装</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/18/nginx-uwsgi%E8%AF%B7%E6%B1%82%E8%B6%85%E6%97%B6502/">nginx+uwsgi请求超时502</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/12/python-init-%E5%92%8C-new/">python__init__和__new__</a>
           </li>
         
       </ul>
