@@ -64,6 +64,142 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-flask-nginx-uwgi-supervisor部署" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/" class="article-date">
+  <time datetime="2020-07-30T01:30:21.000Z" itemprop="datePublished">2020-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/">flask+nginx+uWSGI+supervisor部署</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-安装python"><a href="#1-安装python" class="headerlink" title="1.安装python"></a>1.安装python</h2><p>安装wget</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br></pre></td></tr></table></figure>
+<p>下载python包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;www.python.org&#x2F;ftp&#x2F;python&#x2F;3.8.2&#x2F;Python-3.8.2.tgz</span><br></pre></td></tr></table></figure>
+<p>解压python到project目录下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf Python-3.8.2.tgz -C &#x2F;project&#x2F;</span><br></pre></td></tr></table></figure>
+<p>编译时出错zipimport.ZipImportError: can’t decompress data; zlib not available</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install zlib* -y    # 缺少zlib包，安装zlib包</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;root&#x2F;Python3.8.2</span><br><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>创建软链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s &#x2F;project&#x2F;Python-3.8.2&#x2F;bin&#x2F;python3.8 &#x2F;usr&#x2F;bin&#x2F;python3</span><br><span class="line">ln -s &#x2F;project&#x2F;Python-3.8.2&#x2F;bin&#x2F;pip3.8 &#x2F;usr&#x2F;bin&#x2F;pip3</span><br></pre></td></tr></table></figure>
+<h2 id="centos安装mysql"><a href="#centos安装mysql" class="headerlink" title="centos安装mysql"></a>centos安装mysql</h2><p>1.下载mysql包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;dev.mysql.com&#x2F;get&#x2F;Downloads&#x2F;MySQL-5.7&#x2F;mysql-5.7.32-linux-glibc2.12-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+<p>2.解压包到/usr/local/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf mysql-5.7.32-linux-glibc2.12-x86_64.tar.gz -C &#x2F;usr&#x2F;local&#x2F;</span><br></pre></td></tr></table></figure>
+<p>3.改文件名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line">mv mysql-5.7.32-linux-glibc2.12-x86_64  mysql</span><br></pre></td></tr></table></figure>
+<p>4.添加mysql用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd mysql&#x2F;</span><br><span class="line">useradd -s &#x2F;bin&#x2F;false -M mysql</span><br><span class="line">cd ..</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
+<p>5.创建cnf文件，mysql-bin.log文件,mysql-error.log文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">touch &#x2F;etc&#x2F;my.cnf</span><br><span class="line">mkdir &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;logs</span><br><span class="line">touch &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;logs&#x2F;mysql-bin.log</span><br><span class="line">touch &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql-error.log</span><br></pre></td></tr></table></figure>
+<p>6.修改mysql目录权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;</span><br><span class="line">chown -R mysql:mysql mysql</span><br></pre></td></tr></table></figure>
+<p>7.初始化数据库,并记录最后的数据库密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line">.&#x2F;mysqld --initialize --user&#x3D;mysql --basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql --datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data</span><br></pre></td></tr></table></figure>
+<p>将 mysql 加入服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;support-files&#x2F;mysql.server  &#x2F;etc&#x2F;init.d&#x2F;mysql</span><br></pre></td></tr></table></figure>
+<p>8.配置mysql，/etc/my.cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"># binlog 配置</span><br><span class="line">log-bin&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;logs&#x2F;mysql-bin.log</span><br><span class="line">expire-logs-days&#x3D;14</span><br><span class="line">max-binlog-size&#x3D;500M</span><br><span class="line">server-id&#x3D;1</span><br><span class="line"># GENERAL</span><br><span class="line">basedir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql</span><br><span class="line">datadir&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;data</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line">user&#x3D;mysql</span><br><span class="line">default-storage-engine&#x3D;InnoDB</span><br><span class="line">character-set-server&#x3D;utf8</span><br><span class="line">lower_case_table_names &#x3D; 0  # 为0时，数据库名可以大写</span><br><span class="line">explicit_defaults_for_timestamp&#x3D;true</span><br><span class="line">sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;</span><br><span class="line">[mysqld_safe]</span><br><span class="line">log-error&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql-error.log</span><br><span class="line">pid-file&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysqld.pid</span><br><span class="line">[client]</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br><span class="line">[mysql]</span><br><span class="line">default-character-set&#x3D;utf8</span><br><span class="line">socket&#x3D;&#x2F;usr&#x2F;local&#x2F;mysql&#x2F;mysql.sock</span><br></pre></td></tr></table></figure>
+<p>9.开启mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 初次开启可以使用这个命令，方便查错</span><br><span class="line"># cd &#x2F;usr&#x2F;loacl&#x2F;mysql&#x2F;support-files&#x2F;</span><br><span class="line"># .&#x2F;mysql.server start</span><br><span class="line"># 如果提示Permission denied， 则使用下面方式启动</span><br><span class="line">service mysql start</span><br><span class="line">service mysql stop</span><br></pre></td></tr></table></figure>
+<p>Failed to start mysql.service: Unit mysql.service not found.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl enable mysql.service</span><br></pre></td></tr></table></figure>
+<p>多次未能启动mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">卸载重装</span><br></pre></td></tr></table></figure>
+<p>10.进入mysql</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;mysql&#x2F;bin</span><br><span class="line"> .&#x2F;mysql -u root -p</span><br></pre></td></tr></table></figure>
+<p>修改密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">use mysql;</span><br><span class="line">ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">CREATE USER &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON  *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39;;</span><br><span class="line">GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+<h2 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h2><p>tengine是一个由淘宝从Nginx复刻出来的HTTP服务器.<br>nginx是高性能的http和反向代理的web服务器，仅仅支持静态网页，对于支持动态网页就会显得无能为力，在处理并发上较强。<br>1.安装依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install gcc-c++</span><br><span class="line">yum install -y pcre pcre-devel</span><br><span class="line">yum install -y zlib zlib-devel</span><br><span class="line">yum install -y openssl openssl-devel</span><br></pre></td></tr></table></figure>
+<p>2.下载包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;nginx.org&#x2F;download&#x2F;nginx-1.18.0.tar.gz</span><br></pre></td></tr></table></figure>
+<p>3.解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf nginx-1.18.0.tar.gz</span><br><span class="line">cd nginx-1.18.0</span><br></pre></td></tr></table></figure>
+<p>4.配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;configure --with-http_ssl_module  # 安装http_ssl_module</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;configure   # 默认配置</span><br></pre></td></tr></table></figure>
+<p>如果开始时没有安装ssl模块支持，后续需要添加时：<br>进入源码文件下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;nginx-1.16.0</span><br></pre></td></tr></table></figure>
+<p>查看nginx已安装模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx -V</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;configure --prefix&#x3D;&#x2F;usr&#x2F;local&#x2F;nginx --with-http_stub_status_module --with-http_ssl_module</span><br></pre></td></tr></table></figure>
+<p>备份替换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx.bak</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>停止nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pkill -9 nginx</span><br></pre></td></tr></table></figure>
+<p>覆盖掉原有的nginx</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp .&#x2F;objs&#x2F;nginx &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;</span><br></pre></td></tr></table></figure>
+<p>查看nginx已安装模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;nginx -V</span><br></pre></td></tr></table></figure>
+<p>5.编译并安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure>
+<p>6.查找安装路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis nginx</span><br></pre></td></tr></table></figure>
+<p>7.启动，停止</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;nginx&#x2F;sbin&#x2F;</span><br><span class="line">.&#x2F;nginx</span><br><span class="line">.&#x2F;nginx -s stop</span><br><span class="line">.&#x2F;nginx -s quit</span><br><span class="line">.&#x2F;nginx -s reload</span><br></pre></td></tr></table></figure>
+<h2 id="导入web应用"><a href="#导入web应用" class="headerlink" title="导入web应用"></a>导入web应用</h2><p>略</p>
+<h2 id="安装uWSGI"><a href="#安装uWSGI" class="headerlink" title="安装uWSGI"></a>安装uWSGI</h2><p>uWSGI是一个Web服务器，Nginx中HttpUwsgiModule的作用是与uWSGI服务器进行交换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install uwsgi</span><br></pre></td></tr></table></figure>
+<p>配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[uwsgi]</span><br><span class="line">socket &#x3D; 127.0.0.1:8081</span><br><span class="line">chdir&#x3D; &#x2F;code&#x2F;ClashRoyale  # 项目名</span><br><span class="line">wsgi_file&#x3D;server.py       # app启动文件</span><br><span class="line">callable &#x3D; app</span><br><span class="line">master &#x3D; true</span><br><span class="line">vacuum &#x3D; true</span><br><span class="line">chmod-socket&#x3D;664</span><br><span class="line">stats&#x3D;0.0.0.0:9191</span><br><span class="line">listen&#x3D;128</span><br><span class="line">processes&#x3D;5</span><br><span class="line">thunder-lock&#x3D;true</span><br><span class="line">harakiri&#x3D;90</span><br><span class="line">daemonize&#x3D; &#x2F;code&#x2F;ClashRoyale&#x2F;log&#x2F;uwsgi.log</span><br><span class="line">pidfile&#x3D; &#x2F;code&#x2F;ClashRoyale&#x2F;uwsgi.pid</span><br></pre></td></tr></table></figure>
+<p>wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Python web应用或web框架之间的标准接口，以提高web应用在一系列web服务器间的移植性。<br>1.WSGI是一套接口标准协议/规范；<br>2.通信（作用）区间是Web服务器和Python Web应用程序之间；<br>3.目的是制定标准，以保证不同Web服务器可以和不同的Python程序之间相互通信<br>uwsgi<br>uwsgi协议是一个uWSGI服务器自有的协议</p>
+<h2 id="Gunicorn"><a href="#Gunicorn" class="headerlink" title="Gunicorn"></a>Gunicorn</h2><p>高并发下的选择。这是一个被广泛使用的高性能的Python WSGI UNIX HTTP服务器,也有人选择uWsgi可以达到同样的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gunicorn</span><br></pre></td></tr></table></figure>
+<h2 id="web应用处理请求整体流程"><a href="#web应用处理请求整体流程" class="headerlink" title="web应用处理请求整体流程"></a>web应用处理请求整体流程</h2><p>1.用户操作浏览器发送请求<br>2.请求转发到对应的web服务器（nginx）,一般来说如果是静态请求，直接返回静态页面（纯HTML页面）,nginx反向代理到uWSGI web应用服务器<br>3.web服务器将请求转交给web应用程序，web应用程序处理请求<br>4.web应用将请求结果返回给web服务器，由web服务器返回用户响应结果<br>5.浏览器收到响应，向用户展示<br>为什么有了uWSGI为什么还需要nginx？因为nginx具备优秀的静态内容处理能力，然后将动态内容转发给uWSGI服务器，这样可以达到很好的客户端响应。</p>
+<h2 id="服务器结构图"><a href="#服务器结构图" class="headerlink" title="服务器结构图"></a>服务器结构图</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">   web 框架（Flask）</span><br><span class="line">     ||</span><br><span class="line">	 ||</span><br><span class="line">   WSGI容器</span><br><span class="line"> （uWSGI应用服务器）</span><br><span class="line">     ||</span><br><span class="line">	 ||</span><br><span class="line">   web服务器</span><br><span class="line">（NGINX，http服务器）</span><br><span class="line">     ||</span><br><span class="line">   客户端</span><br></pre></td></tr></table></figure>
+<h2 id="静态网页和动态网页区别"><a href="#静态网页和动态网页区别" class="headerlink" title="静态网页和动态网页区别"></a>静态网页和动态网页区别</h2><p>静态网页是写死的，所有的内容都是不变的，除非修改静态网页代码；<br>动态网页是通过数据库动态的生成网页的。</p>
+<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>Tomcat，web应用服务器（可以看作一个WEB容器，但实际上是一个应用程序服务器）（区别于Nginx的web服务器）既能为动态网页服务，又能为静态网页提供支持。单Tomcat没有通常的Web服务器快，所以大型网站可以选择Tomcat和Nginx结合，Nginx负责接受客户端的http请求，然后将请求抓发给Tomcat来处理。</p>
+<h2 id="安装supervisor"><a href="#安装supervisor" class="headerlink" title="安装supervisor"></a>安装supervisor</h2><p>1.下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install supervisor</span><br></pre></td></tr></table></figure>
+<p>2.修改配置文件(/etc/supervisord.conf)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[inet_http_server]         ; inet (TCP) server disabled by default</span><br><span class="line">port&#x3D;0.0.0.0:9001        ; (ip_address:port specifier, *:port for all iface)</span><br><span class="line">username&#x3D;user              ; (default is no username (open server))</span><br><span class="line">password&#x3D;123               ; (default is no password (open server))</span><br><span class="line">...</span><br><span class="line">[include]</span><br><span class="line">files &#x3D; &#x2F;etc&#x2F;supervisord.d&#x2F;*.conf</span><br></pre></td></tr></table></figure>
+<p>3.各服务配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># directory &#x3D; &#x2F;Code&#x2F;project        程序的启动目录  </span><br><span class="line"># command &#x3D; gunicorn -w 4 -worker-class gevent -bind 0.0.0.0:5000 入口文件名:app   启动命令</span><br><span class="line">[program:CR_data_server]</span><br><span class="line">command&#x3D;uwsgi --ini &#x2F;code&#x2F;ClashRoyale&#x2F;conf&#x2F;uwsgi.ini</span><br><span class="line">autostart&#x3D;true</span><br><span class="line">autorestart&#x3D;true</span><br><span class="line">stdout_logfile&#x3D;&#x2F;code&#x2F;ClashRoyale&#x2F;log&#x2F;uwsgi_supervisor.log</span><br><span class="line">daemonize&#x3D;no</span><br><span class="line">user&#x3D;root</span><br></pre></td></tr></table></figure>
+<p>4.问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">supervisorctl reread</span><br><span class="line">error: &lt;class &#39;ConnectionRefusedError&#39;&gt;, [Errno 111] Connection refused: file: &#x2F;usr&#x2F;local&#x2F;lib&#x2F;python3.8&#x2F;site-packages&#x2F;supervisor&#x2F;xmlrpc.py line: 560</span><br></pre></td></tr></table></figure>
+<p>执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ps -ef | grep supervisor</span><br><span class="line">kill -9 id</span><br><span class="line">supervisord</span><br><span class="line">supervisorctl reload</span><br></pre></td></tr></table></figure>
+<h2 id="单一部署"><a href="#单一部署" class="headerlink" title="单一部署"></a>单一部署</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">events &#123;</span><br><span class="line">    worker_connections 1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span><br><span class="line">                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;</span><br><span class="line">                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;</span><br><span class="line"></span><br><span class="line">    access_log  &#x2F;var&#x2F;log&#x2F;nginx&#x2F;access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile            on;</span><br><span class="line">    tcp_nopush          on;</span><br><span class="line">    tcp_nodelay         on;</span><br><span class="line">    keepalive_timeout   65;</span><br><span class="line">    types_hash_max_size 2048;</span><br><span class="line"></span><br><span class="line">    include             &#x2F;etc&#x2F;nginx&#x2F;mime.types;</span><br><span class="line">    default_type        application&#x2F;octet-stream;</span><br><span class="line"></span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80 default_server;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	charset utf-8;</span><br><span class="line"></span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">		include uwsgi_params;</span><br><span class="line">		uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">		uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;ClashRoyale;  # 项目根目录</span><br><span class="line">		uwsgi_param UWSGI_SCRIPT server:app;        # server 为app入口name</span><br><span class="line">		uwsgi_read_timeout 300;</span><br><span class="line">		uwsgi_connect_timeout 300;</span><br><span class="line">        uwsgi_send_timeout 300;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="前后端分离部署"><a href="#前后端分离部署" class="headerlink" title="前后端分离部署"></a>前后端分离部署</h2><p>nginx配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 80;</span><br><span class="line">    server_name xxxx.com www.xxxx.com;</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      root &#x2F;root&#x2F;works_app&#x2F;dist; # 生成的静态文件的地址</span><br><span class="line">      index index.html index.htm;</span><br><span class="line">      try_files $uri &#x2F;index.html;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">    location &#x2F;api &#123;</span><br><span class="line">	   	  proxy_pass http:&#x2F;&#x2F;127.0.0.1:81;     # 反向代理到后端</span><br><span class="line">	      proxy_set_header Host $host;</span><br><span class="line">	    &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen 81;</span><br><span class="line">    server_name xxxx.com;  # 域名，更换成自己的域名</span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">      include uwsgi_params;</span><br><span class="line">      uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">      uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;DataPortal;</span><br><span class="line">      uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">      uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">      uwsgi_read_timeout 300;</span><br><span class="line">      uwsgi_connect_timeout 300;</span><br><span class="line">      uwsgi_send_timeout 300;</span><br><span class="line">    	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后重启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/" data-id="ckddufv2x00012suj0uwkb9yk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E9%83%A8%E7%BD%B2/" rel="tag">部署</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-mysql创建用户并赋予权限" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/28/mysql%E5%88%9B%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%9D%83%E9%99%90/" class="article-date">
@@ -493,67 +629,6 @@
 
 
   
-    <article id="post-rabbitMQ在python中的使用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
-  <time datetime="2020-06-17T07:13:25.000Z" itemprop="datePublished">2020-06-17</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/">rabbitMQ在python中的使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是rabbitMQ"><a href="#什么是rabbitMQ" class="headerlink" title="什么是rabbitMQ"></a>什么是rabbitMQ</h2><p>rabbitMQ是一种消息队列，消息是应用间传递的数据，消息队列是应用间的通信方式。</p>
-<h2 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h2><h3 id="win10"><a href="#win10" class="headerlink" title="win10"></a>win10</h3><h4 id="下载erlang"><a href="#下载erlang" class="headerlink" title="下载erlang"></a>下载erlang</h4><p>RabbitMQ是用Erlang编写的，所以安装Erlang。<br>下载地址： <a href="https://www.erlang.org/downloads" target="_blank" rel="noopener">https://www.erlang.org/downloads</a><br>配置环境变量</p>
-<h4 id="下载并安装RabbitMQ"><a href="#下载并安装RabbitMQ" class="headerlink" title="下载并安装RabbitMQ"></a>下载并安装RabbitMQ</h4><p>下载地址：<a href="https://www.rabbitmq.com/download.html" target="_blank" rel="noopener">https://www.rabbitmq.com/download.html</a><br>可以选择： Downloads on Bintray 然后下载对应的版本<br>安装完成后到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin 目录下打开cmder输入rabbitmq-plugins enable rabbitmq_management命令进行安装，完毕后点击sbin目录下的rabbitmq-server.bat运行rabbit。server成功开启后访问<a href="http://localhost:15672，登录账号和密码都是guest。">http://localhost:15672，登录账号和密码都是guest。</a></p>
-<h3 id="配置用户"><a href="#配置用户" class="headerlink" title="配置用户"></a>配置用户</h3><p>cmder进入到E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin目录下运行以下命令创建用户:rabbitmqctl add_user user password</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user admin admin</span><br></pre></td></tr></table></figure>
-<p>给用户添加角色：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_user_tags admin administrator</span><br></pre></td></tr></table></figure>
-<p>给用户赋权限, 指定允许访问的vhost以及write/read：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br></pre></td></tr></table></figure>
-<p>查看vhost（/）允许哪些用户访问</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_permissions -p &#x2F;</span><br></pre></td></tr></table></figure>
-<p>日志启用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\sbin</span><br><span class="line">rabbitmq-plugins.bat enable rabbitmq_tracing</span><br></pre></td></tr></table></figure>
-<p>启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net start RabbitMQ</span><br></pre></td></tr></table></figure>
-<p>配置允许远程访问的用户:<br>vim /etc/rabbitmq/rabbitmq.config 修改为loopback_users,[]<br>重启rabbitMQ<br>win系统在rabbit.app下修改:<br>E:\rabbitMQ\RabbitMQ Server\rabbitmq_server-3.8.5\ebin\rabbit.app</p>
-<h2 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h2><h3 id="下载erlang-rabbitmq"><a href="#下载erlang-rabbitmq" class="headerlink" title="下载erlang, rabbitmq"></a>下载erlang, rabbitmq</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install erlang-nox</span><br><span class="line">sudo apt-get update   #  更新源</span><br><span class="line">sudo apt-get install rabbitmq-server</span><br></pre></td></tr></table></figure>
-<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo rabbitmqct start_app    # 启动</span><br><span class="line">sudo rabbitmqctl stop     # 停止</span><br><span class="line">sudo rabbitmqctl restart_vhost  # 重启</span><br><span class="line">sudo rabbitmqctl status       # 状态</span><br></pre></td></tr></table></figure>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">添加admin用户，密码为admin:</span><br><span class="line">sudo rabbitmqctl add_user admin admin</span><br><span class="line">赋权:</span><br><span class="line">sudo rabbitmqctl set_user_tags admin administrator</span><br><span class="line">给用户赋权限, 指定允许访问的vhost以及write&#x2F;read：</span><br><span class="line">sudo rabbitmqctl set_permissions -p &quot;&#x2F;&quot; admin &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br><span class="line">GUI:</span><br><span class="line">cd &#x2F;etc&#x2F;rabbitmq&#x2F;</span><br><span class="line">sudo rabbitmq-plugins enable rabbitmq_management</span><br><span class="line">日志：</span><br><span class="line">sudo rabbitmq-plugins enable rabbitmq_tracing</span><br></pre></td></tr></table></figure>
-
-<h2 id="python使用pika对接rabbitMQ"><a href="#python使用pika对接rabbitMQ" class="headerlink" title="python使用pika对接rabbitMQ"></a>python使用pika对接rabbitMQ</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">import pika</span><br><span class="line"></span><br><span class="line"># 生产者</span><br><span class="line"></span><br><span class="line">credentials &#x3D; pika.PlainCredentials(&#39;admin&#39;, &#39;admin&#39;)  # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;172.20.61.137&#39;, port&#x3D;5672, virtual_host&#x3D;&#39;&#x2F;&#39;, credentials&#x3D;credentials))    # 同步连接模式</span><br><span class="line">channel &#x3D; connection.channel()      # 创建频道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)    # 通过这个频道来创建队列，如果MQ中队列存在忽略，没有则创建 durable指定队列持久化</span><br><span class="line"></span><br><span class="line">channel.basic_publish(exchange&#x3D;&#39;&#39;,</span><br><span class="line">                      routing_key&#x3D;&#39;TEST01&#39;,     # 指定队列名称</span><br><span class="line">                      body&#x3D;&#39;Hello World!&#39;,      # 往该队列中发送一个消息</span><br><span class="line">                      properties&#x3D;pika.BasicProperties(</span><br><span class="line">                          delivery_mode&#x3D;2,          # 指定消息持久化</span><br><span class="line">						  expiration&#x3D;&#39;50&#39; 	# ttl设置</span><br><span class="line">                      ))</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">connection.close()</span><br><span class="line"></span><br><span class="line"># 消费者</span><br><span class="line"></span><br><span class="line">credentials &#x3D; pika.PlainCredentials(&#39;guest&#39;, &#39;guest&#39;)     # 身份验证凭证</span><br><span class="line">connection &#x3D; pika.BlockingConnection(pika.ConnectionParameters(host&#x3D;&#39;172.20.61.137&#39;, port&#x3D;5672, virtual_host&#x3D;&#39;&#x2F;&#39;, credentials&#x3D;credentials))</span><br><span class="line">channel &#x3D; connection.channel()      # 创建管道</span><br><span class="line"></span><br><span class="line">channel.queue_declare(queue&#x3D;&#39;TEST01&#39;, durable&#x3D;True)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def callback(ch, method, properties, body):         # callback函数负责接收队列里的消息</span><br><span class="line">    print(&quot; [x] Received %r&quot; % body)</span><br><span class="line">    ch.basic_ack(delivery_tag&#x3D;method.delivery_tag)  # 向生成者发送消费完毕的确认信息，然后生产者将此条消息同队列里剔除</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">channel.basic_consume(&#39;TEST01&#39;,       # 指定队列名 queue&#x3D;</span><br><span class="line">                      callback,            # 从队列里取消息</span><br><span class="line">                      False)     # no_ack&#x3D; 当消费者遇到情况(its channel is closed, connection is closed, or TCP connection is lost)挂掉了，那么RabbitMQ会重新将该任务添加到队列中</span><br><span class="line"></span><br><span class="line">print(&quot; [x] Sent &#39;Hello World&quot;)</span><br><span class="line">channel.start_consuming()</span><br></pre></td></tr></table></figure>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在ubuntu中使用rabbitMQ时，出现了rabbitMQ WEB 管理界面无消息统计信息 + 消息非持久化（即拿即用即销毁？在log日志中也有消息记录，这是怎么回事呢？？？）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">怎么解决？</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/17/rabbitMQ%E5%9C%A8python%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="ckbj6lot30000ysujazsg9rau" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MessageQueue/" rel="tag">MessageQueue</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/" rel="tag">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RabbitMQ/" rel="tag">RabbitMQ</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -611,6 +686,10 @@
       <ul>
         
           <li>
+            <a href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/">python类中方法调用</a>
+          </li>
+        
+          <li>
             <a href="/2020/12/18/%E5%9F%9F%E5%90%8D/">域名</a>
           </li>
         
@@ -624,10 +703,6 @@
         
           <li>
             <a href="/2020/11/20/logstash%E5%AE%89%E8%A3%85/">logstash安装</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">python性能调优</a>
           </li>
         
       </ul>

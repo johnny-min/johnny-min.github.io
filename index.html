@@ -64,6 +64,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-python类中方法调用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/" class="article-date">
+  <time datetime="2020-12-22T06:08:56.000Z" itemprop="datePublished">2020-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/">python类中方法调用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="python中调用类中的方法"><a href="#python中调用类中的方法" class="headerlink" title="python中调用类中的方法"></a>python中调用类中的方法</h2><p>如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class A(object):</span><br><span class="line">	def __init__(self):</span><br><span class="line">		pass</span><br><span class="line">	</span><br><span class="line">	def method_a(self):</span><br><span class="line">		pass</span><br><span class="line">		</span><br><span class="line">	@staticmethod</span><br><span class="line">	def method_b():</span><br><span class="line">		pass</span><br><span class="line">		</span><br><span class="line">a &#x3D; A()</span><br><span class="line">a.method_a()</span><br><span class="line">A().method_a()</span><br><span class="line">A.method_b()</span><br></pre></td></tr></table></figure>
+<p>调用类的静态方法时，不需要加括号<br><br>加括号是类的实例化。</p>
+<h2 id="python中调用父类中的方法"><a href="#python中调用父类中的方法" class="headerlink" title="python中调用父类中的方法"></a>python中调用父类中的方法</h2><p>如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">class A(object):</span><br><span class="line">	def __init__(self):</span><br><span class="line">		pass</span><br><span class="line">	</span><br><span class="line">	def method_a(self):</span><br><span class="line">		pass</span><br><span class="line">		</span><br><span class="line">	@staticmethod</span><br><span class="line">	def method_b():</span><br><span class="line">		pass</span><br><span class="line">		</span><br><span class="line"></span><br><span class="line">class B(A):</span><br><span class="line">	def __init__(self):</span><br><span class="line">		super().__init__()</span><br><span class="line">	</span><br><span class="line">	def method_c(self):</span><br><span class="line">		A.method_b()</span><br><span class="line">		</span><br><span class="line">	def method_d():</span><br><span class="line">		super().method_a()</span><br><span class="line">		</span><br><span class="line">	def method_e():</span><br><span class="line">		super(B, self).method_a()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/" data-id="ckj15g9ks0000vkuj186o4yia" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-域名" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/12/18/%E5%9F%9F%E5%90%8D/" class="article-date">
@@ -475,55 +518,6 @@
 
 
   
-    <article id="post-centos7开启ssh及连接" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/" class="article-date">
-  <time datetime="2020-11-12T07:04:57.000Z" itemprop="datePublished">2020-11-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/">centos7开启ssh及连接</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="安装OpenSSH服务"><a href="#安装OpenSSH服务" class="headerlink" title="安装OpenSSH服务"></a>安装OpenSSH服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install openssh-server -y</span><br></pre></td></tr></table></figure>
-<h2 id="配置OpenSSH服务-默认的配置已可以正常工作"><a href="#配置OpenSSH服务-默认的配置已可以正常工作" class="headerlink" title="配置OpenSSH服务(默认的配置已可以正常工作)"></a>配置OpenSSH服务(默认的配置已可以正常工作)</h2><p> OpenSSH的主配置文件：/etc/ssh/sshd_config<br> 常见的配置选项：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> Port&#x3D;22  设置SSH的端口号是22(默认端口号为22)</span><br><span class="line"></span><br><span class="line">Protocol 2  启用SSH版本2协议</span><br><span class="line"></span><br><span class="line">ListenAddress 192.168.0.222  设置服务监听的地址</span><br><span class="line"></span><br><span class="line">DenyUsers   user1 user2 foo  拒绝访问的用户(用空格隔开)</span><br><span class="line"></span><br><span class="line">AllowUsers  root osmond vivek  允许访问的用户(用空格隔开)</span><br><span class="line"></span><br><span class="line">PermitRootLogin  no  禁止root用户登陆</span><br><span class="line"></span><br><span class="line">PermitEmptyPasswords no  用户登陆需要密码认证</span><br><span class="line"></span><br><span class="line">PasswordAuthentication  yes  启用口令认证方式</span><br></pre></td></tr></table></figure></p>
-<h2 id="重启OpenSSH服务"><a href="#重启OpenSSH服务" class="headerlink" title="重启OpenSSH服务"></a>重启OpenSSH服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl restart sshd</span><br></pre></td></tr></table></figure>
-<h2 id="通过ssh远程连接服务器"><a href="#通过ssh远程连接服务器" class="headerlink" title="通过ssh远程连接服务器"></a>通过ssh远程连接服务器</h2><p>安装ssh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install openssh-clients</span><br></pre></td></tr></table></figure>
-<p>连接</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@1.1.1.1</span><br></pre></td></tr></table></figure>
-<p>文件下载</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;</span><br><span class="line">scp root@1.1.1.1:&#x2F;root&#x2F;a.txt &#x2F;home&#x2F;a.txt</span><br></pre></td></tr></table></figure>
-<p>上传</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文件名&gt;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/11/12/centos7%E5%BC%80%E5%90%AFssh%E5%8F%8A%E8%BF%9E%E6%8E%A5/" data-id="ckhmvh4lu000g1guj5sk33k00" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/centos/" rel="tag">centos</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ssh/" rel="tag">ssh</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -581,6 +575,10 @@
       <ul>
         
           <li>
+            <a href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/">python类中方法调用</a>
+          </li>
+        
+          <li>
             <a href="/2020/12/18/%E5%9F%9F%E5%90%8D/">域名</a>
           </li>
         
@@ -594,10 +592,6 @@
         
           <li>
             <a href="/2020/11/20/logstash%E5%AE%89%E8%A3%85/">logstash安装</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">python性能调优</a>
           </li>
         
       </ul>

@@ -64,6 +64,52 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Python中C接口的开发何使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-09-24T03:45:20.000Z" itemprop="datePublished">2020-09-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/">Python中C接口的开发何使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="创建C文件编写接口"><a href="#创建C文件编写接口" class="headerlink" title="创建C文件编写接口"></a>创建C文件编写接口</h2><p>accumulate.c</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">unsigned int accumulate(unsigned int n)</span><br><span class="line">&#123;</span><br><span class="line">  unsigned int sum &#x3D; 0;</span><br><span class="line">  unsigned int i &#x3D; 0;</span><br><span class="line"></span><br><span class="line">  for(; i &lt;&#x3D; n; i++)</span><br><span class="line">    sum +&#x3D; i;</span><br><span class="line"></span><br><span class="line">  return sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">  printf(&quot;%u&quot;, accumulate)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="编译测试"><a href="#编译测试" class="headerlink" title="编译测试"></a>编译测试</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make accumulate &amp;&amp; .&#x2F;accumulate</span><br></pre></td></tr></table></figure>
+<h2 id="安装相关python包"><a href="#安装相关python包" class="headerlink" title="安装相关python包"></a>安装相关python包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install python3.6-dev</span><br></pre></td></tr></table></figure>
+<h2 id="使用Python-h包裹"><a href="#使用Python-h包裹" class="headerlink" title="使用Python.h包裹"></a>使用Python.h包裹</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;Python.h&gt;</span><br><span class="line"></span><br><span class="line">static unsigned int _accumulate(unsigned int n)</span><br><span class="line">&#123;</span><br><span class="line">  unsigned int sum &#x3D; 0;</span><br><span class="line">  unsigned int i &#x3D; 0;</span><br><span class="line"></span><br><span class="line">  for(; i &lt;&#x3D; n; i++)</span><br><span class="line">    sum +&#x3D; i;</span><br><span class="line"></span><br><span class="line">  return sum;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static PyObject *accumulate(PyObject* self, PyObject* args)</span><br><span class="line">&#123;</span><br><span class="line">  unsigned int n &#x3D; 0;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 类型解析参考 https:&#x2F;&#x2F;docs.python.org&#x2F;3&#x2F;c-api&#x2F;arg.html#c.PyArg_ParseTuple</span><br><span class="line">  if(!PyArg_ParseTuple(args, &quot;i&quot;, &amp;n))</span><br><span class="line">    return NULL;</span><br><span class="line"></span><br><span class="line">  return Py_BuildValue(&quot;i&quot;, _accumulate(n));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static PyMethodDef accuMethods[] &#x3D;</span><br><span class="line">&#123;</span><br><span class="line">  &#123;&quot;accumulate&quot;, accumulate, METH_VARARGS, &quot;Calculate the accumulation of n&quot;&#125;,</span><br><span class="line">  &#123;NULL, NULL, 0, NULL&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">static PyModuleDef accuModule &#x3D;</span><br><span class="line">&#123;</span><br><span class="line">  PyModuleDef_HEAD_INIT,</span><br><span class="line">  &quot;accuModule&quot;,                   &#x2F;&#x2F; module name</span><br><span class="line">  &quot;accumulate module description&quot;,&#x2F;&#x2F; module description</span><br><span class="line">  -1,</span><br><span class="line">  accuMethods</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 仅有的非 static 函数，对外暴露模块接口，PyInit_name 必须和模块名相同</span><br><span class="line">&#x2F;&#x2F; only one non-static function</span><br><span class="line">PyMODINIT_FUNC PyInit_accuModule(void)</span><br><span class="line">&#123;</span><br><span class="line">  return PyModule_Create(&amp;accuModule);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="创建setup-py文件来编译目标-so文件"><a href="#创建setup-py文件来编译目标-so文件" class="headerlink" title="创建setup.py文件来编译目标.so文件"></a>创建setup.py文件来编译目标.so文件</h2><p>setup.py文件内容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from distutils.core import setup, Extension</span><br><span class="line"></span><br><span class="line">module &#x3D; Extension(&#39;accuModule&#39;, sources &#x3D; [&#39;accumulate.c&#39;])</span><br><span class="line"></span><br><span class="line">setup(name &#x3D; &#39;accuModule&#39;,</span><br><span class="line">          version &#x3D; &#39;1.0&#39;,</span><br><span class="line">          description &#x3D; &#39;This is a demo package&#39;,</span><br><span class="line">          ext_modules &#x3D; [module])</span><br></pre></td></tr></table></figure>
+<h2 id="开始编译"><a href="#开始编译" class="headerlink" title="开始编译"></a>开始编译</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3.6 setup.py build</span><br></pre></td></tr></table></figure>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3.6 setup.py install --record install.txt</span><br></pre></td></tr></table></figure>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from accuModule import accumulate</span><br><span class="line"></span><br><span class="line">print(accumulate(100))</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/24/Python%E4%B8%ADC%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%BC%80%E5%8F%91%E4%BD%95%E4%BD%BF%E7%94%A8/" data-id="ckfgoso7f00019wuje1stf7ej" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-flaskrestfulResponseFormats" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/09/24/flaskrestfulResponseFormats/" class="article-date">
@@ -489,53 +535,6 @@
 
 
   
-    <article id="post-jmeter压力测试工具" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/08/28/jmeter%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" class="article-date">
-  <time datetime="2020-08-28T02:12:36.000Z" itemprop="datePublished">2020-08-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/28/jmeter%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/">jmeter压力测试工具</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="安装Java"><a href="#安装Java" class="headerlink" title="安装Java"></a>安装Java</h2><p>jmeter依赖java,所以要安装对应版本的jdk，我安装的5.3的jmeter对应jdk1.8。</p>
-<ol>
-<li>下载<br>去 <a href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html" target="_blank" rel="noopener">https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html</a> 这个页面下载对应版本的jdk,如windows 64位，就找Windows x64。</li>
-<li>安装<br>我的安装路径为：<br>E:\java\Java\jdk1.8.0_261<br>E:\java\Java\jre1.8.0_261</li>
-<li>配置环境变量<br>用户环境变量里新建JAVA_HOME，值为： E:\java\Java\jdk1.8.0_261<br>用户环境变量里新建CLASSPATH，值为： .;%JAVA_HOME%\lib<br>用户环境变量里Path新加，值为： %JAVA_HOME%\bin 并放置最顶端<br>最后应用</li>
-<li>测试<br>cmd 中分别输入 Java -version ， javac<h2 id="安装jmeter"><a href="#安装jmeter" class="headerlink" title="安装jmeter"></a>安装jmeter</h2></li>
-<li>下载<br><a href="http://jmeter.apache.org/" target="_blank" rel="noopener">http://jmeter.apache.org/</a> 去这个网站下载Binaries对应的zip包</li>
-<li>解压<br>右键解压<br>我的解压路径为： E:\jmeter\</li>
-<li>配置环境变量<br>用户环境变量里新建JMETER_HOME，值为： E:\jmeter\apache-jmeter-5.3<br>配置classpath变量，值为：%JMETER_HOME%\lib\ext\ApacheJMeter_core.jar;%JMETER_HOME%\lib\jorphan.jar;%JMETER_HOME%\lib/logkit-2.0.jar;</li>
-<li>测试<br>打开E:\jmeter\apache-jmeter-5.3\bin中的jmeter.bat</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/28/jmeter%E5%8E%8B%E5%8A%9B%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7/" data-id="ckee117jj00039sujeuf92vsa" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -593,6 +592,10 @@
       <ul>
         
           <li>
+            <a href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/">python类中方法调用</a>
+          </li>
+        
+          <li>
             <a href="/2020/12/18/%E5%9F%9F%E5%90%8D/">域名</a>
           </li>
         
@@ -606,10 +609,6 @@
         
           <li>
             <a href="/2020/11/20/logstash%E5%AE%89%E8%A3%85/">logstash安装</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">python性能调优</a>
           </li>
         
       </ul>
