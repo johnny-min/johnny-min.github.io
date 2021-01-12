@@ -64,6 +64,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-nginx-uwsgi请求超时502" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/18/nginx-uwsgi%E8%AF%B7%E6%B1%82%E8%B6%85%E6%97%B6502/" class="article-date">
+  <time datetime="2020-11-18T10:38:34.000Z" itemprop="datePublished">2020-11-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/18/nginx-uwsgi%E8%AF%B7%E6%B1%82%E8%B6%85%E6%97%B6502/">nginx+uwsgi请求超时502</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>先看一下这次nginx报502的问题:<br><br>首先是nginx的error.log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">2020&#x2F;11&#x2F;18 18:14:42 [error] 28687#0: *196 upstream prematurely closed connection while reading response header from upstream, client: 0.0.0.0, server: , request: &quot;GET &#x2F;world&#x2F;test HTTP&#x2F;1.1&quot;, upstream: &quot;uwsgi:&#x2F;&#x2F;127.0.0.1:8081&quot;, host: &quot;0.0.0.0&quot;</span><br><span class="line">2020&#x2F;11&#x2F;18 18:14:47 [error] 28687#0: *198 upstream prematurely closed connection while reading response header from upstream, client: 0.0.0.0, server: , request: &quot;GET &#x2F;world&#x2F;test HTTP&#x2F;1.1&quot;, upstream: &quot;uwsgi:&#x2F;&#x2F;127.0.0.1:8081&quot;, host: &quot;0.0.0.0&quot;</span><br></pre></td></tr></table></figure>
+<p>然后是uwsgi.log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Wed Nov 18 18:24:03 2020 - HARAKIRI [core 0] 0.0.0.0 - GET &#x2F;world&#x2F;test since 1605694952</span><br><span class="line">Wed Nov 18 18:24:03 2020 - HARAKIRI !!! end of worker 1 status !!!</span><br><span class="line">DAMN ! worker 1 (pid: 8136) died, killed by signal 9 :( trying respawn ...</span><br><span class="line">Respawned uWSGI worker 1 (new pid: 10206)</span><br></pre></td></tr></table></figure>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>uwsgi主动干掉了进程</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>uwsgi.ini中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">harakiri&#x3D;600</span><br><span class="line">socket-timeout&#x3D;600</span><br></pre></td></tr></table></figure>
+<p>解释：<br><br>socket-timeout（连接时间）<br><br>举个例子：<br>    前端（客户端）访问后端（服务器），服务器需要运行5分钟才能给前端返回响应，<br>    但是http-timeout或者socket-timeout设置的是60，那么一分钟后，我的前端和后端<br>    就断开连接了，<br>    ！但是！我的服务器还是会坚持把这5分钟的活干完，只不过没有办法给前端返回<br>    响应了！<br>    （顾客去餐厅吃饭，做饭需要10分钟才能上菜，顾客等了1分钟就跑路了！）<br><br>harakiri(服务器响应时间）<br>  和http-timeout有点类似，举个例子：<br>    前端（客户端）向后端（服务器）发送到一个请求，等待服务器响应，服务器<br>    需要1分钟来计算数据，但是我的harakiri就设置了10秒，那么10秒一到，<br>    我们的服务器就强制终止了计算，前端肯定就得不到响应了。<br>    （老板给员工发了一个任务，这个任务需要5天完成，这个员工干了一天<br>    就撂挑子了！）<br><br>在nginx.conf中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">  proxy_connect_timeout 600;</span><br><span class="line">	proxy_read_timeout 600;</span><br><span class="line">	proxy_send_timeout 600;</span><br><span class="line"></span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">		uwsgi_send_timeout 600;        # 指定向uWSGI传送请求的超时时间，完成握手后向uWSGI传送请求的超时时间。</span><br><span class="line">    uwsgi_connect_timeout 600;   # 指定连接到后端uWSGI的超时时间。</span><br><span class="line">    uwsgi_read_timeout 600;        # 指定接收uWSGI应答的超时时间，完成握手后接收uWSGI应答的超时时间。</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/18/nginx-uwsgi%E8%AF%B7%E6%B1%82%E8%B6%85%E6%97%B6502/" data-id="ckhna6uaa0000k0ujecq24b1t" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/uwsgi/" rel="tag">uwsgi</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-python-init-和-new" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/11/12/python-init-%E5%92%8C-new/" class="article-date">
@@ -547,50 +594,6 @@
 
 
   
-    <article id="post-http状态码大全" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/15/http%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/" class="article-date">
-  <time datetime="2020-10-15T07:46:49.000Z" itemprop="datePublished">2020-10-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/15/http%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/">http状态码大全</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="大分类"><a href="#大分类" class="headerlink" title="大分类"></a>大分类</h2><p>1**      信息，服务器收到请求，需要请求者继续执行操作<br>2**      成功，操作被成功接收并处理<br>3**      重定向，需要进一步的操作以完成请求<br>4**      客户端错误，请求包含语法错误或无法完成请求<br>5**      服务器错误，服务器在处理请求的过程中发生了错误</p>
-<h2 id="细节区分"><a href="#细节区分" class="headerlink" title="细节区分"></a>细节区分</h2><h3 id="1"><a href="#1" class="headerlink" title="1**"></a>1**</h3><p>100      Continue                继续。客户端应继续其请求<br>101      Switching Protocols      切换协议。服务器根据客户端的请求切换协议。只能切换到更高级的协议，例如，切换到HTTP的新版本协议</p>
-<h3 id="2"><a href="#2" class="headerlink" title="2**"></a>2**</h3><p>200      OK                                请求成功。一般用于GET与POST请求<br>201      Created                            已创建。成功请求并创建了新的资源<br>202      Accepted                          已接受。已经接受请求，但未处理完成<br>203      Non-Authoritative Information      非授权信息。请求成功。但返回的meta信息不在原始的服务器，而是一个副本<br>204      No Content                        无内容。服务器成功处理，但未返回内容。在未更新网页的情况下，可确保浏览器继续显示当前文档<br>205      Reset Content                      重置内容。服务器处理成功，用户终端（例如：浏览器）应重置文档视图。可通过此返回码清除浏览器的表单域<br>206      Partial Content                    部分内容。服务器成功处理了部分GET请求</p>
-<h3 id="3"><a href="#3" class="headerlink" title="3**"></a>3**</h3><p>300      Multiple Choices         多种选择。请求的资源可包括多个位置，相应可返回一个资源特征与地址的列表用于用户终端（例如：浏览器）选择<br>301      Moved Permanently         永久移动。请求的资源已被永久的移动到新URI，返回信息会包括新的URI，浏览器会自动定向到新URI。今后任何新的请求都应使用新的URI代替<br>302      Found                     临时移动。与301类似。但资源只是临时被移动。客户端应继续使用原有URI<br>303      See Other                 查看其它地址。与301类似。使用GET和POST请求查看<br>304      Not Modified             未修改。所请求的资源未修改，服务器返回此状态码时，不会返回任何资源。客户端通常会缓存访问过的资源，通过提供一个头信息指出客户端希望只返回在指定日期之后修改的资源<br>305      Use Proxy                 使用代理。所请求的资源必须通过代理访问<br>306      Unused                   已经被废弃的HTTP状态码<br>307      Temporary Redirect       临时重定向。与302类似。使用GET请求重定向</p>
-<h3 id="4"><a href="#4" class="headerlink" title="4**"></a>4**</h3><p>400      Bad Request                        客户端请求的语法错误，服务器无法理解<br>401      Unauthorized                      请求要求用户的身份认证<br>402      Payment Required                  保留，将来使用<br>403      Forbidden                          服务器理解请求客户端的请求，但是拒绝执行此请求<br>404      Not Found                          服务器无法根据客户端的请求找到资源（网页）。通过此代码，网站设计人员可设置”您所请求的资源无法找到”的个性页面<br>405      Method Not Allowed                客户端请求中的方法被禁止<br>406      Not Acceptable                    服务器无法根据客户端请求的内容特性完成请求<br>407      Proxy Authentication Required      请求要求代理的身份认证，与401类似，但请求者应当使用代理进行授权<br>408      Request Time-out                  服务器等待客户端发送的请求时间过长，超时<br>409      Conflict                          服务器完成客户端的 PUT 请求时可能返回此代码，服务器处理请求时发生了冲突<br>410      Gone                              客户端请求的资源已经不存在。410不同于404，如果资源以前有现在被永久删除了可使用410代码，网站设计人员可通过301代码指定资源的新位置<br>411      Length Required                    服务器无法处理客户端发送的不带Content-Length的请求信息<br>412      Precondition Failed                客户端请求信息的先决条件错误<br>413      Request Entity Too Large          由于请求的实体过大，服务器无法处理，因此拒绝请求。为防止客户端的连续请求，服务器可能会关闭连接。如果只是服务器暂时无法处理，则会包含一个Retry-After的响应信息<br>414      Request-URI Too Large              请求的URI过长（URI通常为网址），服务器无法处理<br>415      Unsupported Media Type            服务器无法处理请求附带的媒体格式<br>416      Requested range not satisfiable    客户端请求的范围无效<br>417      Expectation Failed                服务器无法满足Expect的请求头信息</p>
-<h3 id="5"><a href="#5" class="headerlink" title="5**"></a>5**</h3><p>500      Internal Server Error             服务器内部错误，无法完成请求<br>501      Not Implemented                   服务器不支持请求的功能，无法完成请求<br>502      Bad Gateway                       作为网关或者代理工作的服务器尝试执行请求时，从远程服务器接收到了一个无效的响应<br>503      Service Unavailable               由于超载或系统维护，服务器暂时的无法处理客户端的请求。延时的长度可包含在服务器的Retry-After头信息中<br>504      Gateway Time-out                 充当网关或代理的服务器，未及时从远端服务器获取请求<br>505      HTTP Version not supported       服务器不支持请求的HTTP协议的版本，无法完成处理</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/10/15/http%E7%8A%B6%E6%80%81%E7%A0%81%E5%A4%A7%E5%85%A8/" data-id="ckgg3aipy0008q4ujdfl8b9gk" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/http-status-code/" rel="tag">http status code</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -626,7 +629,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 12px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 12px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/es/" style="font-size: 12px;">es</a> <a href="/tags/flask/" style="font-size: 18px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 18px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 14px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 16px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 11.67px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 11.67px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/es/" style="font-size: 11.67px;">es</a> <a href="/tags/flask/" style="font-size: 18.33px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16.67px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 11.67px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -648,6 +651,10 @@
       <ul>
         
           <li>
+            <a href="/2021/01/07/flask%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">flask支付宝支付</a>
+          </li>
+        
+          <li>
             <a href="/2021/01/06/flask%E4%B8%AD%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">flask中多对多关系表的操作</a>
           </li>
         
@@ -661,10 +668,6 @@
         
           <li>
             <a href="/2020/12/03/sqlalchemy%E4%B8%80%E6%AC%A1%E9%94%81%E8%A1%A8/">sqlalchemy一次锁表</a>
-          </li>
-        
-          <li>
-            <a href="/2020/11/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A8%AA%E7%AB%96%E8%A1%A8/">数据库横竖表</a>
           </li>
         
       </ul>
