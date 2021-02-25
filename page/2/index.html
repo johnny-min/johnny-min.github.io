@@ -64,6 +64,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-elasticsearch安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/11/19/elasticsearch%E5%AE%89%E8%A3%85/" class="article-date">
+  <time datetime="2020-11-19T03:21:31.000Z" itemprop="datePublished">2020-11-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/11/19/elasticsearch%E5%AE%89%E8%A3%85/">elasticsearch安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>Elasticsearch是一个基于Lucene的搜索服务器</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>win10:<br><br>&nbsp;1.下载安装java se并配置环境：<br><br>&nbsp;&nbsp;&nbsp;链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.oracle.com&#x2F;java&#x2F;technologies&#x2F;javase-downloads.html</span><br></pre></td></tr></table></figure>
+<p>&nbsp;2.创建JAVA_HOME环境变量：<br><br>&nbsp;&nbsp;&nbsp;格式：JAVA_HOME：C:\Program Files\Java\jdk1.8.0_121<br>&nbsp;3.下载安装Elasticsearch：<br><br>&nbsp;&nbsp;&nbsp;链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.elastic.co&#x2F;cn&#x2F;downloads&#x2F;elasticsearch</span><br></pre></td></tr></table></figure>
+<p>&nbsp;4.运行：<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd elasticsearch-7.9.0\bin</span><br><span class="line">elasticsearch</span><br></pre></td></tr></table></figure>
+<p>&nbsp;5.验证：<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;localhost:9200</span><br></pre></td></tr></table></figure>
+<p>成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">&quot;name&quot;: &quot;DESKTOP-N2KDE5H&quot;,</span><br><span class="line">&quot;cluster_name&quot;: &quot;elasticsearch&quot;,</span><br><span class="line">&quot;cluster_uuid&quot;: &quot;DlAtqPqtSPWSYGQHETCQwA&quot;,</span><br><span class="line">&quot;version&quot;: &#123;</span><br><span class="line">&quot;number&quot;: &quot;7.9.0&quot;,</span><br><span class="line">&quot;build_flavor&quot;: &quot;default&quot;,</span><br><span class="line">&quot;build_type&quot;: &quot;zip&quot;,</span><br><span class="line">&quot;build_hash&quot;: &quot;a479a2a7fce0389512d6a9361301708b92dff667&quot;,</span><br><span class="line">&quot;build_date&quot;: &quot;2020-08-11T21:36:48.204330Z&quot;,</span><br><span class="line">&quot;build_snapshot&quot;: false,</span><br><span class="line">&quot;lucene_version&quot;: &quot;8.6.0&quot;,</span><br><span class="line">&quot;minimum_wire_compatibility_version&quot;: &quot;6.8.0&quot;,</span><br><span class="line">&quot;minimum_index_compatibility_version&quot;: &quot;6.0.0-beta1&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&quot;tagline&quot;: &quot;You Know, for Search&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>&nbsp;5.插件安装：<br><br>&nbsp;&nbsp;7.10使用的插件安装<br>&nbsp;&nbsp;&nbsp;第一种方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">命令为</span><br><span class="line">elasticsearch-plugin install ***</span><br><span class="line"># 查看已安装的插件</span><br><span class="line">elasticsearch-plugin list</span><br><span class="line"># 删除已安装的插件</span><br><span class="line">elasticsearch-plugin remove ***</span><br></pre></td></tr></table></figure>
+<p>&nbsp;&nbsp;&nbsp;第二种方法：<br><br>&nbsp;&nbsp;&nbsp;&nbsp;（如elasticsearch集群管理工具head插件）去git下载包：<br><br>&nbsp;&nbsp;&nbsp;&nbsp;1.<a href="https://github.com/mobz/elasticsearch-head下载zip" target="_blank" rel="noopener">https://github.com/mobz/elasticsearch-head下载zip</a> 解压<br><br>&nbsp;&nbsp;&nbsp;&nbsp;2.建立elasticsearch-1.0.0\plugins\head_site文件<br><br>&nbsp;&nbsp;&nbsp;&nbsp;3.将解压后的elasticsearch-head-master文件夹下的文件copy到_site<br><br>&nbsp;&nbsp;&nbsp;&nbsp;4.运行es<br><br>&nbsp;&nbsp;&nbsp;&nbsp;5.打开<a href="http://localhost:9200/_plugin/head/" target="_blank" rel="noopener">http://localhost:9200/_plugin/head/</a><br></p>
+<h2 id="可视化工具"><a href="#可视化工具" class="headerlink" title="可视化工具"></a>可视化工具</h2><p>&nbsp;chrom插件： ElasticSearch Head</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/11/19/elasticsearch%E5%AE%89%E8%A3%85/" data-id="ckhofig1a000400ujhlw4avsx" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/es/" rel="tag">es</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-nginx-uwsgi请求超时502" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/11/18/nginx-uwsgi%E8%AF%B7%E6%B1%82%E8%B6%85%E6%97%B6502/" class="article-date">
@@ -480,120 +533,6 @@
 
 
   
-    <article id="post-linux下安装navicat破解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/" class="article-date">
-  <time datetime="2020-10-19T03:55:29.000Z" itemprop="datePublished">2020-10-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/">linux下安装navicat破解</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="下载navicat15-premium"><a href="#下载navicat15-premium" class="headerlink" title="下载navicat15-premium"></a>下载navicat15-premium</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#96;&#96;&#96;</span><br><span class="line">## 安装依赖</span><br><span class="line">1.准备编译patcher-keygen需要的环境</span><br></pre></td></tr></table></figure>
-<h1 id="安装-capstone"><a href="#安装-capstone" class="headerlink" title="安装 capstone"></a>安装 capstone</h1><p>sudo apt-get install libcapstone-dev</p>
-<h1 id="安装-cmake"><a href="#安装-cmake" class="headerlink" title="安装 cmake"></a>安装 cmake</h1><p>sudo apt-get install cmake</p>
-<h1 id="安装-rapidjson"><a href="#安装-rapidjson" class="headerlink" title="安装 rapidjson"></a>安装 rapidjson</h1><p>sudo apt-get install rapidjson-dev</p>
-<h1 id="安装-keystone"><a href="#安装-keystone" class="headerlink" title="安装 keystone"></a>安装 keystone</h1><p>git clone <a href="https://github.com/keystone-engine/keystone.git" target="_blank" rel="noopener">https://github.com/keystone-engine/keystone.git</a></p>
-<h1 id="进入keystone的目录"><a href="#进入keystone的目录" class="headerlink" title="进入keystone的目录"></a>进入keystone的目录</h1><p>cd keystone</p>
-<h1 id="创建一个build目录用于存放keystone编译后的库文件"><a href="#创建一个build目录用于存放keystone编译后的库文件" class="headerlink" title="创建一个build目录用于存放keystone编译后的库文件"></a>创建一个build目录用于存放keystone编译后的库文件</h1><p>mkdir build</p>
-<h1 id="进入创建的build目录"><a href="#进入创建的build目录" class="headerlink" title="进入创建的build目录"></a>进入创建的build目录</h1><p> cd build</p>
-<h1 id="执行上级目录中的make-share-sh脚本"><a href="#执行上级目录中的make-share-sh脚本" class="headerlink" title="执行上级目录中的make-share.sh脚本"></a>执行上级目录中的make-share.sh脚本</h1><p>../make-share.sh</p>
-<h1 id="安装keystone动态库"><a href="#安装keystone动态库" class="headerlink" title="安装keystone动态库"></a>安装keystone动态库</h1><p>sudo make install</p>
-<h1 id="执行dconfig动态链接库为系统所共享"><a href="#执行dconfig动态链接库为系统所共享" class="headerlink" title="执行dconfig动态链接库为系统所共享"></a>执行dconfig动态链接库为系统所共享</h1><p>sudo ldconfig</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2.编译patcher-keygen</span><br></pre></td></tr></table></figure>
-<h1 id="从git仓库拉取-patcher-keygen-的linux分支"><a href="#从git仓库拉取-patcher-keygen-的linux分支" class="headerlink" title="从git仓库拉取 patcher-keygen 的linux分支"></a>从git仓库拉取 patcher-keygen 的linux分支</h1><p>git clone -b linux –single-branch <a href="https://github.com/HeQuanX/navicat-keygen-tools.git" target="_blank" rel="noopener">https://github.com/HeQuanX/navicat-keygen-tools.git</a></p>
-<h1 id="进入-navicat-keygen-tools-目录"><a href="#进入-navicat-keygen-tools-目录" class="headerlink" title="进入 navicat-keygen-tools 目录"></a>进入 navicat-keygen-tools 目录</h1><p>cd navicat-keygen-tools</p>
-<h1 id="执行编译安装-注-执行make-all需要gcc9-x以上才能支持，下面提供安装演示"><a href="#执行编译安装-注-执行make-all需要gcc9-x以上才能支持，下面提供安装演示" class="headerlink" title="执行编译安装(注:执行make all需要gcc9.x以上才能支持，下面提供安装演示)"></a>执行编译安装(注:执行make all需要gcc9.x以上才能支持，下面提供安装演示)</h1><p>make all</p>
-<h1 id="make-all执行完毕且无误后，会在-navicat-keygen-tools-bin-文件夹下看到编译后的keygen-patcher"><a href="#make-all执行完毕且无误后，会在-navicat-keygen-tools-bin-文件夹下看到编译后的keygen-patcher" class="headerlink" title="make all执行完毕且无误后，会在 navicat-keygen-tools/bin/ 文件夹下看到编译后的keygen/patcher"></a>make all执行完毕且无误后，会在 navicat-keygen-tools/bin/ 文件夹下看到编译后的keygen/patcher</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">如果出现No CMAKE_CXX_COMPILER could be found.</span><br></pre></td></tr></table></figure>
-<p>sudo apt-get update<br>sudo apt-get install -y build-essential</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">出现fatal error: openssl&#x2F;opensslv.h: No such file or directory</span><br></pre></td></tr></table></figure>
-<h1 id="安装-GCC-Compiler"><a href="#安装-GCC-Compiler" class="headerlink" title="安装 GCC Compiler"></a>安装 GCC Compiler</h1><h1 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu:"></a>ubuntu:</h1><p>sudo apt-get install libssl-dev</p>
-<h1 id="centos"><a href="#centos" class="headerlink" title="centos:"></a>centos:</h1><p>yum install openssl-devel</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在make all patcher-keygen时出现collect2: error: ld returned 1 exit status</span><br></pre></td></tr></table></figure>
-<h1 id="找到navicat-keygen-tools中的makefile-找到并作如下修改"><a href="#找到navicat-keygen-tools中的makefile-找到并作如下修改" class="headerlink" title="找到navicat-keygen-tools中的makefile,找到并作如下修改"></a>找到navicat-keygen-tools中的makefile,找到并作如下修改</h1><p>patcher: $(PATCHER_HEADER) $(PATCHER_SOURCE)<br>    @if [ ! -d $(OUTPUT_DIR) ]; then mkdir -p $(OUTPUT_DIR); fi<br>    $(CC) -lstdc++fs -std=c++17 -O2 <br>-I$(COMMON_DIR) <br>$(if $(OPENSSL_INCLUDE_PATH),-I$(OPENSSL_INCLUDE_PATH),) $(if $(OPENSSL_LIB_PATH),-L$(OPENSSL_LIB_PATH),) <br>$(if $(CAPSTONE_INCLUDE_PATH),-I$(CAPSTONE_INCLUDE_PATH),) $(if $(CAPSTONE_LIB_PATH),-L$(CAPSTONE_LIB_PATH),) <br>$(if $(KEYSTONE_INCLUDE_PATH),-I$(KEYSTONE_INCLUDE_PATH),) $(if $(KEYSTONE_LIB_PATH),-L$(KEYSTONE_LIB_PATH),) <br>$(PATCHER_SOURCE) -o $(PATCHER_BINARY) -lcrypto -lcapstone -lkeystone -lstdc++fs<br>    @echo</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## 使用</span><br><span class="line">1、提取AppImage文件里的所有文件到一个文件夹</span><br></pre></td></tr></table></figure>
-<p>mkdir ~/Desktop/navicat15-premium-en<br>sudo mount -o loop ~/Desktop/navicat15-premium-en.AppImage ~/Desktop/navicat15-premium-en<br>cp -r ~/Desktop/navicat15-premium-en ~/Desktop/navicat15-premium-en-patched<br>sudo umount ~/Desktop/navicat15-premium-en<br>rm -rf ~/Desktop/navicat15-premium-en</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2、使用 navicat-patcher 替换官方公钥。</span><br></pre></td></tr></table></figure>
-<p>./bin/navicat-patcher ~/Desktop/navicat15-premium-en-patched</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3、将文件重新打包成AppImage</span><br></pre></td></tr></table></figure>
-<p>wget ‘<a href="https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage&#39;" target="_blank" rel="noopener">https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage&#39;</a><br>chmod +x appimagetool-x86_64.AppImage<br>./appimagetool-x86_64.AppImage ~/Desktop/navicat15-premium-en-patched ~/Desktop/navicat15-premium-en-patched.AppImage</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4、运行刚生成的AppImage：</span><br></pre></td></tr></table></figure>
-<p>chmod +x ~/Desktop/navicat15-premium-en-patched.AppImage<br>~/Desktop/navicat15-premium-en-patched.AppImage</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">5、使用 navicat-keygen 来生成 序列号 和 激活码</span><br></pre></td></tr></table></figure>
-<p>./bin/navicat-keygen –text ./RegPrivateKey.pem</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">一定使用下面的选择</span><br></pre></td></tr></table></figure>
-<p>./bin/navicat-keygen –text ./RegPrivateKey.pem</p>
-<hr>
-<ul>
-<li>Navicat Keygen (Linux) by @DoubleLabyrinth       *</li>
-<li>Version: 1.0                         *</li>
-</ul>
-<hr>
-<p>[*] Select Navicat product:<br>0. DataModeler</p>
-<ol>
-<li>Premium</li>
-<li>MySQL</li>
-<li>PostgreSQL</li>
-<li>Oracle</li>
-<li>SQLServer</li>
-<li>SQLite</li>
-<li>MariaDB</li>
-<li>MongoDB</li>
-<li>ReportViewer</li>
-</ol>
-<p>(Input index)&gt; 1</p>
-<p>[*] Select product language:<br>0. English</p>
-<ol>
-<li>Simplified Chinese</li>
-<li>Traditional Chinese</li>
-<li>Japanese</li>
-<li>Polish</li>
-<li>Spanish</li>
-<li>French</li>
-<li>German</li>
-<li>Korean</li>
-<li>Russian</li>
-<li>Portuguese</li>
-</ol>
-<p>(Input index)&gt; 0</p>
-<p>[*] Input major version number:<br>(range: 0 ~ 15, default: 12)&gt; 15</p>
-<p>[*] Serial number:<br>NAVM-RTVJ-EO42-IODD</p>
-<h1 id="此处可随意"><a href="#此处可随意" class="headerlink" title="此处可随意"></a>此处可随意</h1><p>[<em>] Your name: qq<br>[</em>] Your organization: qqq</p>
-<h1 id="到这一步时断开网络，找到注册窗口，填写keygen给你的-序列号，然后点击-激活"><a href="#到这一步时断开网络，找到注册窗口，填写keygen给你的-序列号，然后点击-激活" class="headerlink" title="到这一步时断开网络，找到注册窗口，填写keygen给你的 序列号，然后点击 激活"></a>到这一步时断开网络，找到注册窗口，填写keygen给你的 序列号，然后点击 激活</h1><h1 id="通常在线激活会失败，所以在弹出的提示中选择-手动激活"><a href="#通常在线激活会失败，所以在弹出的提示中选择-手动激活" class="headerlink" title="通常在线激活会失败，所以在弹出的提示中选择 手动激活"></a>通常在线激活会失败，所以在弹出的提示中选择 手动激活</h1><h1 id="复制-请求码-到keygen，连按两次回车结束"><a href="#复制-请求码-到keygen，连按两次回车结束" class="headerlink" title="复制 请求码 到keygen，连按两次回车结束"></a>复制 请求码 到keygen，连按两次回车结束</h1><p>[*] Input request code in Base64: (Double press ENTER to end)<br>OaGPC3MNjJ/pINbajFzLRkrV2OaSXYLr2tNLDW0fIthPOJQFXr84OOroCY1XN8R2xl2j7epZ182PL6q+BRaSC6hnHev/cZwhq/4LFNcLu0T0D/QUhEEBJl4QzFr8TlFSYI1qhWGLIxkGZggA8vMLMb/sLHYn9QebBigvleP9dNCS4sO82bilFrKFUtq3ch8r7V3mbcbXJCfLhXgrHRvT2FV/s1BFuZzuWZUujxlp37U6Y2PFD8fQgsgBUwrxYbF0XxnXKbCmvtgh2yaB3w9YnQLoDiipKp7io1IxEFMYHCpjmfTGk4WU01mSbdi2OS/wm9pq2Y62xvwawsq1WQJoMg==</p>
-<p>[*] Request Info:<br>{“K”:”NAVMRTVJEO42IODD”, “DI”:”4A12F84C6A088104D23E”, “P”:”linux”}</p>
-<p>[*] Response Info:<br>{“K”:”NAVMRTVJEO42IODD”,”DI”:”4A12F84C6A088104D23E”,”N”:”DoubleLabyrinth”,”O”:”DoubleLabyrinth”,”T”:1575543648}</p>
-<h1 id="Activation-Code复制粘贴到手动激活-的窗口，然后点击-激活"><a href="#Activation-Code复制粘贴到手动激活-的窗口，然后点击-激活" class="headerlink" title="Activation Code复制粘贴到手动激活 的窗口，然后点击 激活"></a>Activation Code复制粘贴到手动激活 的窗口，然后点击 激活</h1><p>[*] Activation Code:<br>i45HIr7T1g69Cm9g3bN1DBpM/Zio8idBw3LOFGXFQjXj0nPfy9yRGuxaUBQkWXSOWa5EAv7S9Z1sljlkZP6cKdfDGYsBb/4N1W5Oj1qogzNtRo5LGwKe9Re3zPY3SO8RXACfpNaKjdjpoOQa9GjQ/igDVH8r1k+Oc7nEnRPZBm0w9aJIM9kS42lbjynVuOJMZIotZbk1NloCodNyRQw3vEEP7kq6bRZsQFp2qF/mr+hIPH8lo/WF3hh+2NivdrzmrKKhPnoqSgSsEttL9a6ueGOP7Io3j2lAFqb9hEj1uC3tPRpYcBpTZX7GAloAENSasFwMdBIdszifDrRW42wzXw==</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">清理</span><br></pre></td></tr></table></figure>
-<p>rm ~/Desktop/navicat15-premium-en.AppImage<br>rm -rf ~/Desktop/navicat15-premium-en-patched<br>mv ~/Desktop/navicat15-premium-en-patched.AppImage ~/Desktop/navicat15-premium-en.AppImage</p>
-<pre><code>用到的文件在lightsail服务器里</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/10/19/linux%E4%B8%8B%E5%AE%89%E8%A3%85navicat%E7%A0%B4%E8%A7%A3/" data-id="ckgg3aijh0000q4ujcem38czq" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux/" rel="tag">linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/navicat/" rel="tag">navicat</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -638,7 +577,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -649,6 +588,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2021/02/25/flask%E5%AF%B9%E6%8E%A5%E8%B0%B7%E6%AD%8Coauth2-0/">flask对接谷歌oauth2.0</a>
+          </li>
         
           <li>
             <a href="/2021/01/07/flask%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">flask支付宝支付</a>
@@ -664,10 +607,6 @@
         
           <li>
             <a href="/2020/12/18/%E5%9F%9F%E5%90%8D/">域名</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/03/sqlalchemy%E4%B8%80%E6%AC%A1%E9%94%81%E8%A1%A8/">sqlalchemy一次锁表</a>
           </li>
         
       </ul>
