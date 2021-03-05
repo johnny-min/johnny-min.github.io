@@ -64,6 +64,90 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-为什么要使用nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/" class="article-date">
+  <time datetime="2021-03-05T07:13:24.000Z" itemprop="datePublished">2021-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/">为什么要使用nginx</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>–”你拿nginx来做什么的？”<br><br>–”….”<br><br>我的内心又懵了，内心OS：他想让我回答啥？等等，我好像没有思考过这个问题。回来再补习以下。</p>
+<h2 id="初次使用"><a href="#初次使用" class="headerlink" title="初次使用"></a>初次使用</h2><p>刚开始不会部署web程序，然后就在网上搜：如何部署flask程序，然后就有了flask + nginx + mysql + uwsgi这个文档。现在看来我起初使用它的原因：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. flask自带的web开发服务器性能不大，基本只是在本地开发，测试玩的。</span><br><span class="line">2. nginx轻量级，抗并发，内存占用少，对静态文件支持较好</span><br></pre></td></tr></table></figure>
+<h2 id="nginx优势"><a href="#nginx优势" class="headerlink" title="nginx优势"></a>nginx优势</h2><p>1.负载均衡，抗并发。请求走不同的web服务器。<br>未完成，下次再写</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/" data-id="cklvzbt5s0001z4uj0kgx1rjp" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-flask中实现同一时间仅允许登录一个账号" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/03/05/flask%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E4%BB%85%E5%85%81%E8%AE%B8%E7%99%BB%E5%BD%95%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/" class="article-date">
+  <time datetime="2021-03-05T07:00:20.000Z" itemprop="datePublished">2021-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/05/flask%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E4%BB%85%E5%85%81%E8%AE%B8%E7%99%BB%E5%BD%95%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">flask中实现同一时间仅允许登录一个账号</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>被问到有没有做过”单点登录”,起初是有点懵的，这个概念没听过，然后询问业务场景后得知是要实现同一时间仅允许登录一个账号。恰好之前有做过这个东西，今天就直接CV了。</p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>单点登录（Single Sign On），简称为 SSO，是比较流行的企业业务整合的解决方案之一。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。<br><br>这个解释是百度给的，与提问者所说的业务场景貌似优点出入…。</p>
+<h2 id="实现逻辑"><a href="#实现逻辑" class="headerlink" title="实现逻辑"></a>实现逻辑</h2><p>1.用户表中增加一个session字段<br>2.在身份验证装饰器中进行判断<br>3.如果当前session与表中数据不一致，则修改表中数据<br>4.删除旧的session</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">def user_login(f):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    验证装饰器</span><br><span class="line">    session 版</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">    @wraps(f)</span><br><span class="line">    def decorated_function(*args, **kwargs):</span><br><span class="line">        if &quot;user_id&quot; not in session:</span><br><span class="line">            return &#123;&#39;msg&#39;: &#39;error, not logged&#39;, &#39;code&#39;: 401&#125;</span><br><span class="line">        # 最后一次登录时间</span><br><span class="line">        current_user &#x3D; db.session.query(User).filter(User.username &#x3D;&#x3D; session[&#39;user_id&#39;]).first()</span><br><span class="line">        current_user.last_login_time &#x3D; datetime.now()</span><br><span class="line">        if not current_user.session or current_user.session &#x3D;&#x3D; &#39;None&#39;:</span><br><span class="line">            current_user.session &#x3D; request.cookies[&#39;session&#39;]</span><br><span class="line">        db.session.commit()</span><br><span class="line">        if request.cookies[&#39;session&#39;] !&#x3D; current_user.session:</span><br><span class="line">            session.clear()</span><br><span class="line">            return &#123;&#39;msg&#39;: &#39;error, log in again&#39;, &#39;code&#39;: 401&#125;</span><br><span class="line">        return f(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">    return decorated_function</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2021/03/05/flask%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E4%BB%85%E5%85%81%E8%AE%B8%E7%99%BB%E5%BD%95%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/" data-id="cklvzbt4a0000z4uj87b30f4h" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-使用python获取dota2游戏数据" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/02/26/%E4%BD%BF%E7%94%A8python%E8%8E%B7%E5%8F%96dota2%E6%B8%B8%E6%88%8F%E6%95%B0%E6%8D%AE/" class="article-date">
@@ -400,103 +484,6 @@
 
 
   
-    <article id="post-logstash安装" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/11/20/logstash%E5%AE%89%E8%A3%85/" class="article-date">
-  <time datetime="2020-11-20T02:26:31.000Z" itemprop="datePublished">2020-11-20</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/20/logstash%E5%AE%89%E8%A3%85/">logstash安装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>win10:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.elastic.co&#x2F;fr&#x2F;downloads&#x2F;logstash</span><br></pre></td></tr></table></figure>
-<p>在解压后的bin目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">touch logstash.conf</span><br><span class="line">vim logstash.conf</span><br><span class="line">input &#123;</span><br><span class="line">    stdin&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125; </span><br><span class="line"> </span><br><span class="line">output &#123;</span><br><span class="line">    stdout&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>修改默认jdk路径</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim logstash.bat</span><br><span class="line">setlocal enabledelayedexpansion</span><br><span class="line">set params&#x3D;&#39;%*&#39;</span><br><span class="line">set JAVA_HOME&#x3D;E:\logstash-7.10.0\jdk</span><br><span class="line">call &quot;%~dp0setup.bat&quot; || exit &#x2F;b 1</span><br><span class="line"></span><br><span class="line">vim logstash-plugin.bat</span><br><span class="line">@echo off</span><br><span class="line">setlocal enabledelayedexpansion</span><br><span class="line">set JAVA_HOME&#x3D;E:\java\Java\jdk1.8.0_261</span><br><span class="line">call &quot;%~dp0setup.bat&quot; || exit &#x2F;b 1</span><br></pre></td></tr></table></figure>
-<p>运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logstash -f logstash.conf</span><br></pre></td></tr></table></figure>
-<h2 id="mysql数据转es"><a href="#mysql数据转es" class="headerlink" title="mysql数据转es"></a>mysql数据转es</h2><p>使用logstash-plugin安装logstash-integration-jdbc插件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">logstash-plugin install logstash-integration-jdbc</span><br><span class="line">logstash-plugin install logstash-output-elasticsearch</span><br></pre></td></tr></table></figure>
-<p>编辑jdbc.conf文件<br><br>路径：logstash-7.10.0\config（创建）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">input &#123;</span><br><span class="line">  jdbc &#123;</span><br><span class="line">    jdbc_driver_library &#x3D;&gt; &quot;&#x2F;Users&#x2F;medcl&#x2F;Downloads&#x2F;mysql-connector-java-5.1.45&#x2F;mysql-connector-java-5.1.45-bin.jar&quot;</span><br><span class="line">    jdbc_driver_class &#x3D;&gt; &quot;Java::com.mysql.jdbc.Driver&quot;</span><br><span class="line">    jdbc_connection_string &#x3D;&gt; &quot;jdbc:mysql:&#x2F;&#x2F;127.0.0.1:3306&#x2F;qa_es&quot;</span><br><span class="line">    jdbc_user &#x3D;&gt; &quot;root&quot;</span><br><span class="line">    jdbc_password &#x3D;&gt; &quot;qeephp&quot;</span><br><span class="line">    statement &#x3D;&gt; &quot;SELECT &#96;aws_article&#96;.&#96;id&#96;, &#96;aws_article&#96;.&#96;uid&#96;, &#96;aws_article&#96;.&#96;title&#96;, &#96;aws_article&#96;.&#96;message&#96;, &#96;aws_article&#96;.&#96;comments&#96;, &#96;aws_article&#96;.&#96;views&#96;, &#96;aws_article&#96;.&#96;add_time&#96; as addtime, &#96;aws_article&#96;.&#96;has_attach&#96;, &#96;aws_article&#96;.&#96;votes&#96;, &#96;aws_article&#96;.&#96;category_id&#96; FROM &#96;qa_es&#96;.&#96;aws_article&#96;&quot;</span><br><span class="line">    jdbc_paging_enabled &#x3D;&gt; &quot;true&quot;</span><br><span class="line">    jdbc_page_size &#x3D;&gt; &quot;50000&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">filter &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">output &#123;</span><br><span class="line">  stdout &#123;</span><br><span class="line">    codec &#x3D;&gt; rubydebug</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    index &#x3D;&gt; &quot;forum-mysql&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logstash -f ..&#x2F;conf&#x2F;jdbc.conf</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/11/20/logstash%E5%AE%89%E8%A3%85/" data-id="ckitqcqaj0003bkujf3zm0esj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/logstash/" rel="tag">logstash</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python性能调优" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" class="article-date">
-  <time datetime="2020-11-19T07:57:47.000Z" itemprop="datePublished">2020-11-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/">python性能调优</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="使用-cProfile-和火焰图调优-Python-程序性能"><a href="#使用-cProfile-和火焰图调优-Python-程序性能" class="headerlink" title="使用 cProfile 和火焰图调优 Python 程序性能"></a>使用 cProfile 和火焰图调优 Python 程序性能</h2><p>安装生成火焰图的python包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install flameprof</span><br></pre></td></tr></table></figure>
-<p>直接上代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"># encoding: utf-8</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">@author: cm</span><br><span class="line">@file: test.py</span><br><span class="line">@time: 2020&#x2F;8&#x2F;6 10:26</span><br><span class="line">@desc:</span><br><span class="line">tottime，指的是函数本身的运行时间，扣除了子函数的运行时间</span><br><span class="line">cumtime，指的是函数的累计运行时间，包含了子函数的运行时间</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">import cProfile, pstats, io, time</span><br><span class="line">from functools import wraps</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def test_code(func):</span><br><span class="line"></span><br><span class="line">    @wraps(func)</span><br><span class="line">    def decorated_function(*args, **kwargs):</span><br><span class="line">        pr &#x3D; cProfile.Profile()</span><br><span class="line">        pr.enable()</span><br><span class="line">        func(*args, **kwargs)</span><br><span class="line">        pr.disable()</span><br><span class="line">        s &#x3D; io.StringIO()</span><br><span class="line">        sortby &#x3D; &quot;cumtime&quot;  </span><br><span class="line">        ps &#x3D; pstats.Stats(pr, stream&#x3D;s).sort_stats(sortby)</span><br><span class="line">        ps.print_stats()</span><br><span class="line"></span><br><span class="line">        print(s.getvalue())</span><br><span class="line">        pr.dump_stats(&quot;pipeline.prof&quot;)  # 生成二进制文件</span><br><span class="line"></span><br><span class="line">    return decorated_function</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@test_code</span><br><span class="line">def test():</span><br><span class="line">    time.sleep(10)</span><br><span class="line">    print(&#39;done&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    test()</span><br></pre></td></tr></table></figure>
-<p>运行完成后，调用该工具</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m flameprof pipeline.prof &gt; output.svg</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/11/19/python%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/" data-id="ckhol7q2v0000gguj9pyr4xw5" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cProfile/" rel="tag">cProfile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -541,7 +528,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -554,6 +541,14 @@
       <ul>
         
           <li>
+            <a href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/">为什么要使用nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/05/flask%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E4%BB%85%E5%85%81%E8%AE%B8%E7%99%BB%E5%BD%95%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">flask中实现同一时间仅允许登录一个账号</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/26/%E4%BD%BF%E7%94%A8python%E8%8E%B7%E5%8F%96dota2%E6%B8%B8%E6%88%8F%E6%95%B0%E6%8D%AE/">使用python获取dota2游戏数据</a>
           </li>
         
@@ -563,14 +558,6 @@
         
           <li>
             <a href="/2021/01/07/flask%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">flask支付宝支付</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/06/flask%E4%B8%AD%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">flask中多对多关系表的操作</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/">python类中方法调用</a>
           </li>
         
       </ul>

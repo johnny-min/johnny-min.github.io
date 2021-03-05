@@ -64,6 +64,124 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-python应用中使用mongoDB" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" class="article-date">
+  <time datetime="2020-07-07T09:18:07.000Z" itemprop="datePublished">2020-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/">python应用中使用mongoDB</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="MongoDB简介"><a href="#MongoDB简介" class="headerlink" title="MongoDB简介"></a>MongoDB简介</h2><p>MongoDB是一种面向文档的数据库管理系统，它是由C++编写的非关系性数据库，其内容存储形式类似JSON对象</p>
+<h2 id="centos安装"><a href="#centos安装" class="headerlink" title="centos安装"></a>centos安装</h2><p>先添加MongoDB源<br><a href="https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el7.x86_64.rpm" target="_blank" rel="noopener">https://repo.mongodb.org/yum/redhat/7/mongodb-org/4.2/x86_64/RPMS/mongodb-org-server-4.2.8-1.el7.x86_64.rpm</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;yum.repos.d&#x2F;mongodb-org.repo</span><br><span class="line">接着修改并保存</span><br><span class="line">[mongodb-org-4.2]</span><br><span class="line">name&#x3D;MongoDB Repository</span><br><span class="line">baseurl&#x3D;https:&#x2F;&#x2F;repo.mongodb.org&#x2F;yum&#x2F;redhat&#x2F;#releasever&#x2F;mongodb-org&#x2F;4.2&#x2F;x86_64&#x2F;</span><br><span class="line">gpgcheck&#x3D;1</span><br><span class="line">enabled&#x3D;1</span><br><span class="line">gpgkey&#x3D;https:&#x2F;&#x2F;www.mongodb.org&#x2F;static&#x2F;pgp&#x2F;server-4.2.asc</span><br><span class="line">然后yum安装</span><br><span class="line">sudo yum install mongodb-org</span><br><span class="line">验证</span><br><span class="line">rpm -qa |grep mongodb</span><br><span class="line">rpm -ql mongodb-org-server</span><br><span class="line">启动</span><br><span class="line">sudo systemctl start mongodb</span><br><span class="line">验证</span><br><span class="line">mongo</span><br><span class="line">停止</span><br><span class="line">sudo systemctl stop mongodb</span><br><span class="line">重启</span><br><span class="line">sudo systemvtl restart mongodb</span><br></pre></td></tr></table></figure>
+<h2 id="在deepin中安装"><a href="#在deepin中安装" class="headerlink" title="在deepin中安装"></a>在deepin中安装</h2><p>安装依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo aptitude install build-essential</span><br><span class="line">sudo aptitude install libboost-filesystem-dev libboost-program-options-dev libboost-system-dev libboos</span><br></pre></td></tr></table></figure>
+<p>下载Debian最新版包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.mongodb.com&#x2F;download-center&#x2F;community</span><br></pre></td></tr></table></figure>
+<p>然后sudo dpkg -i xxx.deb<br>启动mongodb服务,mongod，启动客户端mongo</p>
+<h2 id="远程连接"><a href="#远程连接" class="headerlink" title="远程连接"></a>远程连接</h2><p>修改配置绑定并重启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;mongod.conf</span><br><span class="line">net:</span><br><span class="line">  port: 27017</span><br><span class="line">  bindIp: 0.0.0.0</span><br></pre></td></tr></table></figure>
+<p>添加权限认证(配置文件中)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">security:</span><br><span class="line">  authorization: enabled</span><br></pre></td></tr></table></figure>
+<p>创建账号和密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">运行</span><br><span class="line">mongod --port 27017 --dbpath &#x2F;data&#x2F;db</span><br><span class="line">进入MongoDB命令行：</span><br><span class="line">mongo --port 27017</span><br><span class="line">use admin</span><br><span class="line">db.createUser(&#123;user:&#39;admin&#39;,pwd:&#39;123456&#39;,roles:[&#123;role: &#39;root&#39;, db:&#39;admin&#39;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
+<p>开放端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">systemctl status firewalld  # 查看防火墙状态</span><br><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;27017&#x2F;tcp --permanent # mongodb默认端口号</span><br><span class="line">firewall-cmd --reload  # 重新加载防火墙</span><br><span class="line"></span><br><span class="line">firewall-cmd --zone&#x3D;public --query-port&#x3D;27017&#x2F;tcp # 查看端口号是否开放成功，输出yes开放成功，no则失败</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 27017 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line"># encoding: utf-8</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line">@author: cm</span><br><span class="line">@software: vspn</span><br><span class="line">@file: update.py</span><br><span class="line">@time: 2020&#x2F;6&#x2F;15 14:57</span><br><span class="line">@desc:</span><br><span class="line">&#39;&#39;&#39;</span><br><span class="line"></span><br><span class="line">import pymongo</span><br><span class="line"># 连接MongoDB</span><br><span class="line">client &#x3D; pymongo.MongoClient(host&#x3D;&#39;localhost&#39;, port&#x3D;27017)</span><br><span class="line"># client &#x3D; pymongo.MongoClient(&#39;mongodb:&#x2F;&#x2F;localhost:27017&#x2F;&#39;)</span><br><span class="line"># 指定数据库</span><br><span class="line">db &#x3D; client.test</span><br><span class="line"># db &#x3D; client[&#39;test&#39;]</span><br><span class="line"># 指定集合</span><br><span class="line">collection &#x3D; db.student</span><br><span class="line"># collection &#x3D; db[&#39;student&#39;]</span><br><span class="line"># 插入数据</span><br><span class="line">student &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;1&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;a&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">student1 &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;2&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;b&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">student2 &#x3D; &#123;</span><br><span class="line">    &#39;id&#39;: &#39;3&#39;,</span><br><span class="line">    &#39;name&#39;: &#39;c&#39;,</span><br><span class="line">    &#39;age&#39;: 18,</span><br><span class="line">    &#39;gender&#39;: &#39;male&#39;,</span><br><span class="line">&#125;</span><br><span class="line">result &#x3D; collection.insert_one(student)</span><br><span class="line">result &#x3D; collection.insert_many([student1, student2])</span><br><span class="line">print(result)</span><br><span class="line"># 查询</span><br><span class="line">result &#x3D; collection.find_one(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">print(type(result))</span><br><span class="line">print(result)</span><br><span class="line"># 根据ObjectId查询</span><br><span class="line">from bson.objectid import ObjectId</span><br><span class="line">result &#x3D; collection.find_one(&#123;&#39;_id&#39;: ObjectId(&#39;593278&#39;)&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: 18&#125;)</span><br><span class="line">print(result)</span><br><span class="line">for item in result:</span><br><span class="line">    print(item)</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">$lt 小于    $gt 大于  $lte 小于等于   $gte 大于等于   $ne 不等于    $in 在范围内     $nin 不在范围内      $regex 正则匹配</span><br><span class="line">$exists 属性是否存在    $type 类型判断      $mod 数字模操作      $text 文本查询      $where 高级条件查询</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$gt&#39;: 17&#125;&#125;)  # 查询大于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$lt&#39;: 17&#125;&#125;)  # 查询小于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$lte&#39;: 17&#125;&#125;)  # 查询小于等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$gte&#39;: 17&#125;&#125;)  # 查询大于等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$ne&#39;: 17&#125;&#125;)  # 查询不等于17的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$in&#39;: [17, 18]&#125;&#125;)  # 查询在17-18范围内的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$nin&#39;: [17, 18]&#125;&#125;)  # 查询不在17-18范围内的数据</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$regex&#39;: &#39;^A.*&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$exists&#39;: True&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;name&#39;: &#123;&#39;$type&#39;: &#39;int&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;age&#39;: &#123;&#39;$mod&#39;: [5, 0]&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$text&#39;: &#123;&#39;search&#39;: &#39;Mike&#39;&#125;&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$where&#39;: &#39;obj.fans_count &#x3D;&#x3D; obj.follows_count&#39;&#125;)     # 粉丝数等于关注数</span><br><span class="line"># 计数</span><br><span class="line">count &#x3D; collection.find(&#123;&#39;age&#39;: 18&#125;).count</span><br><span class="line"># 排序</span><br><span class="line">results &#x3D; collection.find().sort(&#39;age&#39;, pymongo.ASCENDING)</span><br><span class="line"># 偏移</span><br><span class="line">results &#x3D; collection.find().sort(&#39;name&#39;, pymongo.ASCENDING).skip(2)</span><br><span class="line">results &#x3D; collection.find().sort(&#39;name&#39;, pymongo.ASCENDING).skip(2).limit(2)</span><br><span class="line"># 更新</span><br><span class="line">condition &#x3D; &#123;&#39;name&#39;: &#39;b&#39;&#125;</span><br><span class="line">student_result &#x3D; collection.find_one(&#123;&#39;name&#39;: &#39;b&#39;&#125;)</span><br><span class="line">student_result[&#39;age&#39;] &#x3D; 15</span><br><span class="line">result &#x3D; collection.update_one(condition, &#123;&#39;$set&#39;: student_result&#125;)</span><br><span class="line">print(result)</span><br><span class="line">print(result.matched_count, result.modified_count)  # 匹配条数， 受影响条数</span><br><span class="line">condition &#x3D; &#123;&#39;age&#39;: &#123;&#39;$gt&#39;: 15&#125;&#125;    # 大于15</span><br><span class="line">result &#x3D; collection.update_many(condition, &#123;&#39;$inc&#39;: &#123;&#39;age&#39;: 1&#125;&#125;)</span><br><span class="line">print(result)</span><br><span class="line">print(result.matched_count, result.modified_count)  # 匹配条数， 受影响条数</span><br><span class="line"># 删除</span><br><span class="line"># result &#x3D; collection.remove(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line"># print(result)</span><br><span class="line">result &#x3D; collection.delete_one(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">print(result)</span><br><span class="line">results &#x3D; collection.delete_many(&#123;&#39;age&#39;: &#123;&#39;$lt&#39;: 1&#125;&#125;)</span><br><span class="line">print(result.deleted_count)</span><br><span class="line"># 组合</span><br><span class="line">result &#x3D; collection.find_one_and_delete(&#123;&#39;name&#39;: &#39;a&#39;&#125;)</span><br><span class="line">result &#x3D; collection.find_one_and_replace(&#123;&#39;name&#39;: &#39;a&#39;&#125;, &#123;&#39;y&#39;: &#39;d&#39;&#125;)</span><br><span class="line">result &#x3D; collection.find_one_and_update(&#123;&#39;name&#39;: &#39;a&#39;&#125;, &#123;&#39;name&#39;: &#39;e&#39;&#125;)</span><br><span class="line">result &#x3D; collection.create_index()</span><br><span class="line">result &#x3D; collection.create_indexs()</span><br><span class="line">result &#x3D; collection.drop_index()</span><br><span class="line"></span><br><span class="line"># 复杂查询</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$and&#39;: [&#123;&#39;sys_time&#39;: &#123;&#39;$in&#39;: [1, 10]&#125;&#125;, &#123;&#39;roomId&#39;: &#123;&#39;$in&#39;: [&#39;a&#39;, &#39;b&#39;]&#125;&#125;]&#125;)</span><br><span class="line">result &#x3D; collection.find(&#123;&#39;$or&#39;: [&#123;&#39;sys_time&#39;: &#123;&#39;$in&#39;: [1, 10]&#125;&#125;, &#123;&#39;roomId&#39;: &#123;&#39;$in&#39;: [&#39;a&#39;, &#39;b&#39;]&#125;&#125;]&#125;)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" data-id="ckcbuby4k00006wuj6lftea7j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MongoDB/" rel="tag">MongoDB</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-redis在python的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/06/redis%E5%9C%A8python%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
+  <time datetime="2020-07-06T08:13:32.000Z" itemprop="datePublished">2020-07-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/06/redis%E5%9C%A8python%E7%9A%84%E4%BD%BF%E7%94%A8/">redis在python的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="redis简介"><a href="#redis简介" class="headerlink" title="redis简介"></a>redis简介</h2><p>redis是一个基于内存的高效的非关系型数据库。</p>
+<h2 id="在centos中安装"><a href="#在centos中安装" class="headerlink" title="在centos中安装"></a>在centos中安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install epel-release   # 添加EPEL仓库</span><br><span class="line">sudo yum update   # 更新yum源</span><br><span class="line">sudo yum -y install redis   # 安装Redis</span><br><span class="line">sudo systemctl start redis  # 启动Redis</span><br><span class="line">sudo vim &#x2F;etc&#x2F;redis.conf  # 修改配置文件</span><br><span class="line"># bind 127.0.0.1 # 注释 bind 127.0.0.1实现远程访问</span><br><span class="line">requirepass 123456  # 取消 requirepass foobared的注释并修改密码</span><br><span class="line">sudo systemctl restart redis  # 重启redis</span><br></pre></td></tr></table></figure>
+<h2 id="安装方式2"><a href="#安装方式2" class="headerlink" title="安装方式2"></a>安装方式2</h2><p>下载当前稳定版</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;root&#x2F;tool&#x2F;</span><br><span class="line">wget http:&#x2F;&#x2F;download.redis.io&#x2F;releases&#x2F;redis-5.0.5.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf redis-5.0.5.tar.gz -C &#x2F;usr&#x2F;local</span><br></pre></td></tr></table></figure>
+<p>编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;usr&#x2F;local&#x2F;redis-5.0.5</span><br><span class="line">make</span><br><span class="line">make PREFIX&#x3D;&#x2F;usr&#x2F;local&#x2F;redis install</span><br></pre></td></tr></table></figure>
+<p>拷贝conf文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp &#x2F;usr&#x2F;local&#x2F;redis-5.0.5&#x2F;redis.conf &#x2F;usr&#x2F;local&#x2F;redis&#x2F;conf</span><br></pre></td></tr></table></figure>
+<p>修改配置文件,将bind 127.0.0.1注释（远程访问）， daemonize yes后台启动，timeout 300 client连接空闲300s会被关闭, redis服务端主动向空闲的客户端发起ack请求，以判断连接是否有效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># bind 127.0.0.1</span><br><span class="line">daemonize yes</span><br><span class="line">timeout 300</span><br><span class="line">tcp-keepalive 300</span><br></pre></td></tr></table></figure>
+<p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-server .&#x2F;redis.conf</span><br></pre></td></tr></table></figure>
+<h2 id="可视化工具"><a href="#可视化工具" class="headerlink" title="可视化工具"></a>可视化工具</h2><p>RedisDesktopManager</p>
+<h2 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h2><ol>
+<li>缓存数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from redis import StrictRedis</span><br><span class="line">redis&#x3D;StrictRedis(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis.set(&#39;name&#39;, &#39;cm&#39;)</span><br><span class="line">print(redis.get(&#39;name&#39;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 使用ConnectionPool连接池来连接</span><br><span class="line"># 使用连接池的一个好处是不需要自己关闭连接，连接池有自己的关闭连接的接口</span><br><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">redis.set(&#39;name&#39;, &#39;cm&#39;)</span><br><span class="line"></span><br><span class="line"># ConnectionPool的另一种连接方式（URL）</span><br><span class="line">redis:&#x2F;&#x2F;[:password]@host:port&#x2F;db  # TCP连接</span><br><span class="line">rediss:&#x2F;&#x2F;[:password]@host:port&#x2F;db  # TCP+SSL 连接</span><br><span class="line">unix:&#x2F;&#x2F;[:password]@&#x2F;path&#x2F;to&#x2F;socket.sock?db&#x3D;db   # unix socket 连接</span><br><span class="line"></span><br><span class="line"># 具体用法</span><br><span class="line">url &#x3D; &#39;redis:&#x2F;&#x2F;[:password]@host:port&#x2F;db&#39;</span><br><span class="line">pool &#x3D; ConnectionPool.from_url(url)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br></pre></td></tr></table></figure></li>
+<li>消息队列<br>在redis里有一种数据类型：List，它是使用双向链表实现的，保存了头尾节点，在两边插取元素都非常快。所以可以使用list来实现消息队列<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">redis.lpush(&#39;task_list&#39;, 1, 2, 3)   # 从左边插入元素</span><br><span class="line">redis.lpop(&#39;task_list&#39;)             # 从左边取出元素并删除，先进先出</span><br><span class="line">redis.rpop(&#39;task_list&#39;)             # 从右边取出元素并删除，先进后出</span><br><span class="line">redis.rpush(&#39;task_list&#39;, 1, 2, 3)   # 从右边插入元素</span><br><span class="line">redis.rpop(&#39;task_list&#39;)             # 从右边取出元素并删除，先进先出</span><br><span class="line">redis.lpop(&#39;task_list&#39;)             # 从左边取出元素并删除，先进后出</span><br></pre></td></tr></table></figure></li>
+<li>发布订阅<br>publish: 发布消息<br>subscribe: 订阅消息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># publish</span><br><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">for _ in range(10):</span><br><span class="line">    value &#x3D; str(_)</span><br><span class="line">    redis.publish(&#39;task_list&#39;, _)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># subscribe</span><br><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">rp &#x3D; redis.pubsub()</span><br><span class="line">rp.subscribe(&#39;task_list&#39;)     # 从task_list订阅消息</span><br><span class="line">for _ in rp.listen():</span><br><span class="line">    if _[&#39;type&#39;] &#x3D;&#x3D; &#39;message&#39;:</span><br><span class="line">        print(_[&#39;channel&#39;])</span><br><span class="line">        print(_[&#39;data&#39;])</span><br></pre></td></tr></table></figure>
+<h2 id="RedisDump"><a href="#RedisDump" class="headerlink" title="RedisDump"></a>RedisDump</h2>RedisDump提供Redis数据导入和导出<br>redis-dump    导出数据<br>redis-load    导入数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis-dump -u :123456@localhost:6379</span><br><span class="line">redis-dump -u :123456@localhost:6379 -d 0   # 只导入0号数据库</span><br><span class="line">redis-dump -u :123456@localhost:6379 -f abc:*   # -f过滤， 只导出abc开头的数据</span><br><span class="line">data.json redis-load -u :123456@localhost:6379    # 同上</span><br></pre></td></tr></table></figure>
+<h2 id="redis-支持的类型"><a href="#redis-支持的类型" class="headerlink" title="redis 支持的类型"></a>redis 支持的类型</h2>键，字符串，列表，集合，有序集合，散列<h2 id="各类型字典"><a href="#各类型字典" class="headerlink" title="各类型字典"></a>各类型字典</h2>键操作：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">方法 	作用	参数说明	示例	示例说明	示例结果</span><br><span class="line">exists(name)	判断一个键是否存 	name ：键名	redis.exists(&#39;name&#39;)	是否存在 name 这个键	TRUE</span><br><span class="line">delete(name)	删除一个键	name： 键名	redis.delete(&#39;name&#39;)	删除 name 这个键	1</span><br><span class="line">type(name)	判断键类型	name：键名	redis.type(&#39;name&#39;)	判断 name 这个键类型	String&#39;</span><br><span class="line">keys(pattern)	获取所有符合规则的键	pattern: 匹配规则	redis.keys(&#39;n*&#39;)	获取所有以n开头的键	[b&#39;name&#39;]</span><br><span class="line">randomkey()	获取随机的一个键		randomkey()	获取随机的一个键	b&#39;name&#39;</span><br><span class="line">rename(src, dst)	重命名键	src : 原键名，dst : 新键名	redis.rename(&#39;name&#39;, &#39;nickname&#39;)	将name重命名为nicknama</span><br><span class="line">dbsize()	获取当前数据库中键的数目		dbsize()	获取当前数据库中键的数目	100</span><br><span class="line">expire(name, time)	设定键的过期时间，单位秒	name：键名， time：秒	redis.expire(&#39;name&#39;, 3)	将name键的过期时间设置为3秒	TRUE</span><br><span class="line">ttl(name)	获取间的过期时间，单位秒，(-1为永不过期)	name： 键名	redis.ttl(&#39;name&#39;)	获取name这个键的过期时间	3</span><br><span class="line">move(name, db)	将键移动到其他的数据库	name：键名，db：数据库	move(&#39;name&#39;, 2)	将name移动到2号数据库	TRUE</span><br><span class="line">flushdb()	删除当前所选数据库中的所有键		flushdb()	删除当前所选数据库中的所有键	TRUE</span><br><span class="line">flushall()	删除所有数据库中的所有键		flushall()	删除所有数据库中的所有键	TRUE</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">键操作</span><br><span class="line">exists(name)</span><br><span class="line">delete(name)</span><br><span class="line">type(name)</span><br><span class="line">keys(pattern)</span><br><span class="line">randomkey()</span><br><span class="line">rename(src, dst)</span><br><span class="line">dbsize()</span><br><span class="line">expire(name, time)</span><br><span class="line">ttl(name)</span><br><span class="line">move(name, db)</span><br><span class="line">flushdb()</span><br><span class="line">flushall()</span><br><span class="line">字符串操作</span><br><span class="line">set(name, value)</span><br><span class="line">get(name)</span><br><span class="line">getset(name, value)</span><br><span class="line">mget(keys, *args)</span><br><span class="line">setnx(name, value)</span><br><span class="line">setex(name, time, value)</span><br><span class="line">setrange(name, offset, value)</span><br><span class="line">mset(mapping)</span><br><span class="line">msetnx(mapping)</span><br><span class="line">incr(name, amount&#x3D;1)</span><br><span class="line">decr(name, amount&#x3D;1)</span><br><span class="line">append(key, value)</span><br><span class="line">substr(name, start, end&#x3D;-1)</span><br><span class="line">列表操作</span><br><span class="line">rpush(name, *values)</span><br><span class="line">lpush(name, *values)</span><br><span class="line">llen(name)</span><br><span class="line">lrange(name,start,end)</span><br><span class="line">ltrim(name, start, end)</span><br><span class="line">lindex(name, index)</span><br><span class="line">lset(name, index, value)</span><br><span class="line">lpop(name)</span><br><span class="line">rpop(name)</span><br><span class="line">blpop(keys,timeou&#x3D;0)</span><br><span class="line">brpop(keys,timeou&#x3D;0)</span><br><span class="line">rpoplpush(src, dst)</span><br><span class="line">集合操作</span><br><span class="line">sadd(name, *values)</span><br><span class="line">srem(name, *values)</span><br><span class="line">spop(name)</span><br><span class="line">smove(src, dst, value)</span><br><span class="line">scard(name)</span><br><span class="line">sismember(name, value)</span><br><span class="line">sinter(keys, *args)</span><br><span class="line">sinterstore(dest, keys, *args)</span><br><span class="line">sunion(keys, *args)</span><br><span class="line">sunionstore(dest, keys,*args)</span><br><span class="line">sdiff(keys, *args)</span><br><span class="line">sdiffstore(dest, keys, *args)</span><br><span class="line">smembers(name)</span><br><span class="line">srandmember(name)</span><br><span class="line">有序集合操作</span><br><span class="line">zadd(name, *args, **kwargs)</span><br><span class="line">zrem(name, *values)</span><br><span class="line">zincrby(name, value, amount&#x3D;1)</span><br><span class="line">zrank(name, value)</span><br><span class="line">zrevrank(name, value)</span><br><span class="line">zrerange(name, start, end, withscores&#x3D;False)</span><br><span class="line">zrangebyscore(name, min, max, start&#x3D;None, num&#x3D;None, withscores&#x3D;False)</span><br><span class="line">zcount(name, min, max)</span><br><span class="line">zcard(name)</span><br><span class="line">zremrangebyrank(name, min, max)</span><br><span class="line">zremrangebyscore(name, min, max)</span><br><span class="line">散列操作</span><br><span class="line">hset(name, key, value)</span><br><span class="line">hsetnx(name, key, value)</span><br><span class="line">hget(name, key)</span><br><span class="line">hmget(name, keys, *agrs)</span><br><span class="line">hmset(name, mapping)</span><br><span class="line">hincrby(name, key, amount&#x3D;1)</span><br><span class="line">hexists(name, key)</span><br><span class="line">hdel(name, *keys)</span><br><span class="line">hlen(name)</span><br><span class="line">hkeys(name)</span><br><span class="line">hvals(name)</span><br><span class="line">hgetall(name)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/06/redis%E5%9C%A8python%E7%9A%84%E4%BD%BF%E7%94%A8/" data-id="ckcbuby5d00016wuj7co56cdb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/dict/" rel="tag">dict</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-atom的使用" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/05/atom%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
@@ -475,102 +593,6 @@ server.py
 
 
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/29/hello-world/" class="article-date">
-  <time datetime="2020-05-29T09:40:41.659Z" itemprop="datePublished">2020-05-29</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/29/hello-world/" data-id="ckas1suu9000018ujauane1s7" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-搭建" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/05/29/%E6%90%AD%E5%BB%BA/" class="article-date">
-  <time datetime="2020-05-29T08:26:27.000Z" itemprop="datePublished">2020-05-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%90%AD%E5%BB%BA/">搭建</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/29/%E6%90%AD%E5%BB%BA/">&#39;搭建&#39;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        Here's something encrypted, password is required to continue reading.
-        
-          <p class="article-more-link">
-            <a href="/2020/05/29/%E6%90%AD%E5%BB%BA/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/05/29/%E6%90%AD%E5%BB%BA/" data-id="ckas1suue000218ujhwgxbf5p" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/v2ay/" rel="tag">v2ay</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -615,7 +637,7 @@ server.py
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -628,6 +650,14 @@ server.py
       <ul>
         
           <li>
+            <a href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/">为什么要使用nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/05/flask%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E4%BB%85%E5%85%81%E8%AE%B8%E7%99%BB%E5%BD%95%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">flask中实现同一时间仅允许登录一个账号</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/26/%E4%BD%BF%E7%94%A8python%E8%8E%B7%E5%8F%96dota2%E6%B8%B8%E6%88%8F%E6%95%B0%E6%8D%AE/">使用python获取dota2游戏数据</a>
           </li>
         
@@ -637,14 +667,6 @@ server.py
         
           <li>
             <a href="/2021/01/07/flask%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">flask支付宝支付</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/06/flask%E4%B8%AD%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">flask中多对多关系表的操作</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/">python类中方法调用</a>
           </li>
         
       </ul>

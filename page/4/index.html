@@ -64,6 +64,92 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tcp和udp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/11/tcp%E5%92%8Cudp/" class="article-date">
+  <time datetime="2020-09-11T04:00:21.000Z" itemprop="datePublished">2020-09-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/11/tcp%E5%92%8Cudp/">tcp和udp</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="握手和挥手"><a href="#握手和挥手" class="headerlink" title="握手和挥手"></a>握手和挥手</h2><p>建立连接：<br>1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。<br>2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧序列号作为起始数据段来回应我。<br>3、 主机A收到这个数据段后,再发送一个确认应答,确认已收到主机B 的数据段:”我已收到回复,我现在要开始传输实际数据了。</p>
+<p>这样3次握手就完成了,主机A和主机B 就可以传输数据了.<br>3次握手的特点：<br>没有应用层的数据，SYN这个标志位只有在TCP建产连接时才会被置1，握手完成后SYN标志位被置0，ACK和确认序号是非常重要的。</p>
+<p>断开连接：</p>
+<p>1、当主机A完成数据传输后,将控制位FIN置1,提出停止TCP连接的请求。<br>2、主机B收到FIN后对其作出响应,确认这一方向上的TCP连接将关闭,将ACK置1。<br>3、由B 端再提出反方向的关闭请求,将FIN置1。<br>4、主机A对主机B的请求进行确认,将ACK置1,双方向的关闭结束。</p>
+<h2 id="关于分包和粘包"><a href="#关于分包和粘包" class="headerlink" title="关于分包和粘包"></a>关于分包和粘包</h2><p>粘包：发送方发送两个字符串”hello”+”world”,接收方却一次性接收到了”helloworld”.<br>分包：发送方发送字符串”helloworld”,接收方却接收到了两个字符串”hello”和”world”.</p>
+<h2 id="TCP为什么会分包"><a href="#TCP为什么会分包" class="headerlink" title="TCP为什么会分包"></a>TCP为什么会分包</h2><p>TCP是以段（Segment）为单位发送数据的,建立TCP链接后,有一个最大消息长度（MSS）.如果应用层数据包超过MSS,就会把应用层数据包拆分,分成两个段来发送.这个时候接收端的应用层就要拼接这两个TCP包,才能正确处理数据.<br>TCP为什么会粘包<br>有时候,TCP为了提高网络的利用率,会使用一个叫做Nagle的算法.该算法是指,发送端即使有要发送的数据,如果很少的话,会延迟发送.如果应用层给TCP传送数据很快的话,就会把两个应用层数据包“粘”在一起,TCP最后只发一个TCP数据包给接收端.</p>
+<h2 id="如何处理"><a href="#如何处理" class="headerlink" title="如何处理"></a>如何处理</h2><p>在进行TCP Socket开发时,都需要处理数据包粘包和分包的情况.使用的语言是Python.实际上解决该问题很简单,在应用层下,定义一个协议：消息头部+消息长度+消息正文即可.</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/11/tcp%E5%92%8Cudp/" data-id="ckfgoso7l00029wuj64666uhi" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-pypy安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/09/pypy%E5%AE%89%E8%A3%85/" class="article-date">
+  <time datetime="2020-09-09T10:10:42.000Z" itemprop="datePublished">2020-09-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/09/pypy%E5%AE%89%E8%A3%85/">pypy安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>pypy是python实现的解释器。</p>
+<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>提速</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://downloads.python.org/pypy/" target="_blank" rel="noopener">https://downloads.python.org/pypy/</a><br>在这个地址中招7.2.0版本的下载，因为3.1有路径问题。</p>
+<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><p>E:\pypy\pypy3.6-v7.2.0-win32</p>
+<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>path中添加其路径 E:\pypy\pypy3.6-v7.2.0-win32</p>
+<h2 id="下载get-pip"><a href="#下载get-pip" class="headerlink" title="下载get-pip"></a>下载get-pip</h2><p>直接 pypy3 -m pip install XXX，会报找不到pip。<br><a href="https://bootstrap.pypa.io/get-pip.py" target="_blank" rel="noopener">https://bootstrap.pypa.io/get-pip.py</a><br>并将其放在E:\pypy\pypy3.6-v7.2.0-win32目录下<br>pypy3 get-pip.py</p>
+<h2 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h2><p>pypy3 -m pip install **</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/09/pypy%E5%AE%89%E8%A3%85/" data-id="ckev8ce290000s8ujeq9925ep" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-函数式编程和面向对象编程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/09/09/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E5%92%8C%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" class="article-date">
@@ -473,95 +559,6 @@
 
 
   
-    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/08/19/git/" class="article-date">
-  <time datetime="2020-08-19T03:53:18.000Z" itemprop="datePublished">2020-08-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/19/git/">git</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="下载git"><a href="#下载git" class="headerlink" title="下载git"></a>下载git</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install git</span><br></pre></td></tr></table></figure>
-<p>or</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install git-all</span><br></pre></td></tr></table></figure>
-<h2 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;Your Name&quot;</span><br><span class="line">git config --global user.email &quot;123@email.com&quot;</span><br><span class="line">git config --list</span><br></pre></td></tr></table></figure>
-<h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p>去github上NEW一个Repositories，输入Repository name，其他的默认就行。然后Create repository</p>
-<h2 id="第一次提交"><a href="#第一次提交" class="headerlink" title="第一次提交"></a>第一次提交</h2><p>1、打开cmd，进入项目目录下<br>2、git init<br>3、git add .<br>4、git status<br>5、git commit -m “first commit”<br>6、git remote add origin <a href="mailto:git@github.com">git@github.com</a>:johnny-min/Flask_restful_skeleton.git<br>7、git pull –rebase origin master<br>8、git push -u origin master</p>
-<h2 id="二次提交"><a href="#二次提交" class="headerlink" title="二次提交"></a>二次提交</h2><p>1.git status 查看项目中哪些文件发生了变化，当做验证使用<br>2.git add . 将所有变更文件添加进来<br>3.git status 这个时候文件都变成了 new file<br>4.git commit -am “second commit”<br>5.git push origin master 把本地的推送到远程的分支上面即可<br>6.git status 查看</p>
-<h2 id="克隆"><a href="#克隆" class="headerlink" title="克隆"></a>克隆</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone *****</span><br></pre></td></tr></table></figure>
-<h2 id="查看仓库"><a href="#查看仓库" class="headerlink" title="查看仓库"></a>查看仓库</h2><p>git status<br>git log –oneline</p>
-<h2 id="换账号换仓库"><a href="#换账号换仓库" class="headerlink" title="换账号换仓库"></a>换账号换仓库</h2><p>git config user.name # 查看当前用户名<br>git config user.email # 查看当前邮件<br>git config –global user.name “Your Name”<br>git config –global user.email “<a href="mailto:123@email.com">123@email.com</a>“<br>git remote set-url origin [url]<br>git remote rm origin  # 删除<br>git remote add origin <a href="mailto:git@github.com">git@github.com</a>:johnny-min/Flask_restful_skeleton.git # 添加</p>
-<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch &lt;分支名&gt;    # 创建分支</span><br><span class="line">git checkout 分支名    # 切换分支</span><br><span class="line">git push origin 分支名 # 推送到远程</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/19/git/" data-id="cke3ywnvn0001l4uj6i5ocwan" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-并发和并行" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/08/14/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C/" class="article-date">
-  <time datetime="2020-08-14T03:09:23.000Z" itemprop="datePublished">2020-08-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/14/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C/">并发和并行</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>并发的关键是你有处理多个任务的能力，不一定要同时。<br>并行的关键是你有同时处理多个任务的能力。</p>
-<p>所以它们最关键的点就是：是否是 同时。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/14/%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C/" data-id="ckdtu680p0000goujcii3besa" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag">并发</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%B9%B6%E8%A1%8C/" rel="tag">并行</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -606,7 +603,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -619,6 +616,14 @@
       <ul>
         
           <li>
+            <a href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/">为什么要使用nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/05/flask%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E4%BB%85%E5%85%81%E8%AE%B8%E7%99%BB%E5%BD%95%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">flask中实现同一时间仅允许登录一个账号</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/26/%E4%BD%BF%E7%94%A8python%E8%8E%B7%E5%8F%96dota2%E6%B8%B8%E6%88%8F%E6%95%B0%E6%8D%AE/">使用python获取dota2游戏数据</a>
           </li>
         
@@ -628,14 +633,6 @@
         
           <li>
             <a href="/2021/01/07/flask%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">flask支付宝支付</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/06/flask%E4%B8%AD%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">flask中多对多关系表的操作</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/">python类中方法调用</a>
           </li>
         
       </ul>

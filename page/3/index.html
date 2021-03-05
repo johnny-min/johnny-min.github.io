@@ -64,6 +64,95 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-flask支付宝OAuth" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/30/flask%E6%94%AF%E4%BB%98%E5%AE%9DOAuth/" class="article-date">
+  <time datetime="2020-10-30T10:36:30.000Z" itemprop="datePublished">2020-10-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/30/flask%E6%94%AF%E4%BB%98%E5%AE%9DOAuth/">flask支付宝OAuth</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="支付宝Oauth"><a href="#支付宝Oauth" class="headerlink" title="支付宝Oauth"></a>支付宝Oauth</h1><h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>1.安装 Microsoft Visual Studio<br>2.找到stdint.h所在路径<br>3.设置用户环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">变量名：VCINSTALLDIR</span><br><span class="line">变量值：D:\vscode\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.24.28314</span><br><span class="line">cmd :</span><br><span class="line">set CL&#x3D;-FI&quot;%VCINSTALLDIR%\include\stdint.h</span><br></pre></td></tr></table></figure>
+<p>4.安装alsdk</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install alipay-sdk-python&#x3D;&#x3D;3.3.398</span><br></pre></td></tr></table></figure>
+<h1 id="支付宝支付"><a href="#支付宝支付" class="headerlink" title="支付宝支付"></a>支付宝支付</h1><h2 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a>准备工作</h2><p>1.pip install alipay-sdk-python<br>2.下载支付宝开放平台开发助手<br>3.在开发助手里生成密钥，密钥格式一定要选非Java适用<br>4.将密钥填进支付宝开发平台的配置里</p>
+<h2 id="支付宝接口文档"><a href="#支付宝接口文档" class="headerlink" title="支付宝接口文档"></a>支付宝接口文档</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;opendocs.alipay.com&#x2F;apis&#x2F;api_1&#x2F;alipay.trade.page.pay</span><br></pre></td></tr></table></figure>
+<h2 id="实例代码"><a href="#实例代码" class="headerlink" title="实例代码"></a>实例代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">from alipay.aop.api.AlipayClientConfig import AlipayClientConfig</span><br><span class="line">from alipay.aop.api.DefaultAlipayClient import DefaultAlipayClient</span><br><span class="line">from alipay.aop.api.FileItem import FileItem</span><br><span class="line">from alipay.aop.api.domain.AlipayTradeAppPayModel import AlipayTradeAppPayModel</span><br><span class="line">from alipay.aop.api.domain.AlipayTradePagePayModel import AlipayTradePagePayModel</span><br><span class="line">from alipay.aop.api.domain.AlipayTradePayModel import AlipayTradePayModel</span><br><span class="line">from alipay.aop.api.domain.GoodsDetail import GoodsDetail</span><br><span class="line">from alipay.aop.api.domain.SettleDetailInfo import SettleDetailInfo</span><br><span class="line">from alipay.aop.api.domain.SettleInfo import SettleInfo</span><br><span class="line">from alipay.aop.api.domain.SubMerchant import SubMerchant</span><br><span class="line">from alipay.aop.api.request.AlipayOfflineMaterialImageUploadRequest import AlipayOfflineMaterialImageUploadRequest</span><br><span class="line">from alipay.aop.api.request.AlipayTradeAppPayRequest import AlipayTradeAppPayRequest</span><br><span class="line">from alipay.aop.api.request.AlipayTradePagePayRequest import AlipayTradePagePayRequest</span><br><span class="line">from alipay.aop.api.request.AlipayTradePayRequest import AlipayTradePayRequest</span><br><span class="line">from alipay.aop.api.response.AlipayOfflineMaterialImageUploadResponse import AlipayOfflineMaterialImageUploadResponse</span><br><span class="line">from alipay.aop.api.response.AlipayTradePayResponse import AlipayTradePayResponse</span><br><span class="line">from alipay.aop.api.util.SignatureUtils import verify_with_rsa</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class AliPay(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.alipay_client_config &#x3D; AlipayClientConfig()</span><br><span class="line">		# # server_url &#x3D; &quot;https:&#x2F;&#x2F;openapi.alipay.com&#x2F;gateway.do&quot; # 正式网关，开发环境勿使用。</span><br><span class="line">        self.alipay_client_config.server_url &#x3D; &#39;https:&#x2F;&#x2F;openapi.alipaydev.com&#x2F;gateway.do&#39;</span><br><span class="line">        self.alipay_client_config.app_id &#x3D; &#39;&#39;</span><br><span class="line">        # 应用私钥在支付宝开放平台开发助手里</span><br><span class="line">        self.alipay_client_config.app_private_key &#x3D; &#39;&#39;</span><br><span class="line">        self.alipay_client_config.alipay_public_key &#x3D; &#39;&#39;</span><br><span class="line">        self.client &#x3D; DefaultAlipayClient(alipay_client_config&#x3D;self.alipay_client_config)</span><br><span class="line">        self.model &#x3D; AlipayTradePagePayModel()</span><br><span class="line"></span><br><span class="line">    def create_good(self):</span><br><span class="line"></span><br><span class="line">        self.model.out_trade_no &#x3D; &#39;pay999999&#39;      # 商品订单号</span><br><span class="line">        self.model.total_amount &#x3D; 50     # 订单总金额</span><br><span class="line">        self.model.subject &#x3D; &#39;test&#39;     # 商品标题&#x2F;交易标题&#x2F;订单标题&#x2F;订单关键字</span><br><span class="line">        self.model.body &#x3D; &#39;iphone&#39;      # 订单描述</span><br><span class="line">        self.model.product_code &#x3D; &#39;FAST_INSTANT_TRADE_PAY&#39;  # 销售产品码</span><br><span class="line">        settle_detail_info &#x3D; SettleDetailInfo()     # 结算详细信息</span><br><span class="line">        settle_detail_info.amount &#x3D; 50      # 结算的金额</span><br><span class="line">        settle_detail_info.trans_in_type &#x3D; &quot;userId&quot;     # 结算收款方的账户类型</span><br><span class="line">        settle_detail_info.trans_in &#x3D; &quot;&quot;    # 结算收款方</span><br><span class="line">        settle_detail_infos &#x3D; list()</span><br><span class="line">        settle_detail_infos.append(settle_detail_info)</span><br><span class="line">        settle_info &#x3D; SettleInfo()</span><br><span class="line">        settle_info.settle_detail_infos &#x3D; settle_detail_infos</span><br><span class="line">        self.model.settle_info &#x3D; settle_info    # 描述结算信息</span><br><span class="line">        # sub_merchant &#x3D; SubMerchant()        # 间连受理商户信息体 当前只对特殊银行机构特定场景下使用此字段</span><br><span class="line">        # sub_merchant.merchant_id &#x3D; &quot;&quot;   # 间连受理商户的支付宝商户编号</span><br><span class="line">        # self.model.sub_merchant &#x3D; sub_merchant</span><br><span class="line"></span><br><span class="line">    def pay_url(self):</span><br><span class="line">        request &#x3D; AlipayTradePagePayRequest(biz_model&#x3D;self.model)</span><br><span class="line">        request.notify_url &#x3D; &#39;127.0.0.1:5000&#x2F;pay&#x2F;result&#39;    # 设置回调通知地址</span><br><span class="line">        # 获得支付二维码url</span><br><span class="line">        response_url &#x3D; self.client.page_execute(request, http_method&#x3D;&quot;GET&quot;)</span><br><span class="line">        print(&quot;alipay.trade.page.pay response:&quot; + response_url)</span><br><span class="line">        return response_url</span><br><span class="line"></span><br><span class="line">    def check_pay(self, params):  # 定义检查支付结果的函数</span><br><span class="line">        sign &#x3D; params.pop(&#39;sign&#39;, None)  # 取出签名</span><br><span class="line">        params.pop(&#39;sign_type&#39;)  # 取出签名类型</span><br><span class="line">        params &#x3D; sorted(params.items(), key&#x3D;lambda e: e[0], reverse&#x3D;False)  # 取出字典元素按key的字母升序排序形成列表</span><br><span class="line">        message &#x3D; &quot;&amp;&quot;.join(u&quot;&#123;&#125;&#x3D;&#123;&#125;&quot;.format(k, v) for k, v in params).encode()  # 将列表转为二进制参数字符串</span><br><span class="line">        try:</span><br><span class="line">            status &#x3D; verify_with_rsa(self.alipay_client_config.alipay_public_key.encode(&#39;utf-8&#39;).decode(&#39;utf-8&#39;),</span><br><span class="line">                                     message, sign)  # 验证签名并获取结果</span><br><span class="line">            return status  # 返回验证结果</span><br><span class="line">        except:  # 如果验证失败，返回假值。</span><br><span class="line">            return False</span><br></pre></td></tr></table></figure>
+<p>支付与回调</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">from flask import request</span><br><span class="line">from flask_restful import Resource, reqparse</span><br><span class="line">from utils.pay_ali import AliPay</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class AliPayResource(Resource):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    def get(self):</span><br><span class="line">        ali &#x3D; AliPay()</span><br><span class="line">        ali.create_good()</span><br><span class="line">        ali.pay_url()</span><br><span class="line">        return &#123;&#39;msg&#39;: &#39;success&#39;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class AliPayResultResource(Resource):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        pass</span><br><span class="line"></span><br><span class="line">    def post(self):</span><br><span class="line">        data &#x3D; request.form.to_dict()</span><br><span class="line">        if AliPay().check_pay(data):</span><br><span class="line">            return &#123;&#39;msg&#39;: &#39;success&#39;, &#39;code&#39;: 200&#125;</span><br><span class="line">        return &#123;&#39;msg&#39;: &#39;error&#39;, &#39;code&#39;: 400&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/30/flask%E6%94%AF%E4%BB%98%E5%AE%9DOAuth/" data-id="ckhmvh4kk00001gujgwv08yo7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/oauth/" rel="tag">oauth</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-flask对接阿里短信服务" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/10/30/flask%E5%AF%B9%E6%8E%A5%E9%98%BF%E9%87%8C%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/" class="article-date">
+  <time datetime="2020-10-30T05:44:46.000Z" itemprop="datePublished">2020-10-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/30/flask%E5%AF%B9%E6%8E%A5%E9%98%BF%E9%87%8C%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/">flask对接阿里短信服务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>1.阿里云账号<br>2.进入阿里云控制台后搜索短信服务并开通<br>3.申请AccessKey，选择子用户方式，并创建。可以拿到AccessKey ID<br>4.在国内消息里创建签名（ABC商城）和模版（模版CODE：SMS_00000000）</p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip install aliyun-python-sdk-core</span><br><span class="line">pip install aliyun-python-sdk-ecs</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">from random import randint</span><br><span class="line">from aliyunsdkcore.client import AcsClient</span><br><span class="line">from aliyunsdkcore.request import CommonRequest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ACCESS_KEY_ID &#x3D; &#39;AccessKey ID&#39;</span><br><span class="line">ACCESS_SECRET &#x3D; &#39;ACCESS_SECRET&#39;</span><br><span class="line">REGION_ID &#x3D; &#39;cn-hangzhou&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class SMSAli(object):</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self._client &#x3D; AcsClient(ACCESS_KEY_ID, ACCESS_SECRET, REGION_ID)</span><br><span class="line">        self._request &#x3D; CommonRequest()</span><br><span class="line">        super(SMSAli, self).__init__()</span><br><span class="line"></span><br><span class="line">    @staticmethod</span><br><span class="line">    def generate_code():</span><br><span class="line">        code &#x3D; randint(100000, 999999)</span><br><span class="line">        return code</span><br><span class="line"></span><br><span class="line">    def send_sms(self, phone, code):</span><br><span class="line">        self._request.set_accept_format(&#39;json&#39;)</span><br><span class="line">        self._request.set_domain(&#39;dysmsapi.aliyuncs.com&#39;)</span><br><span class="line">        self._request.set_method(&#39;POST&#39;)</span><br><span class="line">        self._request.set_protocol_type(&#39;https&#39;)  # https | http</span><br><span class="line">        self._request.set_version(&#39;2017-05-25&#39;)</span><br><span class="line">        self._request.set_action_name(&#39;SendSms&#39;)</span><br><span class="line"></span><br><span class="line">        self._request.add_query_param(&#39;RegionId&#39;, &#39;cn-hangzhou&#39;)</span><br><span class="line">        self._request.add_query_param(&#39;PhoneNumbers&#39;, str(phone))</span><br><span class="line">        self._request.add_query_param(&#39;SignName&#39;, &#39;ABC商城&#39;)</span><br><span class="line">        self._request.add_query_param(&#39;TemplateCode&#39;, &#39;SMS_0000000&#39;)</span><br><span class="line">        self._request.add_query_param(&#39;TemplateParam&#39;, &#123;&#39;code&#39;: str(code)&#125;)</span><br><span class="line">        response &#x3D; self._client.do_action(self._request)</span><br><span class="line">        return response</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/10/30/flask%E5%AF%B9%E6%8E%A5%E9%98%BF%E9%87%8C%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/" data-id="ckhmvh4ld00051gujdmkifr65" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-nginx负载配置" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/10/23/nginx%E8%B4%9F%E8%BD%BD%E9%85%8D%E7%BD%AE/" class="article-date">
@@ -501,92 +590,6 @@
 
 
   
-    <article id="post-tcp和udp" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/11/tcp%E5%92%8Cudp/" class="article-date">
-  <time datetime="2020-09-11T04:00:21.000Z" itemprop="datePublished">2020-09-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/11/tcp%E5%92%8Cudp/">tcp和udp</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="握手和挥手"><a href="#握手和挥手" class="headerlink" title="握手和挥手"></a>握手和挥手</h2><p>建立连接：<br>1、 主机A通过向主机B 发送一个含有同步序列号的标志位的数据段给主机B ,向主机B 请求建立连接,通过这个数据段,主机A告诉主机B 两件事:我想要和你通信;你可以用哪个序列号作为起始数据段来回应我。<br>2 、主机B 收到主机A的请求后,用一个带有确认应答(ACK)和同步序列号(SYN)标志位的数据段响应主机A,也告诉主机A两件事:我已经收到你的请求了,你可以传输数据了;你要用哪佧序列号作为起始数据段来回应我。<br>3、 主机A收到这个数据段后,再发送一个确认应答,确认已收到主机B 的数据段:”我已收到回复,我现在要开始传输实际数据了。</p>
-<p>这样3次握手就完成了,主机A和主机B 就可以传输数据了.<br>3次握手的特点：<br>没有应用层的数据，SYN这个标志位只有在TCP建产连接时才会被置1，握手完成后SYN标志位被置0，ACK和确认序号是非常重要的。</p>
-<p>断开连接：</p>
-<p>1、当主机A完成数据传输后,将控制位FIN置1,提出停止TCP连接的请求。<br>2、主机B收到FIN后对其作出响应,确认这一方向上的TCP连接将关闭,将ACK置1。<br>3、由B 端再提出反方向的关闭请求,将FIN置1。<br>4、主机A对主机B的请求进行确认,将ACK置1,双方向的关闭结束。</p>
-<h2 id="关于分包和粘包"><a href="#关于分包和粘包" class="headerlink" title="关于分包和粘包"></a>关于分包和粘包</h2><p>粘包：发送方发送两个字符串”hello”+”world”,接收方却一次性接收到了”helloworld”.<br>分包：发送方发送字符串”helloworld”,接收方却接收到了两个字符串”hello”和”world”.</p>
-<h2 id="TCP为什么会分包"><a href="#TCP为什么会分包" class="headerlink" title="TCP为什么会分包"></a>TCP为什么会分包</h2><p>TCP是以段（Segment）为单位发送数据的,建立TCP链接后,有一个最大消息长度（MSS）.如果应用层数据包超过MSS,就会把应用层数据包拆分,分成两个段来发送.这个时候接收端的应用层就要拼接这两个TCP包,才能正确处理数据.<br>TCP为什么会粘包<br>有时候,TCP为了提高网络的利用率,会使用一个叫做Nagle的算法.该算法是指,发送端即使有要发送的数据,如果很少的话,会延迟发送.如果应用层给TCP传送数据很快的话,就会把两个应用层数据包“粘”在一起,TCP最后只发一个TCP数据包给接收端.</p>
-<h2 id="如何处理"><a href="#如何处理" class="headerlink" title="如何处理"></a>如何处理</h2><p>在进行TCP Socket开发时,都需要处理数据包粘包和分包的情况.使用的语言是Python.实际上解决该问题很简单,在应用层下,定义一个协议：消息头部+消息长度+消息正文即可.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/11/tcp%E5%92%8Cudp/" data-id="ckfgoso7l00029wuj64666uhi" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-pypy安装" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/09/09/pypy%E5%AE%89%E8%A3%85/" class="article-date">
-  <time datetime="2020-09-09T10:10:42.000Z" itemprop="datePublished">2020-09-09</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/09/09/pypy%E5%AE%89%E8%A3%85/">pypy安装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>pypy是python实现的解释器。</p>
-<h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>提速</p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://downloads.python.org/pypy/" target="_blank" rel="noopener">https://downloads.python.org/pypy/</a><br>在这个地址中招7.2.0版本的下载，因为3.1有路径问题。</p>
-<h2 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h2><p>E:\pypy\pypy3.6-v7.2.0-win32</p>
-<h2 id="配置环境变量"><a href="#配置环境变量" class="headerlink" title="配置环境变量"></a>配置环境变量</h2><p>path中添加其路径 E:\pypy\pypy3.6-v7.2.0-win32</p>
-<h2 id="下载get-pip"><a href="#下载get-pip" class="headerlink" title="下载get-pip"></a>下载get-pip</h2><p>直接 pypy3 -m pip install XXX，会报找不到pip。<br><a href="https://bootstrap.pypa.io/get-pip.py" target="_blank" rel="noopener">https://bootstrap.pypa.io/get-pip.py</a><br>并将其放在E:\pypy\pypy3.6-v7.2.0-win32目录下<br>pypy3 get-pip.py</p>
-<h2 id="pip"><a href="#pip" class="headerlink" title="pip"></a>pip</h2><p>pypy3 -m pip install **</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/09/09/pypy%E5%AE%89%E8%A3%85/" data-id="ckev8ce290000s8ujeq9925ep" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -631,7 +634,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/03/">March 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/02/">February 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/01/">January 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/12/">December 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/11/">November 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/10/">October 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/09/">September 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/08/">August 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/07/">July 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/06/">June 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">May 2020</a></li></ul>
     </div>
   </div>
 
@@ -644,6 +647,14 @@
       <ul>
         
           <li>
+            <a href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/">为什么要使用nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2021/03/05/flask%E4%B8%AD%E5%AE%9E%E7%8E%B0%E5%90%8C%E4%B8%80%E6%97%B6%E9%97%B4%E4%BB%85%E5%85%81%E8%AE%B8%E7%99%BB%E5%BD%95%E4%B8%80%E4%B8%AA%E8%B4%A6%E5%8F%B7/">flask中实现同一时间仅允许登录一个账号</a>
+          </li>
+        
+          <li>
             <a href="/2021/02/26/%E4%BD%BF%E7%94%A8python%E8%8E%B7%E5%8F%96dota2%E6%B8%B8%E6%88%8F%E6%95%B0%E6%8D%AE/">使用python获取dota2游戏数据</a>
           </li>
         
@@ -653,14 +664,6 @@
         
           <li>
             <a href="/2021/01/07/flask%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">flask支付宝支付</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/06/flask%E4%B8%AD%E5%A4%9A%E5%AF%B9%E5%A4%9A%E5%85%B3%E7%B3%BB%E8%A1%A8%E7%9A%84%E6%93%8D%E4%BD%9C/">flask中多对多关系表的操作</a>
-          </li>
-        
-          <li>
-            <a href="/2020/12/22/python%E7%B1%BB%E4%B8%AD%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8/">python类中方法调用</a>
           </li>
         
       </ul>
