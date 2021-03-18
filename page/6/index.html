@@ -64,6 +64,50 @@
       <div class="outer">
         <section id="main">
   
+    <article id="mysql-sql-mode-only-full-group-by" class="article article-type-mysql" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/15/sql-mode-only-full-group-by/" class="article-date">
+  <time datetime="2020-07-15T09:49:35.000Z" itemprop="datePublished">2020-07-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/15/sql-mode-only-full-group-by/">sql_mode=only_full_group_by</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="mysql-gruop-by报错this-is-incompatible-with-sql-mode-only-full-group-by"><a href="#mysql-gruop-by报错this-is-incompatible-with-sql-mode-only-full-group-by" class="headerlink" title="mysql gruop by报错this is incompatible with sql_mode=only_full_group_by"></a>mysql gruop by报错this is incompatible with sql_mode=only_full_group_by</h1><p>mysql复杂查询时报出：sql_mode=only_full_group_by</p>
+<h2 id="查看sql-model参数"><a href="#查看sql-model参数" class="headerlink" title="查看sql_model参数"></a>查看sql_model参数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT @@sql_mode;</span><br><span class="line">SELECT @@GLOBAL.sql_mode;</span><br><span class="line">发现：</span><br><span class="line">ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION</span><br><span class="line">第一项默认开启ONLY_FULL_GROUP_BY，</span><br></pre></td></tr></table></figure>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>默认关掉ONLY_FULL_GROUP_BY</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set @@GLOBAL.sql_mode&#x3D;&#39;&#39;;</span><br><span class="line">set sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;;</span><br></pre></td></tr></table></figure>
+<p>以上做法每重启一下就得重新设置一下。想要彻底解决就得修改配置文件，<br>win: my.ini, centos: /etc/my.cnf ，在[mysqld]下添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sql_mode &#x3D;&#39;STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION&#39;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/15/sql-mode-only-full-group-by/" data-id="ckddufv2h00002sujcnhjhh4q" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-python应用中使用mongoDB" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/07/python%E5%BA%94%E7%94%A8%E4%B8%AD%E4%BD%BF%E7%94%A8mongoDB/" class="article-date">
@@ -156,13 +200,119 @@
 <p>启动</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin&#x2F;redis-server .&#x2F;redis.conf</span><br></pre></td></tr></table></figure>
 <h2 id="可视化工具"><a href="#可视化工具" class="headerlink" title="可视化工具"></a>可视化工具</h2><p>RedisDesktopManager</p>
-<h2 id="简单测试"><a href="#简单测试" class="headerlink" title="简单测试"></a>简单测试</h2><ol>
-<li>缓存数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from redis import StrictRedis</span><br><span class="line">redis&#x3D;StrictRedis(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis.set(&#39;name&#39;, &#39;cm&#39;)</span><br><span class="line">print(redis.get(&#39;name&#39;))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 使用ConnectionPool连接池来连接</span><br><span class="line"># 使用连接池的一个好处是不需要自己关闭连接，连接池有自己的关闭连接的接口</span><br><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">redis.set(&#39;name&#39;, &#39;cm&#39;)</span><br><span class="line"></span><br><span class="line"># ConnectionPool的另一种连接方式（URL）</span><br><span class="line">redis:&#x2F;&#x2F;[:password]@host:port&#x2F;db  # TCP连接</span><br><span class="line">rediss:&#x2F;&#x2F;[:password]@host:port&#x2F;db  # TCP+SSL 连接</span><br><span class="line">unix:&#x2F;&#x2F;[:password]@&#x2F;path&#x2F;to&#x2F;socket.sock?db&#x3D;db   # unix socket 连接</span><br><span class="line"></span><br><span class="line"># 具体用法</span><br><span class="line">url &#x3D; &#39;redis:&#x2F;&#x2F;[:password]@host:port&#x2F;db&#39;</span><br><span class="line">pool &#x3D; ConnectionPool.from_url(url)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br></pre></td></tr></table></figure></li>
+<h2 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h2><ol>
+<li>缓存数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">from redis import StrictRedis</span><br><span class="line">redis&#x3D;StrictRedis(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis.set(&#39;name&#39;, &#39;cm&#39;)</span><br><span class="line">redis.get(&#39;name&#39;)</span><br><span class="line">redis.delete(&#39;name&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 使用ConnectionPool连接池来连接</span><br><span class="line"># 使用连接池的一个好处是不需要自己关闭连接，连接池有自己的关闭连接的接口</span><br><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">redis.set(&#39;name&#39;, &#39;cm&#39;)</span><br><span class="line"></span><br><span class="line"># ConnectionPool的另一种连接方式（URL）</span><br><span class="line">redis:&#x2F;&#x2F;[:password]@host:port&#x2F;db  # TCP连接</span><br><span class="line">rediss:&#x2F;&#x2F;[:password]@host:port&#x2F;db  # TCP+SSL 连接</span><br><span class="line">unix:&#x2F;&#x2F;[:password]@&#x2F;path&#x2F;to&#x2F;socket.sock?db&#x3D;db   # unix socket 连接</span><br><span class="line"></span><br><span class="line"># 具体用法</span><br><span class="line">url &#x3D; &#39;redis:&#x2F;&#x2F;[:password]@host:port&#x2F;db&#39;</span><br><span class="line">pool &#x3D; ConnectionPool.from_url(url)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br></pre></td></tr></table></figure></li>
 <li>消息队列<br>在redis里有一种数据类型：List，它是使用双向链表实现的，保存了头尾节点，在两边插取元素都非常快。所以可以使用list来实现消息队列<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">redis.lpush(&#39;task_list&#39;, 1, 2, 3)   # 从左边插入元素</span><br><span class="line">redis.lpop(&#39;task_list&#39;)             # 从左边取出元素并删除，先进先出</span><br><span class="line">redis.rpop(&#39;task_list&#39;)             # 从右边取出元素并删除，先进后出</span><br><span class="line">redis.rpush(&#39;task_list&#39;, 1, 2, 3)   # 从右边插入元素</span><br><span class="line">redis.rpop(&#39;task_list&#39;)             # 从右边取出元素并删除，先进先出</span><br><span class="line">redis.lpop(&#39;task_list&#39;)             # 从左边取出元素并删除，先进后出</span><br></pre></td></tr></table></figure></li>
 <li>发布订阅<br>publish: 发布消息<br>subscribe: 订阅消息<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># publish</span><br><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">for _ in range(10):</span><br><span class="line">    value &#x3D; str(_)</span><br><span class="line">    redis.publish(&#39;task_list&#39;, _)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># subscribe</span><br><span class="line">from redis import StrictRedis, ConnectionPool</span><br><span class="line">pool &#x3D; ConnectionPool(host&#x3D;&#39;127.0.0.1&#39;, port&#x3D;6379, db&#x3D;0, password&#x3D;&#39;123456&#39;)</span><br><span class="line">redis &#x3D; StrictRedis(connection_pool&#x3D;pool)</span><br><span class="line">rp &#x3D; redis.pubsub()</span><br><span class="line">rp.subscribe(&#39;task_list&#39;)     # 从task_list订阅消息</span><br><span class="line">for _ in rp.listen():</span><br><span class="line">    if _[&#39;type&#39;] &#x3D;&#x3D; &#39;message&#39;:</span><br><span class="line">        print(_[&#39;channel&#39;])</span><br><span class="line">        print(_[&#39;data&#39;])</span><br></pre></td></tr></table></figure>
 <h2 id="RedisDump"><a href="#RedisDump" class="headerlink" title="RedisDump"></a>RedisDump</h2>RedisDump提供Redis数据导入和导出<br>redis-dump    导出数据<br>redis-load    导入数据<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">redis-dump -u :123456@localhost:6379</span><br><span class="line">redis-dump -u :123456@localhost:6379 -d 0   # 只导入0号数据库</span><br><span class="line">redis-dump -u :123456@localhost:6379 -f abc:*   # -f过滤， 只导出abc开头的数据</span><br><span class="line">data.json redis-load -u :123456@localhost:6379    # 同上</span><br></pre></td></tr></table></figure>
-<h2 id="redis-支持的类型"><a href="#redis-支持的类型" class="headerlink" title="redis 支持的类型"></a>redis 支持的类型</h2>键，字符串，列表，集合，有序集合，散列<h2 id="各类型字典"><a href="#各类型字典" class="headerlink" title="各类型字典"></a>各类型字典</h2>键操作：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">方法 	作用	参数说明	示例	示例说明	示例结果</span><br><span class="line">exists(name)	判断一个键是否存 	name ：键名	redis.exists(&#39;name&#39;)	是否存在 name 这个键	TRUE</span><br><span class="line">delete(name)	删除一个键	name： 键名	redis.delete(&#39;name&#39;)	删除 name 这个键	1</span><br><span class="line">type(name)	判断键类型	name：键名	redis.type(&#39;name&#39;)	判断 name 这个键类型	String&#39;</span><br><span class="line">keys(pattern)	获取所有符合规则的键	pattern: 匹配规则	redis.keys(&#39;n*&#39;)	获取所有以n开头的键	[b&#39;name&#39;]</span><br><span class="line">randomkey()	获取随机的一个键		randomkey()	获取随机的一个键	b&#39;name&#39;</span><br><span class="line">rename(src, dst)	重命名键	src : 原键名，dst : 新键名	redis.rename(&#39;name&#39;, &#39;nickname&#39;)	将name重命名为nicknama</span><br><span class="line">dbsize()	获取当前数据库中键的数目		dbsize()	获取当前数据库中键的数目	100</span><br><span class="line">expire(name, time)	设定键的过期时间，单位秒	name：键名， time：秒	redis.expire(&#39;name&#39;, 3)	将name键的过期时间设置为3秒	TRUE</span><br><span class="line">ttl(name)	获取间的过期时间，单位秒，(-1为永不过期)	name： 键名	redis.ttl(&#39;name&#39;)	获取name这个键的过期时间	3</span><br><span class="line">move(name, db)	将键移动到其他的数据库	name：键名，db：数据库	move(&#39;name&#39;, 2)	将name移动到2号数据库	TRUE</span><br><span class="line">flushdb()	删除当前所选数据库中的所有键		flushdb()	删除当前所选数据库中的所有键	TRUE</span><br><span class="line">flushall()	删除所有数据库中的所有键		flushall()	删除所有数据库中的所有键	TRUE</span><br></pre></td></tr></table></figure>
-
+<h2 id="redis-支持的类型"><a href="#redis-支持的类型" class="headerlink" title="redis 支持的类型"></a>redis 支持的类型</h2>键，字符串，列表，集合，有序集合，散列<h2 id="各类型字典"><a href="#各类型字典" class="headerlink" title="各类型字典"></a>各类型字典</h2>键操作：<table>
+<thead>
+<tr>
+<th align="center">方法</th>
+<th align="center">作用</th>
+<th align="center">参数说明</th>
+<th align="center">示例</th>
+<th align="center">示例说明</th>
+<th align="center">示例结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">exists(name)</td>
+<td align="center">判断一个键是否存</td>
+<td align="center">name ：键名</td>
+<td align="center">redis.exists(‘name’)</td>
+<td align="center">是否存在 name 这个键    TRUE</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">delete(name)</td>
+<td align="center">删除一个键</td>
+<td align="center">name： 键名</td>
+<td align="center">redis.delete(‘name’)</td>
+<td align="center">删除 name 这个键</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">type(name)</td>
+<td align="center">判断键类型</td>
+<td align="center">name：键名</td>
+<td align="center">redis.type(‘name’)</td>
+<td align="center">判断 name 这个键类型</td>
+<td align="center">String’</td>
+</tr>
+<tr>
+<td align="center">keys(pattern)</td>
+<td align="center">获取所有符合规则的键</td>
+<td align="center">pattern: 匹配规则</td>
+<td align="center">redis.keys(‘n*’)</td>
+<td align="center">获取所有以n开头的键</td>
+<td align="center">[b’name’]</td>
+</tr>
+<tr>
+<td align="center">randomkey()</td>
+<td align="center">获取随机的一个键</td>
+<td align="center"></td>
+<td align="center">randomkey()</td>
+<td align="center">获取随机的一个键    b’name’</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">rename(src, dst)</td>
+<td align="center">重命名键</td>
+<td align="center">src : 原键名，dst : 新键名</td>
+<td align="center">redis.rename(‘name’, ‘nickname’)</td>
+<td align="center">将name重命名为nicknama</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">dbsize()</td>
+<td align="center">获取当前数据库中键的数目</td>
+<td align="center">dbsize()</td>
+<td align="center">获取当前数据库中键的数目    100</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">expire(name, time)</td>
+<td align="center">设定键的过期时间，单位秒</td>
+<td align="center">name：键名， time：秒</td>
+<td align="center">redis.expire(‘name’, 3)</td>
+<td align="center">将name键的过期时间设置为3秒</td>
+<td align="center">TRUE</td>
+</tr>
+<tr>
+<td align="center">ttl(name)</td>
+<td align="center">获取间的过期时间，单位秒，(-1为永不过期)</td>
+<td align="center">name： 键名</td>
+<td align="center">redis.ttl(‘name’)</td>
+<td align="center">获取name这个键的过期时间</td>
+<td align="center">3</td>
+</tr>
+<tr>
+<td align="center">move(name, db)</td>
+<td align="center">将键移动到其他的数据库</td>
+<td align="center">name：键名，db：数据库</td>
+<td align="center">move(‘name’, 2)</td>
+<td align="center">将name移动到2号数据库</td>
+<td align="center">TRUE</td>
+</tr>
+<tr>
+<td align="center">flushdb()</td>
+<td align="center">删除当前所选数据库中的所有键</td>
+<td align="center">flushdb()</td>
+<td align="center">删除当前所选数据库中的所有键</td>
+<td align="center">TRUE</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">flushall()</td>
+<td align="center">删除所有数据库中的所有键</td>
+<td align="center">flushall()</td>
+<td align="center">删除所有数据库中的所有键</td>
+<td align="center">TRUE</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
 </li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">键操作</span><br><span class="line">exists(name)</span><br><span class="line">delete(name)</span><br><span class="line">type(name)</span><br><span class="line">keys(pattern)</span><br><span class="line">randomkey()</span><br><span class="line">rename(src, dst)</span><br><span class="line">dbsize()</span><br><span class="line">expire(name, time)</span><br><span class="line">ttl(name)</span><br><span class="line">move(name, db)</span><br><span class="line">flushdb()</span><br><span class="line">flushall()</span><br><span class="line">字符串操作</span><br><span class="line">set(name, value)</span><br><span class="line">get(name)</span><br><span class="line">getset(name, value)</span><br><span class="line">mget(keys, *args)</span><br><span class="line">setnx(name, value)</span><br><span class="line">setex(name, time, value)</span><br><span class="line">setrange(name, offset, value)</span><br><span class="line">mset(mapping)</span><br><span class="line">msetnx(mapping)</span><br><span class="line">incr(name, amount&#x3D;1)</span><br><span class="line">decr(name, amount&#x3D;1)</span><br><span class="line">append(key, value)</span><br><span class="line">substr(name, start, end&#x3D;-1)</span><br><span class="line">列表操作</span><br><span class="line">rpush(name, *values)</span><br><span class="line">lpush(name, *values)</span><br><span class="line">llen(name)</span><br><span class="line">lrange(name,start,end)</span><br><span class="line">ltrim(name, start, end)</span><br><span class="line">lindex(name, index)</span><br><span class="line">lset(name, index, value)</span><br><span class="line">lpop(name)</span><br><span class="line">rpop(name)</span><br><span class="line">blpop(keys,timeou&#x3D;0)</span><br><span class="line">brpop(keys,timeou&#x3D;0)</span><br><span class="line">rpoplpush(src, dst)</span><br><span class="line">集合操作</span><br><span class="line">sadd(name, *values)</span><br><span class="line">srem(name, *values)</span><br><span class="line">spop(name)</span><br><span class="line">smove(src, dst, value)</span><br><span class="line">scard(name)</span><br><span class="line">sismember(name, value)</span><br><span class="line">sinter(keys, *args)</span><br><span class="line">sinterstore(dest, keys, *args)</span><br><span class="line">sunion(keys, *args)</span><br><span class="line">sunionstore(dest, keys,*args)</span><br><span class="line">sdiff(keys, *args)</span><br><span class="line">sdiffstore(dest, keys, *args)</span><br><span class="line">smembers(name)</span><br><span class="line">srandmember(name)</span><br><span class="line">有序集合操作</span><br><span class="line">zadd(name, *args, **kwargs)</span><br><span class="line">zrem(name, *values)</span><br><span class="line">zincrby(name, value, amount&#x3D;1)</span><br><span class="line">zrank(name, value)</span><br><span class="line">zrevrank(name, value)</span><br><span class="line">zrerange(name, start, end, withscores&#x3D;False)</span><br><span class="line">zrangebyscore(name, min, max, start&#x3D;None, num&#x3D;None, withscores&#x3D;False)</span><br><span class="line">zcount(name, min, max)</span><br><span class="line">zcard(name)</span><br><span class="line">zremrangebyrank(name, min, max)</span><br><span class="line">zremrangebyscore(name, min, max)</span><br><span class="line">散列操作</span><br><span class="line">hset(name, key, value)</span><br><span class="line">hsetnx(name, key, value)</span><br><span class="line">hget(name, key)</span><br><span class="line">hmget(name, keys, *agrs)</span><br><span class="line">hmset(name, mapping)</span><br><span class="line">hincrby(name, key, amount&#x3D;1)</span><br><span class="line">hexists(name, key)</span><br><span class="line">hdel(name, *keys)</span><br><span class="line">hlen(name)</span><br><span class="line">hkeys(name)</span><br><span class="line">hvals(name)</span><br><span class="line">hgetall(name)</span><br></pre></td></tr></table></figure>
@@ -549,50 +699,6 @@ server.py
 
 
   
-    <article id="post-获取数据库所有表名和字段" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/" class="article-date">
-  <time datetime="2020-06-01T03:25:17.000Z" itemprop="datePublished">2020-06-01</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/">&#39;获取数据库所有表名和字段&#39;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在sqlalchemy中的获取方式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">engine &#x3D; sqlalchemy.create_engine(&#39;mysql+pymysql:&#x2F;&#x2F;root:password@ip:3306&#x2F;databasename?charset&#x3D;utf8mb4&#39;)</span><br><span class="line"></span><br><span class="line"># 获取数据库名，返回list</span><br><span class="line"></span><br><span class="line">database_name &#x3D; sqlalchemy.inspect(engine)</span><br><span class="line"></span><br><span class="line">database_list &#x3D; database_name.get_schema_names()</span><br><span class="line"></span><br><span class="line"># 获取表名，返回list</span><br><span class="line"></span><br><span class="line">table_list &#x3D; engine.table_names()</span><br><span class="line"></span><br><span class="line"># 获取表字段列表</span><br><span class="line"></span><br><span class="line">md &#x3D; sqlalchemy.MetaData()</span><br><span class="line"></span><br><span class="line">table &#x3D; sqlalchemy.Table(&#39;table_name&#39;, md, autoload&#x3D;Ture, autoload_with&#x3D;engine)</span><br><span class="line"></span><br><span class="line">columns &#x3D; table.c</span><br><span class="line"></span><br><span class="line">[c.name for c in columns]</span><br></pre></td></tr></table></figure>
-<p>在flask-sqlalchemy中的获取方式:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 反射数据库中已存在的表</span><br><span class="line"></span><br><span class="line">db.reflect()</span><br><span class="line"></span><br><span class="line"># 获取所有表名及字段</span><br><span class="line"></span><br><span class="line">all_table &#x3D; &#123;table_obj.name: [i.name for i in table_obj.c] for table_obj in db.get_tables_for_bind()&#125;</span><br></pre></td></tr></table></figure>
-<p>使用：<br>既然我们获取到了表名和字段了，那么要怎么使用它呢？看下面的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">table_c &#x3D; &#123;i.name: i for i in all_table.get(&#39;card&#39;).c&#125;</span><br><span class="line">a &#x3D; table_c.get(&#39;cardName&#39;)</span><br><span class="line">b &#x3D; table_c.get(&#39;cardEName&#39;)</span><br><span class="line">data &#x3D; db.session.query(all_table.get(&#39;card&#39;)).filter(a &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data, type(data))</span><br><span class="line">print(data.id)</span><br><span class="line">data1 &#x3D; db.session.query(Cards).filter(Cards.cardName &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data1)</span><br><span class="line">data2 &#x3D; db.session.query(b).filter(a &#x3D;&#x3D; &#39;三个火枪手&#39;).first()</span><br><span class="line">print(data2)</span><br><span class="line"></span><br><span class="line">(1, &#39;三个火枪手&#39;, &#39;https:&#x2F;&#x2F;statsroyale.com&#x2F;zh&#x2F;card&#x2F;Three+Musketeers&#39;, &#39;9&#39;, &#39;2&#39;, &#39;troop&#39;, &#39;Three Musketeers&#39;, 26000028) &lt;class &#39;sqlalchemy.util._collections.result&#39;&gt;</span><br><span class="line"></span><br><span class="line">&lt;models.Cards object at 0x0C78A550&gt;</span><br><span class="line"></span><br><span class="line">(&#39;Three Musketeers&#39;,)</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/01/%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D%E5%92%8C%E5%AD%97%E6%AE%B5/" data-id="ckavyackn0000oouj697zhuc1" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sqlalchemy/" rel="tag">sqlalchemy</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -650,6 +756,10 @@ server.py
       <ul>
         
           <li>
+            <a href="/2021/03/18/flask%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E8%B5%B0%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/">flask下载文件走缓存问题</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/">为什么要使用nginx</a>
           </li>
         
@@ -663,10 +773,6 @@ server.py
         
           <li>
             <a href="/2021/02/25/flask%E5%AF%B9%E6%8E%A5%E8%B0%B7%E6%AD%8Coauth2-0/">flask对接谷歌oauth2.0</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/07/flask%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">flask支付宝支付</a>
           </li>
         
       </ul>

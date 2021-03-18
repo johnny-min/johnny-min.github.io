@@ -64,6 +64,68 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-python题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/21/python%E9%A2%98/" class="article-date">
+  <time datetime="2020-09-21T09:56:43.000Z" itemprop="datePublished">2020-09-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/21/python%E9%A2%98/">python题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="引申"><a href="#引申" class="headerlink" title="引申"></a>引申</h2><p>python为什么慢？<br>1.动态语言</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 创建变量不需要定义类型，类型可以随意改变</span><br><span class="line">a &#x3D; 1</span><br></pre></td></tr></table></figure>
+<p>2.它是解释型语言而非编译型语言<br>编译型语言：执行之前，有专门的编译过程，通过编译系统将高级语言翻译成机器语言<br>解释型语言：在运行的时候才翻译，每个语句都是执行的时候才翻译。<br><strong>pycache</strong>文件夹：<br>Python解释器将源码转换为字节码，然后再由解释器来执行这些字节码。<br>Python运行时先检查【本地是否有上述字节码文件】和【该字节码文件的修改时间是否在其源文件之后】，是就直接执行，否则重复上述步骤。这样就不需要转字节码了。<br>3.GIL</p>
+<h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>一、填空题</p>
+<p>Python是一种面向<strong><strong><em>的高级语言     对象<br>Python可以在多种平台运行，这体现了Python语言的</em></strong></strong>特性。   可移植<br>Python源代码被解释器转换后的格式为<strong>____</strong>。   .pyc<br>Python 3.x默认使用的编码是<strong>__</strong>。   UTF-8<br>二、判断题</p>
+<p>Python是开源的，它可以被移植到许多平台上。（） 对<br>Python的优点之一是具有伪代码的本质。（）    对<br>Python可以开发Web程序，也可以管理操作系统。（）   对<br>Mac系统自带Python开发环境。（）    对<br>Python自带的shell，其性能由于IPython。（）    错<br>我们编写的Python代码在运行过程中，会被编译成二进制代码。 python源码不需要编译成二进制代码<br>Python程序被解释器转换后的文件格式后缀名为.pyc。（） 对<br>Python 3.x版本的代码完全兼容Python 2.x。（） 错<br>PyCharm是开发Python的集成开发环境。（） 对<br>代码print（3，4）是Python 2.x的输出格式。（） 错<br>三、选择题</p>
+<p>下列选项中，不属于Python语言特点的是（c）。<br>A.简单易学 B.开源 C.面对过程 D.可移植性</p>
+<p>2.下列领域中，使用Python可以实现的是（a,b,c,d）。（多选）</p>
+<p>A.Web开发 B.操作系统管理 C.科学计算 D.游戏</p>
+<p>3.下列关于Python 2.x和Python 3.x的说法，正确的是（a,b,d）</p>
+<p>A.Python 3.x使用print语句输出数据</p>
+<p>B.Python 3.x默认使用的编码是UTF-8</p>
+<p>C.Python 2.x和Python 3.x使用//进行除法运算的结果不一致  错</p>
+<p>D.Python 3.x版本的异常可以直接被抛出</p>
+<p>4.下列关于Python的说法中，错误的是（）</p>
+<p>A.Python是从ABC发展起来的</p>
+<p>B.Python是一门高级的计算机语言</p>
+<p>C.Python是一门面向对象的语言</p>
+<p>D.Python是一种代表简单主义思想的语言</p>
+<p>5.下列关于IPython的说法，错误的是（d）。</p>
+<p>A.IPython集成了交互式Python的很多有点</p>
+<p>B.IPython的性能远远优于标准的Python的shell</p>
+<p>C.IPython支持变量自动补全，自动收缩</p>
+<p>D.与标准的Python相比，IPython缺少内置的功能和函数</p>
+<p>python闭包：<br>def test1(a):</p>
+<h1 id="在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这个函数以及用到的一些变量称之为闭包"><a href="#在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这个函数以及用到的一些变量称之为闭包" class="headerlink" title="在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这个函数以及用到的一些变量称之为闭包"></a>在函数内部再定义一个函数，并且这个函数用到了外边函数的变量，那么将这个函数以及用到的一些变量称之为闭包</h1><p>  def test2(b):<br>    return a+b<br>  return test2</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/21/python%E9%A2%98/" data-id="ckfgoso7m00049wujfreih3ii" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-tcp和udp" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/09/11/tcp%E5%92%8Cudp/" class="article-date">
@@ -522,43 +584,6 @@
 
 
   
-    <article id="post-get和post" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/08/19/get%E5%92%8Cpost/" class="article-date">
-  <time datetime="2020-08-19T10:30:59.000Z" itemprop="datePublished">2020-08-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/19/get%E5%92%8Cpost/">get和post</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="get-or-post"><a href="#get-or-post" class="headerlink" title="get or post"></a>get or post</h2><p>一下仅为个人理解：<br>1.一般情况下获取数据用get,修改和更新数据用post。<br>2.get的参数是在url中的，而post参数是在body中携带的。<br>3.get获取的数据一般是在2KB以内，而post则可以超过2KB。<br>4.URL太长了不好看。<br>5.安全性来讲post可能会安全一点，但也到不了哪去。<br>6.效率上讲get高效一点。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/19/get%E5%92%8Cpost/" data-id="cke3ywnui0000l4ujbl9e3s1m" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -616,6 +641,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/18/flask%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E8%B5%B0%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/">flask下载文件走缓存问题</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/">为什么要使用nginx</a>
           </li>
         
@@ -629,10 +658,6 @@
         
           <li>
             <a href="/2021/02/25/flask%E5%AF%B9%E6%8E%A5%E8%B0%B7%E6%AD%8Coauth2-0/">flask对接谷歌oauth2.0</a>
-          </li>
-        
-          <li>
-            <a href="/2021/01/07/flask%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98/">flask支付宝支付</a>
           </li>
         
       </ul>
