@@ -64,6 +64,45 @@
       <div class="outer">
         <section id="main">
   
+    <article id="flask-跨库查询" class="article article-type-flask" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/" class="article-date">
+  <time datetime="2020-09-22T08:23:58.000Z" itemprop="datePublished">2020-09-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/">跨库查询</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="flask-sqlalchemy"><a href="#flask-sqlalchemy" class="headerlink" title="flask-sqlalchemy"></a>flask-sqlalchemy</h2><h3 id="conf配置里"><a href="#conf配置里" class="headerlink" title="conf配置里"></a>conf配置里</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 连接多个数据库</span><br><span class="line">SQLALCHEMY_BINDS &#x3D; &#123;</span><br><span class="line">    # &#39;users&#39;: &#39;mysql+pymysql:&#x2F;&#x2F;root:123456@127.0.0.1:3306&#x2F;database1?charset&#x3D;utf8mb4&#39;</span><br><span class="line">    # &#39;test&#39;: &#39;mysql+pymysql:&#x2F;&#x2F;root:123456@127.0.0.1:3306&#x2F;database2?charset&#x3D;utf8mb4&#39;</span><br><span class="line">    # &#39;appmeta&#39;: &#39;sqlite:&#x2F;&#x2F;&#x2F;&#x2F;path&#x2F;to&#x2F;appmeta.db&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="models"><a href="#models" class="headerlink" title="models"></a>models</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class TaskLevel(db.Model):</span><br><span class="line">    __tablename__ &#x3D; &#39;scrapy_task_level&#39;</span><br><span class="line">    __bind_key__ &#x3D; &#39;config&#39;     # bind database</span><br><span class="line">    sys_id &#x3D; db.Column(db.Integer, primary_key&#x3D;True, autoincrement&#x3D;True)</span><br><span class="line">    taskLevel &#x3D; db.Column(db.Integer)</span><br></pre></td></tr></table></figure>
+<h3 id="使用原生sql时的用法"><a href="#使用原生sql时的用法" class="headerlink" title="使用原生sql时的用法"></a>使用原生sql时的用法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">data &#x3D; db.session.execute(sql, bind&#x3D;db.get_engine(current_app, bind&#x3D;&#39;originData&#39;))</span><br><span class="line">data &#x3D; data.fetchall()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/09/22/%E8%B7%A8%E5%BA%93%E6%9F%A5%E8%AF%A2/" data-id="ckfgoso7m00039wujh05u164n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-python题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/09/21/python%E9%A2%98/" class="article-date">
@@ -541,49 +580,6 @@
 
 
   
-    <article id="post-flask请求上下文和应用上下文" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/" class="article-date">
-  <time datetime="2020-08-26T02:15:53.000Z" itemprop="datePublished">2020-08-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/">flask请求上下文和应用上下文</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="上下文"><a href="#上下文" class="headerlink" title="上下文"></a>上下文</h2><p>在程序中，上下文是指一个个外部变量值的集合</p>
-<h2 id="应用上下文"><a href="#应用上下文" class="headerlink" title="应用上下文"></a>应用上下文</h2><p>在请求，CLI命令或其他活动期间，应用程序上下文跟踪应用程序级别的数据。而不是将应用程序传递给每个函数，而是访问current_app和 g代理</p>
-<h2 id="请求上下文"><a href="#请求上下文" class="headerlink" title="请求上下文"></a>请求上下文</h2><p>flask从客户端接受请求时，视图函数如果要处理请的的话，需要访问一些对象，这些对象可能是作为参数传递过来的，也可能是外部变量（如request）。这些个外部变量有特定值才有意义，即上下文。<br>request就是一个请求上下文，当请求被推送后，request才有意义，才可以使用。</p>
-<h2 id="引申"><a href="#引申" class="headerlink" title="引申"></a>引申</h2><p>请求上下文：request(记录http请求的相关内容)、session(记录请求会话中的信息)。<br>应用上下文：g(在同一次请求上下文中设置临时变量属性，供请求上下文使用)、curent_app(保存当前app相关信息)。</p>
-<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>通常情况下应用上下文和请求上下文具有相同的生命周期。<br>即：当flask应用开始处理请求时，它将推送应用上下文和请求上下文。当请求结束时，将弹出请求上下文，然后弹出应用上下文。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/08/26/flask%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87%E5%92%8C%E5%BA%94%E7%94%A8%E4%B8%8A%E4%B8%8B%E6%96%87/" data-id="ckee117jg00019suj0pvm1qwb" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -619,7 +615,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 11.67px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 11.67px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/dota2/" style="font-size: 10px;">dota2</a> <a href="/tags/es/" style="font-size: 11.67px;">es</a> <a href="/tags/flask/" style="font-size: 18.33px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16.67px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 11.67px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 11.67px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 11.67px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/dota2/" style="font-size: 10px;">dota2</a> <a href="/tags/es/" style="font-size: 11.67px;">es</a> <a href="/tags/flask/" style="font-size: 18.33px;">flask</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16.67px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 11.67px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -641,6 +637,10 @@
       <ul>
         
           <li>
+            <a href="/2021/03/18/%E4%BD%BF%E7%94%A8v2rayN%E6%97%B6git/">使用v2rayN时git</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/18/flask%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E8%B5%B0%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/">flask下载文件走缓存问题</a>
           </li>
         
@@ -654,10 +654,6 @@
         
           <li>
             <a href="/2021/02/26/%E4%BD%BF%E7%94%A8python%E8%8E%B7%E5%8F%96dota2%E6%B8%B8%E6%88%8F%E6%95%B0%E6%8D%AE/">使用python获取dota2游戏数据</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/25/flask%E5%AF%B9%E6%8E%A5%E8%B0%B7%E6%AD%8Coauth2-0/">flask对接谷歌oauth2.0</a>
           </li>
         
       </ul>

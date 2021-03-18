@@ -64,6 +64,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-nginx部署问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" class="article-date">
+  <time datetime="2020-07-24T07:50:48.000Z" itemprop="datePublished">2020-07-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/">nginx部署问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="nginx出现问题时的分析"><a href="#nginx出现问题时的分析" class="headerlink" title="nginx出现问题时的分析"></a>nginx出现问题时的分析</h2><ol>
+<li>nginx -s quit / nginx -t检查nginx部署状态</li>
+<li>/var/log/nginx/error.log 分析问题</li>
+<li>今天部署时遇到了大小写问题，大写写成了小写。找了好久，在这里记录一下。<h2 id="在nginx服务器上安装证书"><a href="#在nginx服务器上安装证书" class="headerlink" title="在nginx服务器上安装证书"></a>在nginx服务器上安装证书</h2></li>
+<li>先找到nginx的目录<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;nginx</span><br></pre></td></tr></table></figure></li>
+<li>然后在其目录下创建cert文件夹<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir cert</span><br></pre></td></tr></table></figure></li>
+<li>将下载的证书文件放到cert目录下</li>
+<li>找到nginx配置文件，并修改<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># 我的是在 &#x2F;code&#x2F;DataPortal&#x2F;conf&#x2F; 下</span><br><span class="line">http &#123;</span><br><span class="line">  server &#123;</span><br><span class="line">          listen       80 default_server;</span><br><span class="line">      		server_name  www.q.cmpython.com; # 你所绑定的域名</span><br><span class="line">      		rewrite ^(.*)$ https:&#x2F;&#x2F;$host$1 permanent; # 自动跳转https</span><br><span class="line">  ...</span><br><span class="line">  &#125;</span><br><span class="line">  # HTTPS server</span><br><span class="line">  		server &#123;</span><br><span class="line">  			listen 443 ssl;</span><br><span class="line">  			server_name localhost;</span><br><span class="line">  			root html;</span><br><span class="line">  			index index.html index.htm;</span><br><span class="line">  			ssl_certificate cert&#x2F;a.pem;  # 你的证书文件</span><br><span class="line">  			ssl_certificate_key cert&#x2F;b.key;   # 你的证书文件</span><br><span class="line">  			ssl_session_timeout 5m;</span><br><span class="line">  			ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;  #使用此加密套件。</span><br><span class="line">  			ssl_protocols TLSv1 TLSv1.1 TLSv1.2;   #使用该协议进行配置。</span><br><span class="line">  			ssl_prefer_server_ciphers on;   </span><br><span class="line">  			location &#x2F; &#123;</span><br><span class="line">  				include uwsgi_params;</span><br><span class="line">  				uwsgi_pass 127.0.0.1:8081;</span><br><span class="line">  				uwsgi_param UWSGI_CHDIR &#x2F;code&#x2F;DataPortal;</span><br><span class="line">  				uwsgi_param UWSGI_SCRIPT manage:app;</span><br><span class="line">  				uwsgi_read_timeout 300;</span><br><span class="line">  				uwsgi_connect_timeout 300;</span><br><span class="line">  				uwsgi_send_timeout 300;</span><br><span class="line">  		&#125;</span><br><span class="line">  	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>保存nginx.conf文件并退出</li>
+<li>重启Nginx服务器<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nginx -s stop</span><br><span class="line">nginx -s start</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/07/24/nginx%E9%83%A8%E7%BD%B2%E9%97%AE%E9%A2%98/" data-id="ckddufv3900072suj6g9xhhdb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="mysql-sql-mode-only-full-group-by" class="article article-type-mysql" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/15/sql-mode-only-full-group-by/" class="article-date">
@@ -623,82 +673,6 @@
 
 
   
-    <article id="post-任务队列celery" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/03/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97celery/" class="article-date">
-  <time datetime="2020-06-03T05:36:58.000Z" itemprop="datePublished">2020-06-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/03/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97celery/">&#39;任务队列celery&#39;</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="celery-简介"><a href="#celery-简介" class="headerlink" title="celery 简介"></a>celery 简介</h2><p>celery是一个实时处理和任务调度的分布式任务队列。比如<br><br></p>
-<ol>
-<li>web里的发邮件就可以使用它，当点击发邮件后主程序继续运行而不必等待邮件过程。</li>
-<li>定时任务，<h2 id="celery-架构"><a href="#celery-架构" class="headerlink" title="celery 架构"></a>celery 架构</h2></li>
-<li>Celery Baet: 任务调度器，读取配置文件内容，将任务发送给队列；</li>
-<li>Celery Worker: 执行任务的消费者；</li>
-<li>Broker: 消息代理（消息中间件），接受生产者发过来的任务消息，存进队列再按顺序分发给消费方；</li>
-<li>Producer：生产者；</li>
-<li>Result Backend：任务处理完后保存状态信息和结果。<h2 id="消息代理"><a href="#消息代理" class="headerlink" title="消息代理"></a>消息代理</h2>可以选择Redis，RabbitMQ。官方推荐后者，因为Redis可能遇到突发状况引起数据丢失。<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;tree proj&#x2F;</span><br><span class="line">|---__init__.py</span><br><span class="line">|---celery.py</span><br><span class="line">|---conf.py</span><br><span class="line">|---task_celery.py</span><br><span class="line">|---task_celery_send.py</span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>conf.py 配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BROKER_URL &#x3D; &#39;redis:&#x2F;&#x2F;:password@localhost:6379&#x2F;15&#39;</span><br><span class="line">CELERY_RESULT_BACKEND &#x3D; &#39;redis:&#x2F;&#x2F;:password@localhost:6379&#x2F;15&#39;</span><br><span class="line">backend &#x3D; &quot;redis&quot;</span><br><span class="line"></span><br><span class="line">CELERY_TIMEZONE &#x3D; &#39;Asia&#x2F;Shanghai&#39;</span><br><span class="line"></span><br><span class="line">CELERY_IMPORTS &#x3D; (</span><br><span class="line">    &#39;task_celery_dic.task_celery&#39;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">CELERYD_MAX_TASKS_PER_CHILD &#x3D; 100 # 并发worker下的任务数</span><br><span class="line">CELERYD_CONCURRENCY &#x3D; 100  # 并发worker数</span><br></pre></td></tr></table></figure></li>
-<li><p>celery.py 主程序<br>不能把主程序写到<strong>init</strong>.py中，不然会读取不到conf</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from celery import Celery</span><br><span class="line"></span><br><span class="line">app &#x3D; Celery(&#39;task_celery_dic&#39;)</span><br><span class="line">app.config_from_object(&#39;task_celery_dic.conf&#39;)</span><br><span class="line"># app.conf.update(conf)</span><br></pre></td></tr></table></figure></li>
-<li><p>task_celery.py 存放任务函数的文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import time</span><br><span class="line">from task_celery_dic.celery import *</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.task</span><br><span class="line">def add(task_shell, interval):</span><br><span class="line">    while 1:</span><br><span class="line">        # os.system(task_shell)</span><br><span class="line">        print(1+1)</span><br><span class="line">        print(task_shell, interval)</span><br><span class="line">        time.sleep(interval * 60)</span><br></pre></td></tr></table></figure></li>
-<li><p>task_celery_send.py 运行任务的文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">from task_celery_dic.task_celery import add</span><br><span class="line">from celery.result import AsyncResult</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def task_back(task_shell, interval):</span><br><span class="line">    a &#x3D; add.apply_async(args&#x3D;(task_shell, interval))</span><br><span class="line">    print(a.id)</span><br><span class="line">    print(AsyncResult(a.id).state)</span><br></pre></td></tr></table></figure></li>
-<li><p>开启celery<br>win 10:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip3 install eventlet</span><br><span class="line">&lt;br&gt;</span><br><span class="line">celery -A task_celery_dic worker --pool&#x3D;eventlet</span><br></pre></td></tr></table></figure>
-<p>linux:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip3 install future</span><br><span class="line">celery -A task_celery_dic worker -l info</span><br></pre></td></tr></table></figure></li>
-<li><p>flask + celery 异步发送邮件<br>腾讯的企业邮箱授权码要在设置中绑定微信，然后才能在安全页面中申请授权码，要注意的是腾讯企业邮箱和QQ邮箱用的协议不一样，QQ是tls,而企业邮箱是SSL,flask中使用时要注意配置。</p>
-<br>
-server.py
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">from flask import Flask</span><br><span class="line">from celery import Celery</span><br><span class="line">from flask_script import Manager</span><br><span class="line">from flask_mail import Mail, Message</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app &#x3D; Flask(__name__)</span><br><span class="line">app.config[&quot;SECRET_KEY&quot;] &#x3D; &quot;12345678&quot;</span><br><span class="line">app.config[&#39;JSON_AS_ASCII&#39;] &#x3D; False</span><br><span class="line">app.config[&#39;FLASKY_MAIL_SUBJECT_PREFIX&#39;] &#x3D; &#39;test&#39;</span><br><span class="line">app.config[&#39;MAIL_USE_SSL&#39;] &#x3D; True</span><br><span class="line">app.config[&#39;MAIL_USE_TLS&#39;] &#x3D; False          # 默认就是 false, 加上警示自己</span><br><span class="line">app.config[&#39;MAIL_SERVER&#39;] &#x3D; &#39;smtp.exmail.qq.com&#39;</span><br><span class="line">app.config[&#39;MAIL_PORT&#39;] &#x3D; 465</span><br><span class="line">app.config[&#39;MAIL_USERNAME&#39;] &#x3D; &#39;xxx@qq.com&#39;	# 你的腾讯企业邮箱</span><br><span class="line">app.config[&#39;MAIL_PASSWORD&#39;] &#x3D; &#39;xxxxxxxx&#39; # 申请的密码</span><br><span class="line">app.config[&#39;MAIL_DEFAULT_SENDER &#39;] &#x3D;  &#39;xxx@qq.com&#39;	# 你的腾讯企业邮箱</span><br><span class="line">app.config[&#39;FLASKY_MAIL_to&#39;] &#x3D; [&#39;xxx@gmail.com&#39;] #要发送的邮箱</span><br><span class="line">manager &#x3D; Manager(app)</span><br><span class="line">mail &#x3D; Mail(app)</span><br><span class="line"></span><br><span class="line">def make_celery(app):</span><br><span class="line">    celery &#x3D; Celery(&#39;server&#39;, backend&#x3D;&#39;redis:&#x2F;&#x2F;:160011@localhost:6379&#x2F;14&#39;, broker&#x3D;&#39;redis:&#x2F;&#x2F;:160011@localhost:6379&#x2F;14&#39;)</span><br><span class="line">    celery.conf.update(task_serializer&#x3D;&#39;json&#39;)</span><br><span class="line">    TaskBase &#x3D; celery.Task</span><br><span class="line"></span><br><span class="line">    class ContextTask(TaskBase):</span><br><span class="line">        abstract &#x3D; True</span><br><span class="line"></span><br><span class="line">        def __call__(self, *args, **kwargs):</span><br><span class="line">            with app.app_context():</span><br><span class="line">                return TaskBase.__call__(self, *args, **kwargs)</span><br><span class="line"></span><br><span class="line">    celery.Task &#x3D; ContextTask</span><br><span class="line">    return celery</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">celery &#x3D; make_celery(app)</span><br><span class="line"></span><br><span class="line">@celery.task()</span><br><span class="line">def send_email_celery():</span><br><span class="line">    # time1 &#x3D; send()</span><br><span class="line">    from datetime import datetime</span><br><span class="line">    time1 &#x3D; datetime.now()</span><br><span class="line">    time1 &#x3D; time1.strftime(&quot;%Y%m%d&quot;)</span><br><span class="line">    msg &#x3D; Message(subject&#x3D;app.config[&#39;FLASKY_MAIL_SUBJECT_PREFIX&#39;], sender&#x3D;app.config[&#39;MAIL_DEFAULT_SENDER &#39;],</span><br><span class="line">                  recipients&#x3D;app.config[&#39;FLASKY_MAIL_to&#39;])</span><br><span class="line">    msg.body &#x3D; &#39;crl2020_spring&#39;</span><br><span class="line">    with app.open_resource(&quot;D:&#x2F;code&#x2F;aa&#x2F;excel&#x2F;aa&#123;&#125;.xlsx&quot;.format(time1)) as fp:</span><br><span class="line">        msg.attach(filename&#x3D;os.path.basename(&quot;d:&#x2F;code&#x2F;aa&#x2F;excel&#x2F;aa&#123;&#125;.xlsx&quot;.format(time1)),</span><br><span class="line">                   data&#x3D;fp.read(),</span><br><span class="line">                   content_type&#x3D;&#39;application&#x2F;octet-stream&#39;)</span><br><span class="line">    with app.open_resource(&quot;D:&#x2F;code&#x2F;aa&#x2F;excel&#x2F;aa&#123;&#125;.xlsx&quot;.format(time1)) as fp:</span><br><span class="line">        msg.attach(filename&#x3D;os.path.basename(&quot;d:&#x2F;code&#x2F;aa&#x2F;excel&#x2F;aa&#123;&#125;.xlsx&quot;.format(time1)),</span><br><span class="line">                   data&#x3D;fp.read(),</span><br><span class="line">                   content_type&#x3D;&#39;application&#x2F;octet-stream&#39;)</span><br><span class="line"></span><br><span class="line">    with app.app_context():</span><br><span class="line">        mail.send(msg)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#增加发送邮件函数</span><br><span class="line">@app.route(&#39;&#x2F;sendemail&#x2F;&#39;)</span><br><span class="line">def send_mail():</span><br><span class="line">    send_email_celery.apply_async()</span><br><span class="line">    return &#39;请稍等一会，并注意查收&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    app.run(&#39;0.0.0.0&#39;, debug&#x3D;True)</span><br></pre></td></tr></table></figure>
-然后在命令行中运行：
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A server.celery worker  --pool&#x3D;solo</span><br></pre></td></tr></table></figure>
-注意格式是 celery -A yourmodelname.celery worker --pool=solo
-</li>
-<li><p>其他配置<br>网上搜，暂时不写了。</p>
-</li>
-<li><p>win10使用中遇到了TypeError: wrap_socket() got an unexpected keyword argument ‘_context’问题，将–pool=eventlet 改为–pool=solo 解决：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A server.celery worker  --pool&#x3D;solo</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/03/%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97celery/" data-id="ckb07s3750000w4uj2w4w4t9x" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/celery/" rel="tag">celery</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flask/" rel="tag">flask</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -734,7 +708,7 @@ server.py
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 11.67px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 11.67px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/dota2/" style="font-size: 10px;">dota2</a> <a href="/tags/es/" style="font-size: 11.67px;">es</a> <a href="/tags/flask/" style="font-size: 18.33px;">flask</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16.67px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 11.67px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 11.67px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 11.67px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/dota2/" style="font-size: 10px;">dota2</a> <a href="/tags/es/" style="font-size: 11.67px;">es</a> <a href="/tags/flask/" style="font-size: 18.33px;">flask</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16.67px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 13.33px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 11.67px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 15px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 10px;">部署</a>
     </div>
   </div>
 
@@ -756,6 +730,10 @@ server.py
       <ul>
         
           <li>
+            <a href="/2021/03/18/%E4%BD%BF%E7%94%A8v2rayN%E6%97%B6git/">使用v2rayN时git</a>
+          </li>
+        
+          <li>
             <a href="/2021/03/18/flask%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E8%B5%B0%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/">flask下载文件走缓存问题</a>
           </li>
         
@@ -769,10 +747,6 @@ server.py
         
           <li>
             <a href="/2021/02/26/%E4%BD%BF%E7%94%A8python%E8%8E%B7%E5%8F%96dota2%E6%B8%B8%E6%88%8F%E6%95%B0%E6%8D%AE/">使用python获取dota2游戏数据</a>
-          </li>
-        
-          <li>
-            <a href="/2021/02/25/flask%E5%AF%B9%E6%8E%A5%E8%B0%B7%E6%AD%8Coauth2-0/">flask对接谷歌oauth2.0</a>
           </li>
         
       </ul>
