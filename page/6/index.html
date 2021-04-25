@@ -64,6 +64,55 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-mysql-bin文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2020/08/06/mysql-bin%E6%96%87%E4%BB%B6/" class="article-date">
+  <time datetime="2020-08-06T03:21:53.000Z" itemprop="datePublished">2020-08-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/06/mysql-bin%E6%96%87%E4%BB%B6/">mysql-bin文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="mysql-log文件里的mysql-bin文件"><a href="#mysql-log文件里的mysql-bin文件" class="headerlink" title="mysql log文件里的mysql-bin文件"></a>mysql log文件里的mysql-bin文件</h2><p>mysql-bin是mysql用来构建复制时候用的文件，如果不做’主从复制’的话，可以删除掉它，但是使用rm删除会不安全，若以可以通过mysql的命令去删除。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p</span><br><span class="line">reset master;</span><br></pre></td></tr></table></figure>
+<p>或者更改配置文件,加入如下几句话，设定日志文件保留的天数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">log-bin&#x3D;mysql-bin</span><br><span class="line">expire_logs_days &#x3D; 7</span><br></pre></td></tr></table></figure>
+<h2 id="引入概念主从复制"><a href="#引入概念主从复制" class="headerlink" title="引入概念主从复制"></a>引入概念主从复制</h2><p>mysql 为什么要做主从复制（读写分离）？主要是为了性能考虑</p>
+<h3 id="区分集群"><a href="#区分集群" class="headerlink" title="区分集群"></a>区分集群</h3><p>集群是由多台数据库服务器组成，数据写入和查询是在随机的一台机子进行的，其他数据库服务器会自动同步数据库操作。</p>
+<h2 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h2><p>主从复制有两种方式：基于日志（binlog）；基于GTID（全局事务标示符）。</p>
+<h2 id="总表分表构建"><a href="#总表分表构建" class="headerlink" title="总表分表构建"></a>总表分表构建</h2><p>总表查询，分表写入（总表和分表结构必须保持一致）<br>分表结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;b&#96; (</span><br><span class="line">  &#96;sys_id&#96; int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;sys_time&#96; datetime DEFAULT NULL,</span><br><span class="line">  KEY &#96;roomid&#96; (&#96;roomId&#96;) USING HASH,</span><br><span class="line">  KEY &#96;sys_time&#96; (&#96;sys_time&#96;) USING HASH</span><br><span class="line">) ENGINE&#x3D;MyISAM AUTO_INCREMENT&#x3D;8149668 DEFAULT CHARSET&#x3D;utf8mb4;</span><br></pre></td></tr></table></figure>
+<p>总表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE &#96;a&#96; (</span><br><span class="line">  &#96;sys_id&#96; int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  &#96;sys_time&#96; datetime DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (&#96;sys_id&#96;),</span><br><span class="line">  KEY &#96;sys_time&#96; (&#96;sys_time&#96;) USING HASH</span><br><span class="line">) ENGINE&#x3D;MRG_MyISAM DEFAULT CHARSET&#x3D;utf8mb4 UNION&#x3D;(&#96;b&#96;,&#96;c&#96;,&#96;d&#96;);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2020/08/06/mysql-bin%E6%96%87%E4%BB%B6/" data-id="ckdr4gy8l0000bcujgadpdlef" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-flask-nginx-uwgi-supervisor部署" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/07/30/flask-nginx-uwgi-supervisor%E9%83%A8%E7%BD%B2/" class="article-date">
@@ -674,48 +723,6 @@ wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Pyth
 
 
   
-    <article id="post-yapi在线接口文档安装和使用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/06/18/yapi%E5%9C%A8%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" class="article-date">
-  <time datetime="2020-06-18T09:36:11.000Z" itemprop="datePublished">2020-06-18</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/06/18/yapi%E5%9C%A8%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/">yapi在线接口文档安装和使用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yapi-cli --registry https:&#x2F;&#x2F;registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
-<h2 id="安装依赖等"><a href="#安装依赖等" class="headerlink" title="安装依赖等"></a>安装依赖等</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yapi server</span><br></pre></td></tr></table></figure>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node vendors&#x2F;server&#x2F;app.js</span><br></pre></td></tr></table></figure>
-<h2 id="默认密码"><a href="#默认密码" class="headerlink" title="默认密码"></a>默认密码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ymfe.org</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/06/18/yapi%E5%9C%A8%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3%E5%AE%89%E8%A3%85%E5%92%8C%E4%BD%BF%E7%94%A8/" data-id="ckbklfe6j0000fcujcvnjfav9" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/yapi/" rel="tag">yapi</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
 
 
   <nav id="page-nav">
@@ -751,7 +758,7 @@ wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Pyth
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 12px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 12px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 12px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/dota2/" style="font-size: 10px;">dota2</a> <a href="/tags/es/" style="font-size: 12px;">es</a> <a href="/tags/flask/" style="font-size: 18px;">flask</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 14px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 12px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 14px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 12px;">部署</a>
+      <a href="/tags/MessageQueue/" style="font-size: 10px;">MessageQueue</a> <a href="/tags/MongoDB/" style="font-size: 10px;">MongoDB</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/RabbitMQ/" style="font-size: 10px;">RabbitMQ</a> <a href="/tags/cProfile/" style="font-size: 10px;">cProfile</a> <a href="/tags/celery/" style="font-size: 11.67px;">celery</a> <a href="/tags/centos/" style="font-size: 10px;">centos</a> <a href="/tags/concurrent-future/" style="font-size: 10px;">concurrent.future</a> <a href="/tags/database/" style="font-size: 11.67px;">database</a> <a href="/tags/dict/" style="font-size: 10px;">dict</a> <a href="/tags/django/" style="font-size: 10px;">django</a> <a href="/tags/docker/" style="font-size: 11.67px;">docker</a> <a href="/tags/domain/" style="font-size: 10px;">domain</a> <a href="/tags/dota2/" style="font-size: 10px;">dota2</a> <a href="/tags/es/" style="font-size: 11.67px;">es</a> <a href="/tags/flask/" style="font-size: 18.33px;">flask</a> <a href="/tags/git/" style="font-size: 11.67px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/golang/" style="font-size: 10px;">golang</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/http-status-code/" style="font-size: 10px;">http status code</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/logstash/" style="font-size: 10px;">logstash</a> <a href="/tags/markdown/" style="font-size: 10px;">markdown</a> <a href="/tags/mysql/" style="font-size: 16.67px;">mysql</a> <a href="/tags/navicat/" style="font-size: 10px;">navicat</a> <a href="/tags/nginx/" style="font-size: 15px;">nginx</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/oauth/" style="font-size: 10px;">oauth</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/redis/" style="font-size: 11.67px;">redis</a> <a href="/tags/sqlalchemy/" style="font-size: 13.33px;">sqlalchemy</a> <a href="/tags/ssh/" style="font-size: 10px;">ssh</a> <a href="/tags/uwsgi/" style="font-size: 10px;">uwsgi</a> <a href="/tags/v2ay/" style="font-size: 10px;">v2ay</a> <a href="/tags/yapi/" style="font-size: 10px;">yapi</a> <a href="/tags/%E5%B9%B6%E5%8F%91/" style="font-size: 10px;">并发</a> <a href="/tags/%E5%B9%B6%E8%A1%8C/" style="font-size: 10px;">并行</a> <a href="/tags/%E9%83%A8%E7%BD%B2/" style="font-size: 11.67px;">部署</a>
     </div>
   </div>
 
@@ -773,6 +780,10 @@ wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Pyth
       <ul>
         
           <li>
+            <a href="/2021/04/25/nginx%E4%B8%ADtry-files%E7%94%A8%E6%B3%95/">nginx中try_files用法</a>
+          </li>
+        
+          <li>
             <a href="/2021/04/16/docker-uwsgi-flask%E6%89%93%E5%8C%85%E9%A1%B9%E7%9B%AE/">docker,uwsgi,flask打包项目</a>
           </li>
         
@@ -786,10 +797,6 @@ wsgi<br>全称Python Web Server Gateway Interface，指定了web服务器和Pyth
         
           <li>
             <a href="/2021/03/18/flask%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6%E8%B5%B0%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/">flask下载文件走缓存问题</a>
-          </li>
-        
-          <li>
-            <a href="/2021/03/05/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E4%BD%BF%E7%94%A8nginx/">为什么要使用nginx</a>
           </li>
         
       </ul>
